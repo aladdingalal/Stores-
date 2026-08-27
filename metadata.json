@@ -1,0 +1,6 @@
+{
+  "name": "ملوك السعاده - متجر ملابس",
+  "description": "براند ملابس ملوك السعاده للأزياء الرجالية المودرن وملابس الأطفال الكاجوال من سن 5 سنوات - بيع جملة وقطاعي",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
