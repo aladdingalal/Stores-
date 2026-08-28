@@ -2,31 +2,24 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   ShoppingBag, 
   Search, 
-  SlidersHorizontal, 
-  MessageCircle, 
-  Crown, 
   ArrowUpDown, 
   Sparkles, 
   Check, 
-  Camera, 
   PhoneCall, 
   Shirt, 
   Baby, 
   Layers, 
   X,
   Flame,
-  Tag,
   Truck,
-  Activity,
-  Moon,
-  ShieldCheck
+  ShieldCheck,
+  MessageCircle
 } from 'lucide-react';
 
 import { 
   Product, 
   CartItem, 
   CategoryType, 
-  PricingMode, 
   OrderDetails 
 } from './types';
 import { INITIAL_PRODUCTS, REVIEWS_DATA, CATEGORIES_CONFIG } from './data/products';
@@ -35,6 +28,7 @@ import { HeroBanner } from './components/HeroBanner';
 import { CategoryNavPills } from './components/CategoryNavPills';
 import { CategoryHeader } from './components/CategoryHeader';
 import { CategoriesModal } from './components/CategoriesModal';
+import { FloatingCategoriesMenu } from './components/FloatingCategoriesMenu';
 import { MobileBottomNav } from './components/MobileBottomNav';
 import { ProductCard } from './components/ProductCard';
 import { ProductModal } from './components/ProductModal';
@@ -68,9 +62,8 @@ export default function App() {
     );
   });
 
-  // Filters and pricing
+  // Filters
   const [activeCategory, setActiveCategory] = useState<CategoryType>('all');
-  const [pricingMode, setPricingMode] = useState<PricingMode>('retail');
   const [searchQuery, setSearchQuery] = useState('');
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating' | 'newest'>('featured');
   const [onlyOffers, setOnlyOffers] = useState(false);
@@ -119,14 +112,14 @@ export default function App() {
 
   useEffect(() => {
     if (customLogoUrl) {
-      localStorage.setItem('molok_custom_logo', customLogoUrl);
+      localStorage.setItem('molok_custom_logo_v2', customLogoUrl);
     }
   }, [customLogoUrl]);
 
   // Cart Handlers
   const handleAddToCart = (product: Product, size: string, color: string, quantity: number) => {
-    const appliedPrice = pricingMode === 'wholesale' ? product.priceWholesale : product.priceRetail;
-    const itemId = `${product.id}-${size}-${color}-${pricingMode}`;
+    const appliedPrice = product.priceRetail;
+    const itemId = `${product.id}-${size}-${color}`;
 
     setCartItems((prev) => {
       const existing = prev.find((item) => item.id === itemId);
@@ -145,7 +138,7 @@ export default function App() {
           selectedSize: size,
           selectedColor: color,
           quantity,
-          pricingMode,
+          pricingMode: 'retail',
           appliedPrice,
         },
       ];
@@ -157,15 +150,13 @@ export default function App() {
       prev
         .map((item) => {
           if (item.id === itemId) {
-            const min = item.pricingMode === 'wholesale' ? item.product.minWholesaleQty : 1;
             const newQty = item.quantity + delta;
-            if (newQty < 1) return null;
-            return { ...item, quantity: newQty };
+            return newQty >= 1 ? { ...item, quantity: newQty } : null;
           }
           return item;
         })
         .filter(Boolean) as CartItem[]
-      );
+    );
   };
 
   const handleRemoveCartItem = (itemId: string) => {
@@ -176,51 +167,38 @@ export default function App() {
     setCartItems([]);
   };
 
-  const handleApplyDiscount = (code: string): boolean => {
+  const handleApplyDiscount = (code: string) => {
     const clean = code.trim().toUpperCase();
-    if (clean === 'MOLOK10' || clean === 'SAADA') {
-      setDiscountCode(clean);
+    if (clean === 'JS10' || clean === 'MOLOK10') {
       setAppliedDiscount(10);
-      return true;
-    }
-    if (clean === 'GOMLEH' || clean === 'KINGS') {
       setDiscountCode(clean);
-      setAppliedDiscount(15);
       return true;
     }
     return false;
   };
 
-  // Image Customizer handlers
+  // Image Management Handlers
   const handleUpdateProductImage = (productId: string, newImageUrl: string) => {
     setProducts((prev) =>
-      prev.map((p) => (p.id === productId ? { ...p, customImage: newImageUrl || undefined } : p))
+      prev.map((p) => (p.id === productId ? { ...p, customImage: newImageUrl } : p))
     );
   };
 
+  const handleResetAllImages = () => {
+    setProducts(INITIAL_PRODUCTS);
+  };
+
+  const handleCustomLogoUpload = (url: string) => {
+    setCustomLogoUrl(url);
+  };
+
+  // Add Product Handler
   const handleAddProduct = (newProduct: Product) => {
     setProducts((prev) => [newProduct, ...prev]);
     setActiveCategory(newProduct.category);
   };
 
-  const handleResetAllImages = () => {
-    if (window.confirm('هل تريد بالتأكيد استعادة جميع الصور الأصلية للكتالوج؟')) {
-      setProducts(INITIAL_PRODUCTS);
-      localStorage.removeItem('molok_products_v3');
-      localStorage.removeItem('molok_products_v2');
-    }
-  };
-
-  const handleCustomLogoUpload = (logoUrl: string) => {
-    setCustomLogoUrl(logoUrl);
-    try {
-      localStorage.setItem('molok_custom_logo_v2', logoUrl);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  // Product Counts per category
+  // Category counts
   const productCounts = useMemo(() => {
     const counts: Record<CategoryType, number> = {
       all: products.length,
@@ -242,63 +220,81 @@ export default function App() {
     return counts;
   }, [products]);
 
-  // Filtered Products
+  // Filtered & Sorted Products
   const filteredProducts = useMemo(() => {
-    return products
-      .filter((p) => {
-        // Category filter (7 main categories)
-        if (activeCategory !== 'all' && p.category !== activeCategory) return false;
+    let list = [...products];
 
-        // Offers filter
-        if (onlyOffers && (!p.originalPrice || p.originalPrice <= p.priceRetail)) return false;
+    // Filter by category
+    if (activeCategory !== 'all') {
+      list = list.filter((p) => p.category === activeCategory);
+    }
 
-        // Search Query
-        if (searchQuery.trim()) {
-          const q = searchQuery.toLowerCase().trim();
-          const matchName = p.name.toLowerCase().includes(q);
-          const matchSub = p.subCategoryName.toLowerCase().includes(q);
-          const matchFabric = p.fabric.toLowerCase().includes(q);
-          const matchDesc = p.description.toLowerCase().includes(q);
-          if (!matchName && !matchSub && !matchFabric && !matchDesc) return false;
-        }
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      list = list.filter(
+        (p) =>
+          p.name.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.fabric.toLowerCase().includes(q) ||
+          p.subCategoryName.toLowerCase().includes(q) ||
+          (p.sizes && p.sizes.some((s) => s.toLowerCase().includes(q))) ||
+          (p.colors && p.colors.some((c) => c.name.toLowerCase().includes(q)))
+      );
+    }
 
-        return true;
-      })
-      .sort((a, b) => {
-        const priceA = pricingMode === 'wholesale' ? a.priceWholesale : a.priceRetail;
-        const priceB = pricingMode === 'wholesale' ? b.priceWholesale : b.priceRetail;
+    // Filter offers
+    if (onlyOffers) {
+      list = list.filter((p) => p.originalPrice && p.originalPrice > p.priceRetail);
+    }
 
-        if (sortBy === 'price-asc') return priceA - priceB;
-        if (sortBy === 'price-desc') return priceB - priceA;
-        if (sortBy === 'rating') return b.rating - a.rating;
-        if (sortBy === 'newest') return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0);
-        return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0);
-      });
-  }, [products, activeCategory, onlyOffers, searchQuery, sortBy, pricingMode]);
+    // Sorting
+    switch (sortBy) {
+      case 'price-asc':
+        list.sort((a, b) => a.priceRetail - b.priceRetail);
+        break;
+      case 'price-desc':
+        list.sort((a, b) => b.priceRetail - a.priceRetail);
+        break;
+      case 'rating':
+        list.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'newest':
+        list.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+        break;
+      case 'featured':
+      default:
+        list.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
+        break;
+    }
 
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-  const cartSubtotal = cartItems.reduce((sum, item) => sum + item.appliedPrice * item.quantity, 0);
-  const shippingFee = cartSubtotal >= 1200 || cartItems.length === 0 ? 0 : 50;
+    return list;
+  }, [products, activeCategory, searchQuery, onlyOffers, sortBy]);
+
+  // Calculations
+  const cartSubtotal = cartItems.reduce(
+    (sum, item) => sum + item.appliedPrice * item.quantity,
+    0
+  );
+  const freeShippingThreshold = 1200;
+  const shippingFee = cartSubtotal >= freeShippingThreshold || cartItems.length === 0 ? 0 : 50;
   const discountAmount = appliedDiscount > 0 ? (cartSubtotal * appliedDiscount) / 100 : 0;
   const cartTotal = Math.max(0, cartSubtotal - discountAmount + shippingFee);
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCategorySelect = (cat: CategoryType) => {
     setActiveCategory(cat);
-    const catalogEl = document.getElementById('catalog-section');
-    if (catalogEl) {
-      catalogEl.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-['Cairo',sans-serif] flex flex-col selection:bg-amber-500 selection:text-slate-950">
+    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans selection:bg-pink-500 selection:text-white" dir="rtl">
       
-      {/* Top Navigation */}
+      {/* 1. Header & Navigation (Black, White, Pink theme) */}
       <Navbar
         activeCategory={activeCategory}
         onSelectCategory={handleCategorySelect}
-        pricingMode={pricingMode}
-        onTogglePricingMode={setPricingMode}
+        pricingMode="retail"
+        onTogglePricingMode={() => {}}
         cartCount={cartCount}
         wishlistCount={0}
         onOpenCart={() => setIsCartOpen(true)}
@@ -313,69 +309,59 @@ export default function App() {
         customLogoUrl={customLogoUrl}
       />
 
-      {/* Hero Section or Category Context Header */}
-      {activeCategory === 'all' ? (
+      {/* 2. Hero Banner (Only on 'all' category) */}
+      {activeCategory === 'all' && (
         <HeroBanner
           onSelectCategory={handleCategorySelect}
-          pricingMode={pricingMode}
-          onTogglePricingMode={setPricingMode}
+          pricingMode="retail"
+          onTogglePricingMode={() => {}}
           onOpenImageManager={() => {
             setTargetProductForImage(null);
             setIsImageManagerOpen(true);
           }}
           onOpenCategoriesModal={() => setIsCategoriesModalOpen(true)}
         />
-      ) : (
+      )}
+
+      {/* 3. Category Page Header (When a specific category is active) */}
+      {activeCategory !== 'all' && (
         <CategoryHeader
           activeCategory={activeCategory}
           onSelectCategory={handleCategorySelect}
           productCount={filteredProducts.length}
-          pricingMode={pricingMode}
-          onTogglePricingMode={setPricingMode}
         />
       )}
 
-      {/* Main Catalog Explorer */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 space-y-6" id="catalog-section">
+      {/* 4. Main Products Catalog Container */}
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6">
         
-        {/* Category Navigation Cards/Pills */}
-        <div className="bg-white p-4 sm:p-5 rounded-3xl border border-slate-200 shadow-xs space-y-4 text-right">
+        {/* Category Filter Pills & Sort Bar */}
+        <div className="bg-white rounded-3xl p-4 sm:p-5 border-2 border-slate-900 shadow-sm space-y-4">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
             <div>
               <h2 className="text-base sm:text-lg font-black text-slate-950 font-['Tajawal',sans-serif] flex items-center gap-2">
-                <Crown className="w-5 h-5 text-amber-600" />
-                <span>أقسام تشكيلة ملوك السعادة (7 أقسام متخصصة)</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-pink-500" />
+                <span>تصفح معروضات J&amp;S حسب القسم</span>
               </h2>
-              <p className="text-xs text-slate-500">
-                اختر القسم للتصفح الفوري للرجالي المودرن والأطفال الكاجوال
+              <p className="text-xs text-slate-500 mt-0.5">
+                اضغط على أي قسم لعرض موديلاته الحصرية المتاحة للشحن الفوري
               </p>
             </div>
 
-            <div className="flex items-center gap-2 self-start sm:self-auto">
-              <button
-                onClick={() => setIsAddProductOpen(true)}
-                id="open-add-product-btn"
-                className="text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 font-black flex items-center gap-1.5 py-1.5 px-3 rounded-xl shadow-xs transition cursor-pointer"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>إضافة موديل جديد +</span>
-              </button>
-
-              <button
-                onClick={() => setIsCategoriesModalOpen(true)}
-                className="text-xs text-amber-700 hover:text-amber-800 font-bold flex items-center gap-1 py-1.5 px-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 transition border border-amber-200/60"
-              >
-                <span>دليل الأقسام</span>
-              </button>
-            </div>
+            <button
+              onClick={() => setIsCategoriesModalOpen(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-slate-950 hover:bg-black px-3.5 py-2 rounded-2xl transition border-2 border-pink-500 shadow-xs shrink-0 cursor-pointer"
+            >
+              <Layers className="w-4 h-4 text-pink-400" />
+              <span>قوائم المعروضات (7)</span>
+            </button>
           </div>
 
-          {/* Category Cards */}
+          {/* Horizontal scrollable pills */}
           <CategoryNavPills
             activeCategory={activeCategory}
             onSelectCategory={handleCategorySelect}
-            variant="cards"
             productCounts={productCounts}
           />
 
@@ -385,32 +371,32 @@ export default function App() {
             <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setOnlyOffers(!onlyOffers)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border cursor-pointer ${
+                className={`px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1.5 border-2 cursor-pointer ${
                   onlyOffers
-                    ? 'bg-red-50 text-red-700 border-red-300 ring-2 ring-red-400/30'
+                    ? 'bg-pink-50 text-pink-700 border-pink-500 ring-2 ring-pink-400/30'
                     : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
                 }`}
               >
-                <Flame className="w-3.5 h-3.5 text-red-600" />
+                <Flame className="w-3.5 h-3.5 text-pink-600" />
                 <span>العروض والتخفيضات فقط</span>
               </button>
 
-              <div className="text-xs text-slate-500 px-1 font-medium">
-                عرض <strong className="text-slate-900">{filteredProducts.length}</strong> موديل
+              <div className="text-xs text-slate-600 px-1 font-bold">
+                عرض <strong className="text-slate-950 font-black">{filteredProducts.length}</strong> موديل
               </div>
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-700">
-              <ArrowUpDown className="w-3.5 h-3.5 text-amber-600" />
+            <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs text-slate-700 font-bold">
+              <ArrowUpDown className="w-3.5 h-3.5 text-pink-600" />
               <span>ترتيب:</span>
               <select
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
-                className="bg-transparent text-slate-900 font-bold focus:outline-none cursor-pointer"
+                className="bg-transparent text-slate-950 font-black focus:outline-none cursor-pointer"
               >
                 <option value="featured">المميز والأكثر طلباً</option>
-                <option value="newest">أحدث الموديلات 2025</option>
+                <option value="newest">أحدث الموديلات</option>
                 <option value="price-asc">السعر: من الأقل للأعلى</option>
                 <option value="price-desc">السعر: من الأعلى للأقل</option>
                 <option value="rating">أعلى تقييم للعملاء</option>
@@ -421,53 +407,16 @@ export default function App() {
 
         </div>
 
-        {/* Pricing Mode Notice Banner */}
-        <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-3 text-right shadow-2xs ${
-          pricingMode === 'wholesale'
-            ? 'bg-amber-50 border-amber-300 text-amber-950'
-            : 'bg-white border-slate-200 text-slate-800'
-        }`}>
-          <div className="flex items-center gap-2.5 text-xs sm:text-sm">
-            <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-              pricingMode === 'wholesale' ? 'bg-amber-500 text-slate-950' : 'bg-slate-100 text-amber-600'
-            }`}>
-              <Crown className="w-4 h-4" />
-            </div>
-            <span>
-              {pricingMode === 'wholesale' ? (
-                <>
-                  <strong className="text-amber-900 font-bold">أنت تتسوق الآن بأسعار الجملة والمصنع:</strong> الأسعار المعروضة هي للدست والكميات مع خصومات المكاتب والمحلات.
-                </>
-              ) : (
-                <>
-                  <strong className="text-slate-950 font-bold">أنت تتسوق بالأسعار الفردية (قطاعي):</strong> هل أنت صاحب محل أو تاجر؟ فعّل وضع الجملة للحصول على أسعار المصنع.
-                </>
-              )}
-            </span>
-          </div>
-
-          <button
-            onClick={() => setPricingMode(pricingMode === 'retail' ? 'wholesale' : 'retail')}
-            className={`px-4 py-2 rounded-xl text-xs font-black shrink-0 transition cursor-pointer ${
-              pricingMode === 'wholesale'
-                ? 'bg-white text-slate-950 border border-slate-300 hover:bg-slate-100 shadow-xs'
-                : 'bg-amber-500 hover:bg-amber-400 text-slate-950 shadow-xs'
-            }`}
-          >
-            {pricingMode === 'wholesale' ? 'التحويل لسعر القطاعي' : 'التحويل لأسعار الجملة 👑'}
-          </button>
-        </div>
-
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-14 bg-white rounded-3xl border border-slate-200 space-y-3.5 shadow-xs">
-            <div className="w-14 h-14 mx-auto rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700">
+          <div className="text-center py-14 bg-white rounded-3xl border-2 border-slate-900 space-y-3.5 shadow-sm">
+            <div className="w-14 h-14 mx-auto rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-600">
               <Shirt className="w-7 h-7" />
             </div>
             <div className="space-y-1">
               <h3 className="text-base font-bold text-slate-950">لم نجد موديلات تطابق بحثك في هذا القسم</h3>
               <p className="text-xs text-slate-500">
-                جرب البحث بكلمات أخرى أو اضغط على "جميع الموديلات" لإظهار التشكيلة الكاملة
+                اضغط على "عرض جميع المعروضات" للعودة لكافة المنتجات
               </p>
             </div>
             <button
@@ -476,18 +425,17 @@ export default function App() {
                 setSearchQuery('');
                 setOnlyOffers(false);
               }}
-              className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition shadow-xs cursor-pointer"
+              className="px-5 py-2.5 rounded-2xl bg-slate-950 hover:bg-black text-white font-black text-xs transition shadow-md border-2 border-pink-500 cursor-pointer"
             >
-              عرض جميع الموديلات
+              عرض جميع المعروضات
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
-                pricingMode={pricingMode}
                 onAddToCart={handleAddToCart}
                 onQuickView={setSelectedProduct}
                 onOpenImageManagerForProduct={(p) => {
@@ -518,12 +466,17 @@ export default function App() {
         customLogoUrl={customLogoUrl}
       />
 
-      {/* Mobile Bottom Bar Navigation (Optimized for phones) */}
+      {/* Floating Categories Menu Button (Always accessible floating widget) */}
+      <FloatingCategoriesMenu
+        activeCategory={activeCategory}
+        onSelectCategory={handleCategorySelect}
+        productCounts={productCounts}
+      />
+
+      {/* Mobile Bottom Bar Navigation */}
       <MobileBottomNav
         activeCategory={activeCategory}
         onSelectCategory={handleCategorySelect}
-        pricingMode={pricingMode}
-        onTogglePricingMode={setPricingMode}
         cartCount={cartCount}
         onOpenCart={() => setIsCartOpen(true)}
         onOpenCategoriesModal={() => setIsCategoriesModalOpen(true)}
@@ -532,24 +485,23 @@ export default function App() {
       {/* Floating WhatsApp Contact Button (Desktop / Tablet) */}
       <a
         href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-          'مرحباً ملوك السعادة، أود الاستفسار عن الملابس والأسعار'
+          'مرحباً براند J&S (Junior & Senior)، أود الاستفسار عن الموديلات والأسعار'
         )}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed bottom-6 right-6 z-40 p-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl hover:scale-105 transition-transform items-center gap-2 border-2 border-emerald-400/80 group"
+        className="hidden md:flex fixed bottom-6 right-6 z-40 p-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl hover:scale-105 transition-transform items-center gap-2 border-2 border-white group"
         title={`تواصل مباشر عبر واتساب أعمال: ${PHONE_NUMBER_DISPLAY}`}
         id="floating-whatsapp-btn"
       >
         <MessageCircle className="w-6 h-6" />
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-in-out whitespace-nowrap text-xs font-bold pl-1">
-          واتساب أعمال ({PHONE_NUMBER_DISPLAY})
+          واتساب مبيعات J&amp;S ({PHONE_NUMBER_DISPLAY})
         </span>
       </a>
 
       {/* Modals & Drawers */}
       <ProductModal
         product={selectedProduct}
-        pricingMode={pricingMode}
         onClose={() => setSelectedProduct(null)}
         onAddToCart={handleAddToCart}
         onOpenImageManagerForProduct={(p) => {
@@ -583,7 +535,7 @@ export default function App() {
         shipping={shippingFee}
         discount={discountAmount}
         total={cartTotal}
-        pricingMode={pricingMode}
+        pricingMode="retail"
         onOrderSuccess={(order) => {
           handleClearCart();
         }}
