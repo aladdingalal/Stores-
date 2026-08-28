@@ -72,6 +72,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
           referrerPolicy="no-referrer"
+          onError={(e) => {
+            // Fallback gracefully if direct local path is loading
+            const target = e.currentTarget;
+            if (target.src !== product.images[product.images.length - 1]) {
+              target.src = product.images[product.images.length - 1] || 'https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=800&q=80';
+            }
+          }}
         />
 
         {/* Top Badges */}

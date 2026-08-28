@@ -18,7 +18,7 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({ reviews }) => {
               <span>تجارب وآراء عملائنا وتجار الجملة</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-950 font-['Tajawal',sans-serif]">
-              ماذا يقول عملاء <span className="text-amber-700">ملوك السعادة</span>؟
+              ماذا يقول عملاء <span className="text-amber-700">J&amp;S (Junior &amp; Senior)</span>؟
             </h2>
           </div>
 

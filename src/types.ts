@@ -49,7 +49,7 @@ export interface Product {
   description: string;
   fabric: string;
   fit: string;
-  season: 'صيف 2025' | 'شتوي' | 'كل المواسم';
+  season: 'صيف 2025' | 'شتوي' | 'كل المواسم' | string;
   ageRange?: string; // e.g. "5 - 14 سنة" for kids
   images: string[];
   isFeatured?: boolean;

@@ -41,6 +41,7 @@ import { ProductModal } from './components/ProductModal';
 import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { ImageManagerModal } from './components/ImageManagerModal';
+import { AddProductModal } from './components/AddProductModal';
 import { WholesaleSection } from './components/WholesaleSection';
 import { SizeGuideModal } from './components/SizeGuideModal';
 import { ReviewsSection } from './components/ReviewsSection';
@@ -51,7 +52,7 @@ export default function App() {
   // Products state (persisted in localStorage to keep custom uploaded photos)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
-      const saved = localStorage.getItem('molok_products_v2');
+      const saved = localStorage.getItem('molok_products_v5');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -61,7 +62,10 @@ export default function App() {
 
   // Custom logo state
   const [customLogoUrl, setCustomLogoUrl] = useState<string>(() => {
-    return localStorage.getItem('molok_custom_logo') || '';
+    return (
+      localStorage.getItem('molok_custom_logo_v2') ||
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0717.jpeg'
+    );
   });
 
   // Filters and pricing
@@ -86,6 +90,7 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isImageManagerOpen, setIsImageManagerOpen] = useState(false);
+  const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isCategoriesModalOpen, setIsCategoriesModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -98,7 +103,7 @@ export default function App() {
   // Sync to local storage
   useEffect(() => {
     try {
-      localStorage.setItem('molok_products_v2', JSON.stringify(products));
+      localStorage.setItem('molok_products_v5', JSON.stringify(products));
     } catch (e) {
       console.error(e);
     }
@@ -193,15 +198,26 @@ export default function App() {
     );
   };
 
+  const handleAddProduct = (newProduct: Product) => {
+    setProducts((prev) => [newProduct, ...prev]);
+    setActiveCategory(newProduct.category);
+  };
+
   const handleResetAllImages = () => {
     if (window.confirm('هل تريد بالتأكيد استعادة جميع الصور الأصلية للكتالوج؟')) {
       setProducts(INITIAL_PRODUCTS);
+      localStorage.removeItem('molok_products_v3');
       localStorage.removeItem('molok_products_v2');
     }
   };
 
   const handleCustomLogoUpload = (logoUrl: string) => {
     setCustomLogoUrl(logoUrl);
+    try {
+      localStorage.setItem('molok_custom_logo_v2', logoUrl);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // Product Counts per category
@@ -336,12 +352,23 @@ export default function App() {
               </p>
             </div>
 
-            <button
-              onClick={() => setIsCategoriesModalOpen(true)}
-              className="text-xs text-amber-700 hover:text-amber-800 font-bold flex items-center gap-1 self-start sm:self-auto py-1 px-2.5 rounded-lg bg-amber-50 hover:bg-amber-100 transition border border-amber-200/60"
-            >
-              <span>عرض دليل الأقسام الكامل</span>
-            </button>
+            <div className="flex items-center gap-2 self-start sm:self-auto">
+              <button
+                onClick={() => setIsAddProductOpen(true)}
+                id="open-add-product-btn"
+                className="text-xs bg-amber-500 hover:bg-amber-400 text-slate-950 font-black flex items-center gap-1.5 py-1.5 px-3 rounded-xl shadow-xs transition cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>إضافة موديل جديد +</span>
+              </button>
+
+              <button
+                onClick={() => setIsCategoriesModalOpen(true)}
+                className="text-xs text-amber-700 hover:text-amber-800 font-bold flex items-center gap-1 py-1.5 px-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 transition border border-amber-200/60"
+              >
+                <span>دليل الأقسام</span>
+              </button>
+            </div>
           </div>
 
           {/* Category Cards */}
@@ -581,6 +608,13 @@ export default function App() {
         onUpdateProductImage={handleUpdateProductImage}
         onResetAllImages={handleResetAllImages}
         onCustomLogoUpload={handleCustomLogoUpload}
+      />
+
+      <AddProductModal
+        isOpen={isAddProductOpen}
+        onClose={() => setIsAddProductOpen(false)}
+        onAddProduct={handleAddProduct}
+        defaultCategory={activeCategory}
       />
 
       <SizeGuideModal

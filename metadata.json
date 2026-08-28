@@ -1,6 +1,6 @@
 {
-  "name": "ملوك السعاده - متجر ملابس",
-  "description": "براند ملابس ملوك السعاده للأزياء الرجالية المودرن وملابس الأطفال الكاجوال من سن 5 سنوات - بيع جملة وقطاعي",
+  "name": "J&S - Junior & Senior",
+  "description": "براند J&S (اختصار Junior & Senior) لملابس الشباب والأطفال - أرقى الموديلات كاجوال ومودرن بيع جملة وقطاعي بأعلى جودة",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

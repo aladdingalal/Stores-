@@ -36,7 +36,7 @@ export const WholesaleSection: React.FC = () => {
         : 'أطفال كاجوال من سن 5 سنوات';
 
     const msg = encodeURIComponent(
-      `👑 *استفسار طلب جملة جديد - ملوك السعادة* 👑\n\n` +
+      `👑 *استفسار طلب جملة جديد - براند J&S (Junior & Senior)* 👑\n\n` +
       `👤 *التاجر / المحل:* ${merchantName}\n` +
       `📞 *رقم الهاتف:* ${merchantPhone}\n` +
       `📍 *الموقع / المحافظة:* ${storeLocation || 'غير محدد'}\n` +
@@ -61,7 +61,7 @@ export const WholesaleSection: React.FC = () => {
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-black text-slate-950 font-['Tajawal',sans-serif]">
-            انضم لشركاء نجاح <span className="text-amber-700">براند ملوك السعادة</span>
+            انضم لشركاء نجاح <span className="text-amber-700">براند J&amp;S (Junior &amp; Senior)</span>
           </h2>
 
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">

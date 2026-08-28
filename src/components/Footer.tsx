@@ -96,7 +96,7 @@ export const Footer: React.FC<FooterProps> = ({
               <Logo size="md" customLogoUrl={customLogoUrl} variant="gold" />
             </div>
             <p className="text-xs text-slate-400 leading-relaxed max-w-sm">
-              براند ملوك السعادة للأزياء والملابس العصرية، رواد صناعة وتوزيع الملابس الرجالي وملابس الأطفال الكاجوال. قطن مصري 100% عالي الجودة وتصميمات مميزة متوفرة للقطاعي والجملة.
+              براند <strong>J&amp;S</strong> (اختصار Junior &amp; Senior) للأزياء والملابس العصرية، رواد صناعة وتوزيع الملابس الشبابية وملابس الأطفال الكاجوال. قطن مصري 100% عالي الجودة وتصميمات مميزة متوفرة للقطاعي والجملة.
             </p>
             <div className="flex flex-wrap items-center gap-2.5 pt-1">
               <a
@@ -219,10 +219,10 @@ export const Footer: React.FC<FooterProps> = ({
         {/* Copyright */}
         <div className="mt-8 pt-6 border-t border-slate-800 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
           <span>
-            جميع الحقوق محفوظة © {new Date().getFullYear()} — براند <strong className="text-amber-400">ملوك السعادة</strong> للملابس الجاهزة
+            جميع الحقوق محفوظة © {new Date().getFullYear()} — براند <strong className="text-amber-400">J&amp;S (Junior &amp; Senior)</strong> للملابس الجاهزة
           </span>
-          <div className="flex items-center gap-2 text-amber-400 text-xs">
-            <span>👑 فخامة الرجالي وكاجوال الأطفال</span>
+          <div className="flex items-center gap-2 text-amber-400 text-xs font-bold">
+            <span>✨ أحدث صيحات الموضة للأطفال والشباب</span>
           </div>
         </div>
 

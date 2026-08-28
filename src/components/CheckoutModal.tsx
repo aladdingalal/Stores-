@@ -105,7 +105,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     const orderTypeLabel = order.orderType === 'wholesale' ? 'طلب جملة / مكاتب ومحلات 📦' : 'طلب قطاعي 🛍️';
 
     return (
-      `👑 *طلب جديد من متجر ملوك السعادة* 👑\n` +
+      `✨ *طلب جديد من متجر J&S (Junior & Senior)* ✨\n` +
       `━━━━━━━━━━━━━━━━━━━\n` +
       `🏷️ *نوع الطلب:* ${orderTypeLabel}\n` +
       `🔢 *رقم الطلب:* #${order.orderId}\n` +

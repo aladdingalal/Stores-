@@ -43,13 +43,20 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           <div className="lg:col-span-7 text-right space-y-3.5 sm:space-y-5">
             
             {/* Royal Tagline Pill */}
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white border border-amber-300 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-xs max-w-full">
-              <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" />
-              <span className="text-[11px] sm:text-xs font-bold text-amber-900 truncate">
-                براند ملوك السعادة للأزياء والملابس
+            <div className="inline-flex items-center gap-2 bg-white border border-amber-300 px-3.5 py-1.5 rounded-full shadow-xs max-w-full">
+              <span className="w-5 h-5 rounded-full overflow-hidden shrink-0 border border-amber-400 bg-white">
+                <img
+                  src="https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0717.jpeg"
+                  alt="J&S"
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </span>
+              <span className="text-xs font-black text-slate-950 truncate">
+                براند <span className="text-amber-600 font-extrabold font-sans">J&amp;S</span> (Junior &amp; Senior)
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
-              <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 shrink-0">جملة & قطاعي</span>
+              <span className="text-[11px] font-bold text-slate-700 shrink-0">جملة &amp; قطاعي</span>
             </div>
 
             {/* Main Headline */}
