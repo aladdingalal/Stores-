@@ -307,6 +307,7 @@ export default function App() {
             setTargetProductForImage(null);
             setIsImageManagerOpen(true);
           }}
+          onOpenCategoriesModal={() => setIsCategoriesModalOpen(true)}
         />
       ) : (
         <CategoryHeader

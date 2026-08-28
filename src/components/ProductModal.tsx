@@ -88,7 +88,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-2 sm:p-6 animate-fadeIn">
       <div 
         className="relative bg-white border border-slate-200 rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl text-right"
         onClick={(e) => e.stopPropagation()}
@@ -96,14 +96,14 @@ export const ProductModal: React.FC<ProductModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 z-20 p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 transition border border-slate-200"
+          className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 p-2 sm:p-2.5 rounded-full bg-slate-100/90 hover:bg-slate-200 text-slate-700 hover:text-slate-950 transition border border-slate-200"
           id="close-product-modal"
           aria-label="إغلاق"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-5 sm:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 p-4 sm:p-8">
           
           {/* Images Gallery */}
           <div className="md:col-span-6 space-y-3">

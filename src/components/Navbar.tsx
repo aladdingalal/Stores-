@@ -55,22 +55,22 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all">
       {/* Top Banner: Fast Announcement & WhatsApp Order Hotline */}
-      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white font-bold text-xs py-2 px-3 sm:px-4">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white font-bold text-xs py-1.5 sm:py-2 px-2.5 sm:px-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-1.5 sm:gap-2">
           
-          <div className="flex items-center gap-2">
-            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-amber-500 text-slate-950 text-[11px] font-black">
+          <div className="flex items-center gap-1.5 sm:gap-2 truncate">
+            <span className="flex items-center justify-center w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full bg-amber-500 text-slate-950 text-[10px] sm:text-[11px] font-black shrink-0">
               🚚
             </span>
-            <span className="text-[11px] sm:text-xs text-slate-200">
-              شحن سريع لجميع محافظات مصر • <strong className="text-amber-400 font-bold">معاينة وفحص قبل الدفع</strong>
+            <span className="text-[10px] sm:text-xs text-slate-200 truncate">
+              شحن سريع لجميع محافظات مصر • <strong className="text-amber-400 font-bold">معاينة قبل الدفع</strong>
             </span>
           </div>
 
-          <div className="flex items-center gap-3 text-xs">
+          <div className="flex items-center gap-1.5 sm:gap-3 text-xs shrink-0">
             <div className="hidden sm:flex items-center gap-1.5 bg-white/10 px-2.5 py-0.5 rounded-full text-[11px] text-amber-300">
-              <Crown className="w-3.5 h-3.5" />
-              <span>متاح بيع قطاعي وجملة مكاتب ومحلات</span>
+              <Crown className="w-3.5 h-3.5 shrink-0 text-amber-400" />
+              <span>قطاعي وجملة مكاتب ومحلات</span>
             </div>
 
             <a
@@ -79,10 +79,11 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 px-3 py-0.5 rounded-full text-[11px] font-black transition shadow-xs"
+              className="flex items-center gap-1 bg-amber-500 hover:bg-amber-400 text-slate-950 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-black transition shadow-xs"
             >
-              <MessageCircle className="w-3.5 h-3.5" />
-              <span>واتساب: {PHONE_NUMBER_DISPLAY}</span>
+              <MessageCircle className="w-3.5 h-3.5 shrink-0 text-slate-950" />
+              <span className="hidden xs:inline">واتساب:</span>
+              <span>{PHONE_NUMBER_DISPLAY}</span>
             </a>
           </div>
 
@@ -90,13 +91,13 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 sm:h-20 gap-2 sm:gap-4">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-1.5 sm:gap-4">
           
           {/* Brand Logo with Majestic Black & White Lion */}
           <button 
             onClick={() => onSelectCategory('all')} 
-            className="flex items-center gap-2 text-right hover:opacity-90 transition group cursor-pointer shrink-0"
+            className="flex items-center gap-1.5 sm:gap-2 text-right hover:opacity-90 transition group cursor-pointer shrink-0"
             id="brand-logo-btn"
             title="ملوك السعادة - الرئيسية"
           >
@@ -129,20 +130,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={onOpenCategoriesModal}
             className="hidden md:flex xl:hidden items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-200"
           >
-            <Layers className="w-4 h-4 text-amber-600" />
+            <Layers className="w-4 h-4 text-amber-600 shrink-0" />
             <span>الأقسام ({activeCategory === 'all' ? 'الكل' : CATEGORIES_CONFIG.find(c => c.id === activeCategory)?.title})</span>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+            <ChevronDown className="w-3.5 h-3.5 text-slate-500 shrink-0" />
           </button>
 
           {/* Right Action Controls */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5">
+          <div className="flex items-center gap-1 sm:gap-2">
             
             {/* Wholesale / Retail Switcher */}
-            <div className="bg-slate-100 p-1 rounded-xl border border-slate-200 flex items-center shrink-0">
+            <div className="bg-slate-100 p-0.5 sm:p-1 rounded-xl border border-slate-200 flex items-center shrink-0">
               <button
                 onClick={() => onTogglePricingMode('retail')}
                 id="pricing-retail-btn"
-                className={`px-2 sm:px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                className={`px-1.5 sm:px-2.5 py-1 text-[10px] sm:text-xs font-bold rounded-lg transition-all ${
                   pricingMode === 'retail'
                     ? 'bg-white text-slate-950 shadow-xs'
                     : 'text-slate-500 hover:text-slate-800'
@@ -154,14 +155,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => onTogglePricingMode('wholesale')}
                 id="pricing-wholesale-btn"
-                className={`px-2 sm:px-2.5 py-1 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${
+                className={`px-1.5 sm:px-2.5 py-1 text-[10px] sm:text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${
                   pricingMode === 'wholesale'
                     ? 'bg-amber-500 text-slate-950 shadow-xs font-black'
                     : 'text-amber-800 hover:text-amber-950'
                 }`}
                 title="أسعار الجملة للتجار والمحلات"
               >
-                <Crown className="w-3 h-3" />
+                <Crown className="w-3 h-3 shrink-0" />
                 <span>جملة</span>
               </button>
             </div>
@@ -182,7 +183,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     onClick={() => onSearchChange('')}
                     className="text-slate-400 hover:text-slate-700 text-xs"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-3.5 h-3.5 shrink-0" />
                   </button>
                 )}
               </div>
@@ -192,10 +193,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenImageManager}
               id="open-image-manager-btn"
-              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 hover:text-slate-950 transition flex items-center gap-1 text-xs font-bold"
+              className="p-1.5 sm:p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 hover:text-slate-950 transition flex items-center gap-1 text-xs font-bold"
               title="تحديث وتغيير صور المنتجات واللوجو"
             >
-              <Camera className="w-4 h-4 text-amber-600" />
+              <Camera className="w-4 h-4 text-amber-600 shrink-0" />
               <span className="hidden sm:inline">الصور</span>
             </button>
 
@@ -205,7 +206,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="hidden sm:flex items-center gap-1 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 hover:text-slate-950 text-xs font-semibold"
               title="جدول مقاسات رجالي وأطفال"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
+              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500 shrink-0" />
               <span className="hidden xl:inline">المقاسات</span>
             </button>
 
@@ -213,13 +214,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenCart}
               id="open-cart-drawer-btn"
-              className="relative p-2 sm:p-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black hover:brightness-105 transition shadow-sm flex items-center gap-1.5"
+              className="relative p-1.5 sm:p-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black hover:brightness-105 transition shadow-sm flex items-center gap-1.5"
               title="سلة المشتريات"
             >
-              <ShoppingBag className="w-5 h-5" />
+              <ShoppingBag className="w-4.5 h-4.5 sm:w-5 sm:h-5 shrink-0" />
               <span className="hidden sm:inline text-xs">السلة</span>
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-slate-950 text-amber-300 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
+                <span className="absolute -top-1.5 -right-1.5 bg-slate-950 text-amber-300 text-[10px] font-black w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
                   {cartCount}
                 </span>
               )}
@@ -228,11 +229,11 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-950 border border-slate-200"
+              className="md:hidden p-1.5 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-950 border border-slate-200"
               id="mobile-menu-toggle"
               aria-label="القائمة"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-5 h-5 shrink-0" /> : <Menu className="w-5 h-5 shrink-0" />}
             </button>
 
           </div>

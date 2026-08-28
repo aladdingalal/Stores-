@@ -139,17 +139,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </div>
 
       {/* Card Content & Details */}
-      <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2.5 text-right">
+      <div className="p-3 sm:p-4 flex-1 flex flex-col justify-between space-y-2 text-right">
         
         <div>
           {/* Subcategory & Rating */}
           <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
-            <span className="text-amber-800 font-bold text-[11px] bg-amber-50 px-2 py-0.5 rounded-md">
+            <span className="text-amber-800 font-bold text-[10px] sm:text-[11px] bg-amber-50 px-2 py-0.5 rounded-md truncate max-w-[65%]">
               {product.subCategoryName}
             </span>
-            <div className="flex items-center gap-1 text-amber-600 font-bold">
-              <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
-              <span>{product.rating}</span>
+            <div className="flex items-center gap-1 text-amber-600 font-bold shrink-0">
+              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-amber-500 text-amber-500 shrink-0" />
+              <span className="text-[11px] sm:text-xs">{product.rating}</span>
               <span className="text-[10px] text-slate-400">({product.reviewsCount})</span>
             </div>
           </div>
@@ -163,7 +163,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           </h3>
 
           {/* Fabric mini info */}
-          <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
+          <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5 line-clamp-1">
             {product.fabric}
           </p>
         </div>
@@ -171,7 +171,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Sizes Selector */}
         <div className="space-y-1 pt-1 border-t border-slate-100">
           <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
-            <span>المقاس المختار:</span>
+            <span>المقاس:</span>
             <span className="text-slate-900 font-bold">{selectedSize}</span>
           </div>
           <div className="flex flex-wrap gap-1">
@@ -198,7 +198,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Colors Selector */}
         {product.colors.length > 0 && (
           <div className="flex items-center gap-1.5 pt-0.5">
-            <span className="text-[10px] text-slate-500">اللون:</span>
+            <span className="text-[10px] text-slate-500 shrink-0">اللون:</span>
             <div className="flex items-center gap-1">
               {product.colors.map((c) => (
                 <button
@@ -208,7 +208,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     e.stopPropagation();
                     setSelectedColor(c.name);
                   }}
-                  className={`w-3.5 h-3.5 rounded-full border transition-all ${
+                  className={`w-3.5 h-3.5 rounded-full border transition-all shrink-0 ${
                     selectedColor === c.name
                       ? 'border-amber-500 ring-2 ring-amber-400/50 scale-110'
                       : 'border-slate-300'
@@ -225,21 +225,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
 
         {/* Price & Action Area */}
-        <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
+        <div className="pt-2 border-t border-slate-100 flex flex-col gap-1.5">
           
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-base sm:text-lg font-black text-slate-950 font-['Tajawal',sans-serif]">
-                {currentPrice} <span className="text-xs font-bold text-slate-600">ج.م</span>
+              <span className="text-sm sm:text-base md:text-lg font-black text-slate-950 font-['Tajawal',sans-serif]">
+                {currentPrice} <span className="text-[11px] sm:text-xs font-bold text-slate-600">ج.م</span>
               </span>
               {product.originalPrice && product.originalPrice > currentPrice && (
-                <span className="text-xs text-slate-400 line-through">
+                <span className="text-[11px] sm:text-xs text-slate-400 line-through">
                   {product.originalPrice} ج.م
                 </span>
               )}
             </div>
 
-            <span className="text-[10px] sm:text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded">
+            <span className="text-[9px] sm:text-[11px] font-bold text-amber-800 bg-amber-50 px-1.5 sm:px-2 py-0.5 rounded">
               {pricingMode === 'wholesale' ? 'جملة مصنع' : 'قطاعي'}
             </span>
           </div>
@@ -249,7 +249,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <button
               onClick={handleAdd}
               id={`add-to-cart-${product.id}`}
-              className={`col-span-4 py-2.5 px-2 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs ${
+              className={`col-span-4 py-2 sm:py-2.5 px-1.5 sm:px-2 rounded-xl font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 sm:gap-1.5 transition-all shadow-xs ${
                 isAddedAnimation
                   ? 'bg-emerald-600 text-white'
                   : 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black'
@@ -257,13 +257,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             >
               {isAddedAnimation ? (
                 <>
-                  <Check className="w-4 h-4" />
+                  <Check className="w-3.5 h-3.5 shrink-0" />
                   <span>تمت الإضافة!</span>
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="w-4 h-4" />
-                  <span>
+                  <ShoppingBag className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                  <span className="truncate">
                     {pricingMode === 'wholesale' ? `أضف (${product.minWholesaleQty} قطع)` : 'أضف للسلة'}
                   </span>
                 </>
@@ -273,10 +273,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <button
               onClick={handleWhatsAppBuy}
               id={`whatsapp-buy-${product.id}`}
-              className="col-span-1 p-2.5 rounded-xl bg-slate-100 hover:bg-emerald-50 text-emerald-700 border border-slate-200 hover:border-emerald-300 transition flex items-center justify-center"
+              className="col-span-1 p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-emerald-50 text-emerald-700 border border-slate-200 hover:border-emerald-300 transition flex items-center justify-center shrink-0"
               title="طلب هذا الموديل مباشرة عبر واتساب"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             </button>
           </div>
 

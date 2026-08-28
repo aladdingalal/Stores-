@@ -36,24 +36,24 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-400/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-slate-300/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-10 sm:pt-12 sm:pb-14 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-6 pb-8 sm:pt-12 sm:pb-14 relative">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center">
           
           {/* Main Hero Copy */}
-          <div className="lg:col-span-7 text-right space-y-4 sm:space-y-5">
+          <div className="lg:col-span-7 text-right space-y-3.5 sm:space-y-5">
             
             {/* Royal Tagline Pill */}
-            <div className="inline-flex items-center gap-2 bg-white border border-amber-300 px-3.5 py-1.5 rounded-full shadow-xs">
-              <Crown className="w-4 h-4 text-amber-600" />
-              <span className="text-xs font-bold text-amber-900">
-                براند ملوك السعادة للأزياء والملابس العصرية
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white border border-amber-300 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full shadow-xs max-w-full">
+              <Crown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 shrink-0" />
+              <span className="text-[11px] sm:text-xs font-bold text-amber-900 truncate">
+                براند ملوك السعادة للأزياء والملابس
               </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
-              <span className="text-[11px] font-bold text-slate-700">جملة & قطاعي</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-700 shrink-0">جملة & قطاعي</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-tight font-['Tajawal',sans-serif]">
+            <h1 className="text-xl sm:text-4xl lg:text-5xl font-black text-slate-950 leading-snug sm:leading-tight font-['Tajawal',sans-serif]">
               أقوى تشكيلة <span className="text-amber-600">ملابس رجالي وأطفال</span> 
               <br />
               قطن مصري 100% <span className="underline decoration-amber-400 decoration-wavy underline-offset-8">بأفضل سعر في مصر</span>
@@ -65,53 +65,53 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 pt-1">
               <button
                 onClick={onOpenCategoriesModal}
                 id="hero-explore-categories-btn"
-                className="px-5 py-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-amber-400 font-black text-xs sm:text-sm transition shadow-md flex items-center gap-2"
+                className="px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl bg-slate-950 hover:bg-slate-800 text-amber-400 font-black text-xs sm:text-sm transition shadow-md flex items-center gap-1.5 sm:gap-2"
               >
-                <Layers className="w-4 h-4" />
+                <Layers className="w-4 h-4 shrink-0" />
                 <span>تصفح الأقسام السبعة (7)</span>
-                <ArrowLeft className="w-4 h-4 text-amber-400" />
+                <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 shrink-0" />
               </button>
 
               <button
                 onClick={() => onSelectCategory('tshirts')}
                 id="hero-explore-tshirts-btn"
-                className="px-4 py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm border border-slate-200 shadow-xs transition flex items-center gap-1.5"
+                className="px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs sm:text-sm border border-slate-200 shadow-xs transition flex items-center gap-1.5"
               >
-                <Flame className="w-4 h-4 text-amber-600" />
+                <Flame className="w-4 h-4 text-amber-600 shrink-0" />
                 <span>تيشرتات أوفر سايز</span>
               </button>
 
               <button
                 onClick={() => onSelectCategory('kids')}
                 id="hero-explore-kids-btn"
-                className="px-4 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm transition shadow-xs flex items-center gap-1.5"
+                className="px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm transition shadow-xs flex items-center gap-1.5"
               >
-                <Baby className="w-4 h-4" />
+                <Baby className="w-4 h-4 shrink-0" />
                 <span>ملابس أطفال</span>
               </button>
             </div>
 
             {/* Key Features Badges */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 border-t border-slate-200/90">
-              <div className="flex items-center gap-2 text-slate-700 text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 pt-3 sm:pt-4 border-t border-slate-200/90">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700 text-[11px] sm:text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
                 <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>معاينة قبل الدفع</span>
+                <span className="truncate">معاينة قبل الدفع</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-700 text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700 text-[11px] sm:text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
                 <Truck className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>شحن لكل المحافظات</span>
+                <span className="truncate">شحن للمحافظات</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-700 text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700 text-[11px] sm:text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
                 <Award className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>قطن مصري أصلي</span>
+                <span className="truncate">قطن مصري أصلي</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-700 text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-slate-700 text-[11px] sm:text-xs font-semibold bg-white p-2 rounded-xl border border-slate-100 shadow-2xs">
                 <Percent className="w-4 h-4 text-amber-600 shrink-0" />
-                <span>أسعار جملة المصنع</span>
+                <span className="truncate">أسعار جملة المصنع</span>
               </div>
             </div>
 
