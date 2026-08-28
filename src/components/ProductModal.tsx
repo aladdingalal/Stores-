@@ -16,6 +16,7 @@ import {
   Minus
 } from 'lucide-react';
 import { Product, PricingMode } from '../types';
+import { WHATSAPP_NUMBER } from '../data/contact';
 
 interface ProductModalProps {
   product: Product | null;
@@ -67,9 +68,9 @@ export const ProductModal: React.FC<ProductModalProps> = ({
 
   const handleDirectWhatsApp = () => {
     const msg = encodeURIComponent(
-      `مرحباً ملوك السعادة 👑\nأود تأكيد طلب المنتج:\n- الاسم: ${product.name}\n- النظام: ${pricingMode === 'wholesale' ? 'طلب جملة' : 'طلب قطاعي'}\n- الكمية: ${quantity} قطعة\n- المقاس: ${selectedSize}\n- اللون: ${selectedColor}\n- الإجمالي: ${totalPrice} ج.م\n\nأرجو تزويدي بتفاصيل الشحن والتأكيد.`
+      `مرحباً ملوك السعادة 👑\nأود تأكيد طلب المنتج:\n• الاسم: *${product.name}*\n• النظام: *${pricingMode === 'wholesale' ? 'طلب جملة' : 'طلب قطاعي'}*\n• الكمية: *${quantity} قطعة*\n• المقاس: *${selectedSize}*\n• اللون: *${selectedColor}*\n• الإجمالي: *${totalPrice} ج.م*\n\nيرجى تأكيد الاستلام والتوصيل.`
     );
-    window.open(`https://wa.me/201033545500?text=${msg}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
   };
 
   const handleShare = () => {
@@ -87,25 +88,26 @@ export const ProductModal: React.FC<ProductModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fadeIn">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
       <div 
-        className="relative bg-neutral-900 border border-neutral-800 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl text-right"
+        className="relative bg-white border border-slate-200 rounded-3xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl text-right"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 z-20 p-2 rounded-full bg-neutral-800/80 hover:bg-neutral-700 text-neutral-300 hover:text-white transition"
+          className="absolute top-4 left-4 z-20 p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 transition border border-slate-200"
           id="close-product-modal"
+          aria-label="إغلاق"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-6 sm:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 p-5 sm:p-8">
           
           {/* Images Gallery */}
-          <div className="md:col-span-6 space-y-4">
-            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-neutral-950 border border-neutral-800">
+          <div className="md:col-span-6 space-y-3">
+            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100 border border-slate-200">
               <img
                 src={activeImage}
                 alt={product.name}
@@ -114,138 +116,136 @@ export const ProductModal: React.FC<ProductModalProps> = ({
               />
 
               {product.customImage && (
-                <div className="absolute top-3 right-3 bg-emerald-600/90 text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow">
+                <div className="absolute top-3 right-3 bg-emerald-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm">
                   <Check className="w-3.5 h-3.5" />
                   <span>صورة خاصة بالمحل</span>
                 </div>
               )}
             </div>
 
-            {/* Thumbnail Gallery & Custom Photo Trigger */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1">
-              {product.images.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveImage(img)}
-                  className={`relative w-16 h-20 rounded-xl overflow-hidden shrink-0 border-2 transition-all ${
-                    activeImage === img ? 'border-amber-500 scale-105' : 'border-neutral-800 opacity-60 hover:opacity-100'
-                  }`}
-                >
-                  <img src={img} alt="" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                </button>
-              ))}
+            {/* Thumbnail switcher */}
+            {product.images.length > 1 && (
+              <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                {product.images.map((img, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImage(img)}
+                    className={`w-16 h-20 rounded-xl overflow-hidden border-2 shrink-0 transition-all ${
+                      activeImage === img
+                        ? 'border-amber-500 ring-2 ring-amber-400/40'
+                        : 'border-slate-200 opacity-70 hover:opacity-100'
+                    }`}
+                  >
+                    <img src={img} alt="" className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
 
-              {onOpenImageManagerForProduct && (
-                <button
-                  onClick={() => onOpenImageManagerForProduct(product)}
-                  className="w-16 h-20 rounded-xl border-2 border-dashed border-amber-500/50 bg-neutral-950 flex flex-col items-center justify-center gap-1 text-amber-400 hover:bg-amber-500/10 transition shrink-0 p-1 text-center"
-                  title="استبدال صورة هذا المنتج"
-                >
-                  <Camera className="w-4 h-4" />
-                  <span className="text-[9px] font-bold">تغيير الصورة</span>
-                </button>
-              )}
-            </div>
+            {/* Photo Manager Prompt */}
+            {onOpenImageManagerForProduct && (
+              <button
+                onClick={() => {
+                  onClose();
+                  onOpenImageManagerForProduct(product);
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-200 flex items-center justify-center gap-2 transition"
+              >
+                <Camera className="w-4 h-4 text-amber-600" />
+                <span>تحديث صورة هذا الموديل برابط خارجي أو ملف</span>
+              </button>
+            )}
           </div>
 
-          {/* Details & Options */}
-          <div className="md:col-span-6 space-y-5 flex flex-col justify-between">
+          {/* Product Details & Purchase Form */}
+          <div className="md:col-span-6 flex flex-col justify-between space-y-4">
             
-            <div className="space-y-4">
-              
-              {/* Category & Tags */}
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/20">
-                  {product.category === 'men' ? 'ملابس رجالي مودرن' : 'ملابس أطفال كاجوال (5+ سنوات)'} • {product.subCategoryName}
+            <div>
+              {/* Category & Badge */}
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <span className="text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
+                  {product.subCategoryName}
                 </span>
 
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleShare}
-                    className="p-2 rounded-lg bg-neutral-800 text-neutral-300 hover:text-white transition text-xs flex items-center gap-1"
-                    title="مشاركة المنتج"
-                  >
-                    <Share2 className="w-3.5 h-3.5" />
-                    <span>{copiedLink ? 'تم النسخ!' : 'مشاركة'}</span>
-                  </button>
+                <div className="flex items-center gap-1.5 text-amber-500 font-bold text-sm">
+                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <span className="text-slate-900">{product.rating}</span>
+                  <span className="text-xs text-slate-500 font-normal">
+                    ({product.reviewsCount} تقييم)
+                  </span>
                 </div>
               </div>
 
               {/* Title */}
-              <h2 className="text-xl sm:text-2xl font-black text-white leading-snug">
+              <h2 className="text-xl sm:text-2xl font-black text-slate-950 font-['Tajawal',sans-serif] leading-tight">
                 {product.name}
               </h2>
 
-              {/* Rating & reviews */}
-              <div className="flex items-center gap-2 text-xs text-neutral-400">
-                <div className="flex items-center gap-1 text-amber-400 font-bold">
-                  <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  <span>{product.rating}</span>
-                </div>
-                <span>•</span>
-                <span>{product.reviewsCount} تقييم حقيقي</span>
-                <span>•</span>
-                <span className="text-emerald-400 font-semibold">متوفر بالمخزن ({product.stockCount} قطعة)</span>
-              </div>
-
-              {/* Price Tier Box */}
-              <div className="bg-neutral-950 p-4 rounded-2xl border border-neutral-800 flex items-center justify-between">
+              {/* Price Banner */}
+              <div className="mt-3 p-3.5 rounded-2xl bg-amber-50/80 border border-amber-200/80 flex items-center justify-between">
                 <div>
-                  <div className="text-xs text-neutral-400 font-medium">
-                    {pricingMode === 'wholesale' ? 'سعر الجملة للقطعة الواحدة' : 'سعر القطاعي'}
-                  </div>
-                  <div className="flex items-baseline gap-2 mt-1">
-                    <span className="text-2xl sm:text-3xl font-black text-amber-400 font-['Tajawal',sans-serif]">
-                      {currentPrice} <span className="text-sm font-bold">ج.م</span>
+                  <span className="text-xs text-slate-600 block">
+                    {pricingMode === 'wholesale' ? 'سعر الجملة للقطعة' : 'سعر القطاعي'}
+                  </span>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-black text-slate-950 font-['Tajawal',sans-serif]">
+                      {currentPrice} <span className="text-sm font-bold text-slate-700">ج.م</span>
                     </span>
                     {product.originalPrice && product.originalPrice > currentPrice && (
-                      <span className="text-sm text-neutral-500 line-through">
+                      <span className="text-xs text-slate-400 line-through">
                         {product.originalPrice} ج.م
                       </span>
                     )}
                   </div>
                 </div>
 
-                {pricingMode === 'wholesale' ? (
-                  <div className="text-left bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-xl">
-                    <span className="text-[11px] text-amber-300 font-bold block">أقل كمية للجملة</span>
-                    <span className="text-xs font-black text-amber-400">{product.minWholesaleQty} قطع</span>
-                  </div>
-                ) : (
-                  <div className="text-left">
-                    <span className="text-[11px] text-neutral-400 block">سعر الجملة متاح:</span>
-                    <span className="text-xs font-bold text-amber-400">{product.priceWholesale} ج.م / قطعة (دستة)</span>
+                {pricingMode === 'wholesale' && (
+                  <div className="text-right">
+                    <span className="text-[11px] font-bold text-amber-900 bg-amber-200 px-2 py-0.5 rounded block">
+                      أقل طلب: {product.minWholesaleQty} قطع
+                    </span>
                   </div>
                 )}
               </div>
 
               {/* Description */}
-              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 mt-3 leading-relaxed">
                 {product.description}
               </p>
 
-              {/* Sizes Selection */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-neutral-200">اختر المقاس:</span>
+              {/* Specs */}
+              <div className="grid grid-cols-2 gap-2 mt-3 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200">
+                <div>
+                  <span className="text-slate-500 block">الخامة:</span>
+                  <span className="font-bold text-slate-900">{product.fabric}</span>
+                </div>
+                <div>
+                  <span className="text-slate-500 block">القصة / التلبيس:</span>
+                  <span className="font-bold text-slate-900">{product.fit}</span>
+                </div>
+              </div>
+
+              {/* Size Selector */}
+              <div className="mt-4 space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-bold text-slate-800">اختر المقاس:</span>
                   <button
                     onClick={onOpenSizeGuide}
-                    className="text-xs text-amber-400 hover:underline flex items-center gap-1 font-medium"
+                    className="text-amber-700 hover:text-amber-800 flex items-center gap-1 font-bold text-[11px]"
                   >
                     <SlidersHorizontal className="w-3 h-3" />
-                    <span>جدول المقاسات بالسنتيمتر</span>
+                    <span>جدول المقاسات</span>
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5">
                   {product.sizes.map((size) => (
                     <button
                       key={size}
-                      type="button"
                       onClick={() => setSelectedSize(size)}
-                      className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
                         selectedSize === size
-                          ? 'bg-amber-500 text-neutral-950 shadow-md ring-2 ring-amber-500/50'
-                          : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700 border border-neutral-700'
+                          ? 'bg-slate-950 text-amber-400 ring-2 ring-amber-400/50 shadow-xs'
+                          : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200'
                       }`}
                     >
                       {size}
@@ -254,113 +254,109 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 </div>
               </div>
 
-              {/* Colors Selection */}
+              {/* Color Selector */}
               {product.colors.length > 0 && (
-                <div className="space-y-2">
-                  <span className="text-xs font-bold text-neutral-200 block">
-                    اللون المختار: <span className="text-amber-400">{selectedColor}</span>
+                <div className="mt-3.5 space-y-1.5">
+                  <span className="font-bold text-xs text-slate-800 block">
+                    اختر اللون: <strong className="text-amber-800 font-semibold">{selectedColor}</strong>
                   </span>
                   <div className="flex items-center gap-2">
                     {product.colors.map((c) => (
                       <button
                         key={c.name}
-                        type="button"
                         onClick={() => setSelectedColor(c.name)}
-                        className={`flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs border transition-all ${
+                        className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center ${
                           selectedColor === c.name
-                            ? 'border-amber-400 bg-neutral-800 text-white shadow'
-                            : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:text-white'
+                            ? 'border-amber-500 ring-2 ring-amber-400/50 scale-110'
+                            : 'border-slate-300'
                         }`}
+                        style={{ backgroundColor: c.hex }}
+                        title={c.name}
                       >
-                        <span className="w-3.5 h-3.5 rounded-full border border-neutral-600" style={{ backgroundColor: c.hex }} />
-                        <span>{c.name}</span>
+                        {selectedColor === c.name && (
+                          <Check className="w-3.5 h-3.5 text-white drop-shadow" />
+                        )}
                       </button>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Quantity Selector */}
-              <div className="flex items-center justify-between pt-2">
-                <span className="text-xs font-bold text-neutral-200">الكمية:</span>
-                <div className="flex items-center gap-3 bg-neutral-950 border border-neutral-800 rounded-xl p-1">
+              {/* Quantity Counter */}
+              <div className="mt-4 flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-200">
+                <span className="text-xs font-bold text-slate-800">الكمية المطلوبة:</span>
+                <div className="flex items-center gap-3">
                   <button
                     onClick={() => handleQuantityChange(-1)}
-                    className="p-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition"
+                    className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 font-bold"
                   >
-                    <Minus className="w-3.5 h-3.5" />
+                    <Minus className="w-4 h-4" />
                   </button>
-                  <span className="text-sm font-black text-white px-2 min-w-[2rem] text-center font-['Tajawal',sans-serif]">
+                  <span className="font-mono font-bold text-base text-slate-900 w-8 text-center">
                     {quantity}
                   </span>
                   <button
                     onClick={() => handleQuantityChange(1)}
-                    className="p-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-neutral-300 transition"
+                    className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 font-bold"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
             </div>
 
-            {/* Total & Action Buttons */}
-            <div className="space-y-3 pt-4 border-t border-neutral-800">
-              <div className="flex items-center justify-between text-xs">
-                <span className="text-neutral-400">إجمالي الطلب للموديل:</span>
-                <span className="text-lg font-black text-amber-400 font-['Tajawal',sans-serif]">
+            {/* Bottom Actions */}
+            <div className="space-y-2 pt-2 border-t border-slate-100">
+              
+              {/* Total & Action Buttons */}
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 mb-1">
+                <span>الإجمالي:</span>
+                <span className="text-lg font-black text-slate-950 font-['Tajawal',sans-serif]">
                   {totalPrice} ج.م
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <button
                   onClick={handleAdd}
                   id="modal-add-to-cart-btn"
-                  className={`py-3.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all ${
+                  className={`py-3 px-4 rounded-xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all shadow-xs ${
                     isAdded
                       ? 'bg-emerald-600 text-white'
-                      : 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 hover:brightness-110 shadow-lg'
+                      : 'bg-amber-500 hover:bg-amber-400 text-slate-950'
                   }`}
                 >
-                  {isAdded ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>تمت الإضافة بنجاح!</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag className="w-4 h-4" />
-                      <span>إضافة للسلة ({quantity} قطعة)</span>
-                    </>
-                  )}
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>{isAdded ? 'تمت الإضافة بنجاح!' : 'إضافة إلى السلة'}</span>
                 </button>
 
                 <button
                   onClick={handleDirectWhatsApp}
-                  id="modal-whatsapp-btn"
-                  className="py-3.5 px-4 rounded-xl bg-neutral-800 hover:bg-emerald-950/60 text-emerald-400 border border-neutral-700 hover:border-emerald-500/50 font-bold text-xs flex items-center justify-center gap-2 transition"
+                  id="modal-whatsapp-order-btn"
+                  className="py-3 px-4 rounded-xl bg-slate-950 hover:bg-slate-900 text-amber-400 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition shadow-xs"
                 >
-                  <MessageCircle className="w-4 h-4" />
+                  <MessageCircle className="w-4 h-4 text-emerald-400" />
                   <span>طلب فوري عبر واتساب</span>
                 </button>
               </div>
 
               {/* Guarantees */}
-              <div className="flex items-center justify-around text-[10px] text-neutral-400 pt-2">
-                <span className="flex items-center gap-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                  معاينة عند الاستلام
-                </span>
-                <span className="flex items-center gap-1">
-                  <RotateCcw className="w-3.5 h-3.5 text-amber-400" />
-                  استبدال خلال 14 يوم
-                </span>
-                <span className="flex items-center gap-1">
-                  <Truck className="w-3.5 h-3.5 text-amber-400" />
-                  شحن سريع لجميع المحافظات
-                </span>
+              <div className="grid grid-cols-3 gap-2 pt-2 text-[10px] text-slate-500 text-center">
+                <div className="flex items-center justify-center gap-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>معاينة قبل الدفع</span>
+                </div>
+                <div className="flex items-center justify-center gap-1">
+                  <Truck className="w-3.5 h-3.5 text-amber-600" />
+                  <span>توصيل سريع</span>
+                </div>
+                <div className="flex items-center justify-center gap-1">
+                  <RotateCcw className="w-3.5 h-3.5 text-amber-600" />
+                  <span>استبدال سهل</span>
+                </div>
               </div>
+
             </div>
 
           </div>

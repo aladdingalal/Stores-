@@ -3,15 +3,14 @@ import {
   ShoppingBag, 
   Eye, 
   MessageCircle, 
-  Heart, 
   Star, 
   Crown, 
   Check, 
   Camera, 
-  Layers,
   Sparkles 
 } from 'lucide-react';
 import { Product, PricingMode } from '../types';
+import { WHATSAPP_NUMBER } from '../data/contact';
 
 interface ProductCardProps {
   product: Product;
@@ -29,13 +28,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   onAddToCart,
   onQuickView,
   onOpenImageManagerForProduct,
-  isWishlisted = false,
-  onToggleWishlist,
 }) => {
   const [selectedSize, setSelectedSize] = useState<string>(product.sizes[0] || 'M');
   const [selectedColor, setSelectedColor] = useState<string>(product.colors[0]?.name || '');
   const [isAddedAnimation, setIsAddedAnimation] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const displayImage = product.customImage || product.images[0];
   const currentPrice = pricingMode === 'wholesale' ? product.priceWholesale : product.priceRetail;
@@ -51,20 +47,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const handleWhatsAppBuy = (e: React.MouseEvent) => {
     e.stopPropagation();
     const msg = encodeURIComponent(
-      `مرحباً ملوك السعادة 👑\nأود طلب الموديل:\n- الاسم: ${product.name}\n- النوع: ${pricingMode === 'wholesale' ? 'جملة (' + product.minWholesaleQty + ' قطع على الأقل)' : 'قطاعي'}\n- السعر: ${currentPrice} ج.م\n- المقاس: ${selectedSize}\n- اللون: ${selectedColor}\n\nيرجى تأكيد التوافر والتوصيل.`
+      `مرحباً ملوك السعادة 👑\nأود طلب الموديل:\n• الاسم: *${product.name}*\n• نوع الطلب: *${
+        pricingMode === 'wholesale'
+          ? 'جملة (' + product.minWholesaleQty + ' قطع على الأقل)'
+          : 'قطاعي'
+      }*\n• السعر: *${currentPrice} ج.م*\n• المقاس: *${selectedSize}*\n• اللون: *${selectedColor}*\n\nيرجى تأكيد التوافر وتجهيز الشحن.`
     );
-    window.open(`https://wa.me/201033545500?text=${msg}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
   };
 
   return (
     <div 
-      className="group relative bg-neutral-900/90 rounded-2xl border border-neutral-800 hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-amber-500/5"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="group relative bg-white rounded-2xl border border-slate-200/90 hover:border-amber-400/80 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-xs hover:shadow-xl hover:-translate-y-0.5"
       id={`product-card-${product.id}`}
     >
-      {/* Product Image Stage */}
-      <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-950">
+      {/* Product Image Box */}
+      <div 
+        onClick={() => onQuickView(product)}
+        className="relative aspect-[3/4] w-full overflow-hidden bg-slate-100 cursor-pointer"
+      >
         <img
           src={displayImage}
           alt={product.name}
@@ -74,51 +75,52 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         />
 
         {/* Top Badges */}
-        <div className="absolute top-2.5 right-2.5 flex flex-col gap-1.5 z-10">
+        <div className="absolute top-2 right-2 flex flex-col gap-1 z-10">
           {product.isBestSeller && (
-            <span className="bg-amber-500 text-neutral-950 text-[10px] font-black px-2.5 py-1 rounded-lg shadow flex items-center gap-1">
-              <Crown className="w-3 h-3" />
+            <span className="bg-slate-950 text-amber-400 text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm flex items-center gap-1">
+              <Crown className="w-3 h-3 text-amber-400" />
               <span>الأكثر مبيعاً</span>
             </span>
           )}
           {product.isNew && (
-            <span className="bg-neutral-950/90 text-amber-400 border border-amber-500/40 text-[10px] font-bold px-2 py-0.5 rounded-lg shadow">
+            <span className="bg-amber-500 text-slate-950 text-[10px] font-black px-2 py-0.5 rounded-lg shadow-sm">
               جديد 2025
             </span>
           )}
           {product.category === 'kids' && (
-            <span className="bg-blue-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow">
-              أطفال {product.ageRange ? product.ageRange : '5+ سنوات'}
+            <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-sm">
+              أطفال {product.ageRange ? product.ageRange : 'سن 2+'}
             </span>
           )}
         </div>
 
-        {/* Left Badges: Custom image indicator / Wholesale badge */}
-        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
+        {/* Left Badges */}
+        <div className="absolute top-2 left-2 flex flex-col gap-1 z-10">
           {product.customImage && (
-            <span className="bg-emerald-600/90 text-white text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow">
+            <span className="bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1 shadow-sm">
               <Check className="w-3 h-3" />
               <span>صورة مخصصة</span>
             </span>
           )}
           {pricingMode === 'wholesale' && (
-            <span className="bg-amber-500 text-neutral-950 text-[10px] font-black px-2 py-0.5 rounded-md shadow flex items-center gap-1">
-              <Crown className="w-3 h-3" />
-              <span>أقل كمية: {product.minWholesaleQty} قطع</span>
+            <span className="bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-black px-2 py-0.5 rounded-md shadow-xs">
+              أقل كمية: {product.minWholesaleQty} قطع
             </span>
           )}
         </div>
 
-        {/* Floating Quick Action Overlay */}
-        <div className="absolute inset-0 bg-neutral-950/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2 p-4">
+        {/* Quick View Button overlay on hover */}
+        <div className="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-3">
           <button
-            onClick={() => onQuickView(product)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView(product);
+            }}
             id={`quick-view-${product.id}`}
-            className="p-3 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-white border border-neutral-700 shadow-xl transition-transform hover:scale-105 flex items-center gap-1.5 text-xs font-bold"
-            title="معاينة وتفاصيل الموديل"
+            className="p-2.5 rounded-xl bg-white/95 hover:bg-white text-slate-900 shadow-md font-bold text-xs flex items-center gap-1.5 transition-transform hover:scale-105"
           >
-            <Eye className="w-4 h-4 text-amber-400" />
-            <span>معاينة سريعة</span>
+            <Eye className="w-4 h-4 text-amber-600" />
+            <span>معاينة</span>
           </button>
 
           {onOpenImageManagerForProduct && (
@@ -127,48 +129,50 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 e.stopPropagation();
                 onOpenImageManagerForProduct(product);
               }}
-              className="p-3 rounded-xl bg-neutral-900/90 hover:bg-neutral-800 text-amber-400 border border-neutral-700 shadow-xl transition-transform hover:scale-105"
-              title="تغيير صورة هذا الموديل بصورتك الخاصة"
+              className="p-2.5 rounded-xl bg-white/95 hover:bg-white text-slate-900 shadow-md font-bold text-xs flex items-center gap-1 transition-transform hover:scale-105"
+              title="تغيير صورة هذا الموديل بصورتك"
             >
-              <Camera className="w-4 h-4" />
+              <Camera className="w-4 h-4 text-amber-600" />
             </button>
           )}
         </div>
       </div>
 
       {/* Card Content & Details */}
-      <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+      <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2.5 text-right">
         
         <div>
           {/* Subcategory & Rating */}
-          <div className="flex items-center justify-between text-xs text-neutral-400 mb-1">
-            <span className="text-amber-400/90 font-semibold">{product.subCategoryName}</span>
-            <div className="flex items-center gap-1 text-amber-400 font-bold">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+          <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
+            <span className="text-amber-800 font-bold text-[11px] bg-amber-50 px-2 py-0.5 rounded-md">
+              {product.subCategoryName}
+            </span>
+            <div className="flex items-center gap-1 text-amber-600 font-bold">
+              <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
               <span>{product.rating}</span>
-              <span className="text-[10px] text-neutral-400">({product.reviewsCount})</span>
+              <span className="text-[10px] text-slate-400">({product.reviewsCount})</span>
             </div>
           </div>
 
           {/* Product Name */}
           <h3 
             onClick={() => onQuickView(product)}
-            className="font-bold text-sm text-white line-clamp-2 hover:text-amber-400 transition cursor-pointer leading-snug"
+            className="font-bold text-xs sm:text-sm text-slate-900 line-clamp-2 hover:text-amber-700 transition cursor-pointer leading-snug"
           >
             {product.name}
           </h3>
 
-          {/* Fabric & Fit mini info */}
-          <p className="text-[11px] text-neutral-400 mt-1 line-clamp-1">
-            {product.fabric} • {product.fit}
+          {/* Fabric mini info */}
+          <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
+            {product.fabric}
           </p>
         </div>
 
-        {/* Sizes Pill Selector */}
-        <div className="space-y-1.5 pt-1">
-          <div className="flex items-center justify-between text-[11px] text-neutral-400">
-            <span>المقاس المتاح:</span>
-            <span className="text-amber-400 font-bold">{selectedSize}</span>
+        {/* Sizes Selector */}
+        <div className="space-y-1 pt-1 border-t border-slate-100">
+          <div className="flex items-center justify-between text-[10px] sm:text-[11px] text-slate-500">
+            <span>المقاس المختار:</span>
+            <span className="text-slate-900 font-bold">{selectedSize}</span>
           </div>
           <div className="flex flex-wrap gap-1">
             {product.sizes.slice(0, 5).map((size) => (
@@ -179,10 +183,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   e.stopPropagation();
                   setSelectedSize(size);
                 }}
-                className={`px-2 py-0.5 text-[11px] font-semibold rounded-md transition-all ${
+                className={`px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-[11px] font-bold rounded-md transition-all ${
                   selectedSize === size
-                    ? 'bg-amber-500 text-neutral-950 font-bold'
-                    : 'bg-neutral-800 text-neutral-300 hover:bg-neutral-700'
+                    ? 'bg-slate-950 text-amber-400'
+                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
                 }`}
               >
                 {size}
@@ -194,7 +198,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Colors Selector */}
         {product.colors.length > 0 && (
           <div className="flex items-center gap-1.5 pt-0.5">
-            <span className="text-[10px] text-neutral-400">الألوان:</span>
+            <span className="text-[10px] text-slate-500">اللون:</span>
             <div className="flex items-center gap-1">
               {product.colors.map((c) => (
                 <button
@@ -206,55 +210,55 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   }}
                   className={`w-3.5 h-3.5 rounded-full border transition-all ${
                     selectedColor === c.name
-                      ? 'border-amber-400 ring-2 ring-amber-400/40 scale-110'
-                      : 'border-neutral-600'
+                      ? 'border-amber-500 ring-2 ring-amber-400/50 scale-110'
+                      : 'border-slate-300'
                   }`}
                   style={{ backgroundColor: c.hex }}
                   title={c.name}
                 />
               ))}
             </div>
-            <span className="text-[10px] text-neutral-400 font-medium mr-auto truncate max-w-[100px]">
+            <span className="text-[10px] text-slate-600 font-semibold truncate mr-auto">
               {selectedColor}
             </span>
           </div>
         )}
 
-        {/* Price & Action Button Area */}
-        <div className="pt-2 border-t border-neutral-800 flex flex-col gap-2">
+        {/* Price & Action Area */}
+        <div className="pt-2 border-t border-slate-100 flex flex-col gap-2">
           
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-1.5">
-              <span className="text-lg font-black text-amber-400 font-['Tajawal',sans-serif]">
-                {currentPrice} <span className="text-xs font-bold">ج.م</span>
+              <span className="text-base sm:text-lg font-black text-slate-950 font-['Tajawal',sans-serif]">
+                {currentPrice} <span className="text-xs font-bold text-slate-600">ج.م</span>
               </span>
               {product.originalPrice && product.originalPrice > currentPrice && (
-                <span className="text-xs text-neutral-500 line-through">
+                <span className="text-xs text-slate-400 line-through">
                   {product.originalPrice} ج.م
                 </span>
               )}
             </div>
 
-            <span className="text-[11px] font-bold text-neutral-400">
-              {pricingMode === 'wholesale' ? 'سعر الجملة' : 'قطاعي'}
+            <span className="text-[10px] sm:text-[11px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded">
+              {pricingMode === 'wholesale' ? 'جملة مصنع' : 'قطاعي'}
             </span>
           </div>
 
           {/* Action Buttons: Add to Cart & WhatsApp */}
-          <div className="grid grid-cols-5 gap-1.5 pt-1">
+          <div className="grid grid-cols-5 gap-1.5 pt-0.5">
             <button
               onClick={handleAdd}
               id={`add-to-cart-${product.id}`}
-              className={`col-span-4 py-2.5 px-3 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all ${
+              className={`col-span-4 py-2.5 px-2 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-xs ${
                 isAddedAnimation
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 hover:brightness-110 shadow'
+                  : 'bg-amber-500 hover:bg-amber-400 text-slate-950 font-black'
               }`}
             >
               {isAddedAnimation ? (
                 <>
                   <Check className="w-4 h-4" />
-                  <span>تمت الإضافة للسلة!</span>
+                  <span>تمت الإضافة!</span>
                 </>
               ) : (
                 <>
@@ -269,7 +273,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <button
               onClick={handleWhatsAppBuy}
               id={`whatsapp-buy-${product.id}`}
-              className="col-span-1 p-2.5 rounded-xl bg-neutral-800 hover:bg-emerald-900/50 text-emerald-400 border border-neutral-700 hover:border-emerald-500/50 transition flex items-center justify-center"
+              className="col-span-1 p-2.5 rounded-xl bg-slate-100 hover:bg-emerald-50 text-emerald-700 border border-slate-200 hover:border-emerald-300 transition flex items-center justify-center"
               title="طلب هذا الموديل مباشرة عبر واتساب"
             >
               <MessageCircle className="w-4 h-4" />

@@ -172,64 +172,65 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       setCompletedOrder(newOrder);
       onOrderSuccess(newOrder);
 
-      // Automatic redirect/open WhatsApp with the complete single order message
+      // Automatic redirect to WhatsApp with the formatted single message
       handleSendOrderToWhatsApp(newOrder);
     }, 600);
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6 animate-fadeIn text-right">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn text-right">
       <div 
-        className="relative bg-neutral-900 border border-neutral-800 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 sm:p-8"
+        className="relative bg-white border border-slate-200 rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl p-5 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 left-4 p-2 rounded-full bg-neutral-800 text-neutral-300 hover:text-white transition"
+          className="absolute top-4 left-4 p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 transition border border-slate-200"
           id="close-checkout-modal"
+          aria-label="إغلاق"
         >
           <X className="w-5 h-5" />
         </button>
 
         {completedOrder ? (
           /* Order Confirmation View */
-          <div className="text-center py-4 space-y-5">
-            <div className="w-16 h-16 mx-auto bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center border border-emerald-500/40 animate-pulse">
+          <div className="text-center py-4 space-y-4">
+            <div className="w-16 h-16 mx-auto bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center border border-emerald-300">
               <CheckCircle className="w-10 h-10" />
             </div>
 
-            <div className="space-y-1.5">
-              <span className="text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-amber-900 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
                 طلب رقم #{completedOrder.orderId}
               </span>
-              <h2 className="text-2xl font-black text-white">تم استلام طلبك بنجاح!</h2>
-              <p className="text-xs sm:text-sm text-neutral-300 max-w-md mx-auto">
-                شكراً لاختيارك ملوك السعادة. تم تحويل تفاصيل طلبك مباشرة إلى واتساب المبيعات.
+              <h2 className="text-2xl font-black text-slate-950 font-['Tajawal',sans-serif]">تم استلام طلبك بنجاح!</h2>
+              <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
+                شكراً لاختيارك ملوك السعادة. تم تجهيز تفاصيل طلبك وتم فتح واتساب لإرسالها في رسالة واحدة متكاملة.
               </p>
             </div>
 
             {/* If Vodafone Cash or InstaPay was selected, show payment details banner */}
             {completedOrder.paymentMethod === 'vodafone_cash' && (
-              <div className="bg-red-950/40 border border-red-500/40 rounded-2xl p-4 text-right space-y-3">
+              <div className="bg-red-50 border border-red-200 rounded-2xl p-4 text-right space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-red-400 font-bold text-xs">
+                  <div className="flex items-center gap-2 text-red-700 font-bold text-xs">
                     <Smartphone className="w-4 h-4" />
                     <span>عنوان التحويل (فودافون كاش):</span>
                   </div>
-                  <span className="text-[11px] bg-red-500/20 text-red-300 px-2 py-0.5 rounded font-mono">
+                  <span className="text-xs bg-red-100 text-red-800 font-bold px-2 py-0.5 rounded font-mono">
                     المبلغ: {completedOrder.total} ج.م
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between bg-neutral-950 p-2.5 rounded-xl border border-red-900/50">
-                  <span className="font-mono text-sm font-bold text-white tracking-wider dir-ltr">
+                <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-red-200 shadow-2xs">
+                  <span className="font-mono text-base font-bold text-slate-900 tracking-wider dir-ltr">
                     {VODAFONE_CASH_NUMBER}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopy(VODAFONE_CASH_NUMBER, 'success-voda')}
-                    className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition flex items-center gap-1.5"
                   >
                     {copiedKey === 'success-voda' ? (
                       <>
@@ -245,36 +246,36 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </button>
                 </div>
 
-                <p className="text-[11px] text-neutral-300 leading-relaxed">
-                  📌 قم بالتحويل للرقم أعلاه ثم اضغط على الزر أدناه لإرسال لقطة شاشة أو صورة التحويل عبر الواتساب لتأكيد الشحن فوراً.
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  📌 قم بالتحويل للرقم أعلاه ثم اضغط على الزر أدناه لإرسال لقطة شاشة التحويل عبر الواتساب لتأكيد الشحن فوراً.
                 </p>
               </div>
             )}
 
             {completedOrder.paymentMethod === 'instapay' && (
-              <div className="bg-purple-950/40 border border-purple-500/40 rounded-2xl p-4 text-right space-y-3">
+              <div className="bg-purple-50 border border-purple-200 rounded-2xl p-4 text-right space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-purple-400 font-bold text-xs">
+                  <div className="flex items-center gap-2 text-purple-800 font-bold text-xs">
                     <CreditCard className="w-4 h-4" />
                     <span>عنوان التحويل (InstaPay):</span>
                   </div>
-                  <span className="text-[11px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono">
+                  <span className="text-xs bg-purple-100 text-purple-900 font-bold px-2 py-0.5 rounded font-mono">
                     المبلغ: {completedOrder.total} ج.م
                   </span>
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between bg-neutral-950 p-2.5 rounded-xl border border-purple-900/50">
+                  <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-purple-200 shadow-2xs">
                     <div className="text-right">
-                      <span className="text-[10px] text-neutral-400 block">معرف إنستاباي (IPA):</span>
-                      <span className="font-mono text-xs sm:text-sm font-bold text-white dir-ltr">
+                      <span className="text-[10px] text-slate-500 block">معرف إنستاباي (IPA):</span>
+                      <span className="font-mono text-sm font-bold text-slate-900 dir-ltr">
                         {INSTAPAY_ADDRESS}
                       </span>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleCopy(INSTAPAY_ADDRESS, 'success-insta-addr')}
-                      className="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold transition flex items-center gap-1.5"
                     >
                       {copiedKey === 'success-insta-addr' ? (
                         <>
@@ -290,17 +291,17 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between bg-neutral-950 p-2.5 rounded-xl border border-purple-900/50">
+                  <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-purple-200 shadow-2xs">
                     <div className="text-right">
-                      <span className="text-[10px] text-neutral-400 block">أو رقم الهاتف المسجل:</span>
-                      <span className="font-mono text-xs sm:text-sm font-bold text-white dir-ltr">
+                      <span className="text-[10px] text-slate-500 block">أو رقم الهاتف المسجل:</span>
+                      <span className="font-mono text-sm font-bold text-slate-900 dir-ltr">
                         {INSTAPAY_PHONE}
                       </span>
                     </div>
                     <button
                       type="button"
                       onClick={() => handleCopy(INSTAPAY_PHONE, 'success-insta-phone')}
-                      className="px-3 py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-purple-300 text-xs font-bold transition flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-purple-900 text-xs font-bold transition flex items-center gap-1.5 border border-slate-200"
                     >
                       {copiedKey === 'success-insta-phone' ? (
                         <>
@@ -317,87 +318,83 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   </div>
                 </div>
 
-                <p className="text-[11px] text-neutral-300 leading-relaxed">
+                <p className="text-xs text-slate-600 leading-relaxed">
                   ⚡ افتح تطبيق إنستاباي وحول المبلغ، ثم أرسل إشعار التحويل في محادثة الواتساب.
                 </p>
               </div>
             )}
 
             {/* Summary Ticket */}
-            <div className="bg-neutral-950 p-4 rounded-2xl border border-neutral-800 text-right space-y-2.5 text-xs">
-              <div className="flex justify-between border-b border-neutral-800 pb-2">
-                <span className="text-neutral-400">الاسم:</span>
-                <span className="font-bold text-white">{completedOrder.customerName}</span>
+            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 text-right space-y-2 text-xs">
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">الاسم:</span>
+                <span className="font-bold text-slate-900">{completedOrder.customerName}</span>
               </div>
-              <div className="flex justify-between border-b border-neutral-800 pb-2">
-                <span className="text-neutral-400">العنوان:</span>
-                <span className="font-bold text-white">
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">العنوان:</span>
+                <span className="font-bold text-slate-900">
                   {completedOrder.governorate} - {completedOrder.city} ({completedOrder.address})
                 </span>
               </div>
-              <div className="flex justify-between border-b border-neutral-800 pb-2">
-                <span className="text-neutral-400">الهاتف:</span>
-                <span className="font-bold text-white">{completedOrder.phone}</span>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">الهاتف:</span>
+                <span className="font-bold text-slate-900">{completedOrder.phone}</span>
               </div>
-              <div className="flex justify-between text-sm font-black text-amber-400 pt-1">
+              <div className="flex justify-between text-base font-black text-slate-950 pt-1">
                 <span>المبلغ المستحق:</span>
-                <span>{completedOrder.total} ج.م</span>
+                <span className="text-amber-800">{completedOrder.total} ج.م</span>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-2.5">
+            <div className="space-y-2">
               <button
                 onClick={() => handleSendOrderToWhatsApp(completedOrder)}
-                className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg transition"
+                className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>
-                  {completedOrder.paymentMethod === 'cod'
-                    ? 'إرسال ومتابعة الطلب عبر واتساب'
-                    : 'إرسال إشعار الدفع والطلب عبر واتساب'}
-                </span>
+                <MessageCircle className="w-5 h-5" />
+                <span>إرسال تفاصيل الطلب كاملة لواتساب المبيعات</span>
               </button>
 
               <button
                 onClick={onClose}
-                className="w-full py-3 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-300 font-semibold text-xs transition"
+                className="w-full py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition border border-slate-200"
               >
-                العودة للتسوق
+                العودة للمتجر
               </button>
             </div>
           </div>
         ) : (
           /* Checkout Form */
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-amber-400">
+              <div className="flex items-center gap-2 text-amber-700">
                 <Truck className="w-5 h-5" />
-                <h2 className="text-xl font-black text-white">إتمام الطلب وبيانات التوصيل</h2>
+                <h2 className="text-xl font-black text-slate-950 font-['Tajawal',sans-serif]">إتمام الطلب وبيانات التوصيل</h2>
               </div>
-              <p className="text-xs text-neutral-400">
-                يرجى إدخال بياناتك بدقة لنتمكن من توصيل شحنتك في أسرع وقت
+              <p className="text-xs text-slate-500">
+                يرجى إدخال بياناتك بدقة وسيتم إرسالها تلقائياً لواتساب المبيعات في رسالة موحدة
               </p>
             </div>
 
             {/* Form Fields */}
-            <div className="space-y-4">
+            <div className="space-y-3.5">
               
               {/* Full Name */}
               <div>
-                <label className="block text-xs font-bold text-neutral-200 mb-1.5">
-                  الاسم بالكامل <span className="text-amber-400">*</span>
+                <label className="block text-xs font-bold text-slate-800 mb-1">
+                  الاسم بالكامل <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <User className="absolute right-3 top-3 w-4 h-4 text-neutral-500" />
+                  <User className="absolute right-3 top-3 w-4 h-4 text-slate-400" />
                   <input
                     type="text"
                     required
                     placeholder="مثال: أحمد محمد عبد الله"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl pr-10 pl-3 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-10 pl-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
                   />
                 </div>
               </div>
@@ -405,46 +402,49 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               {/* Phones */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-neutral-200 mb-1.5">
-                    رقم الهاتف الرئيسي <span className="text-amber-400">*</span>
+                  <label className="block text-xs font-bold text-slate-800 mb-1">
+                    رقم الهاتف الرئيسي (واتساب) <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
-                    <Phone className="absolute right-3 top-3 w-4 h-4 text-neutral-500" />
+                    <Phone className="absolute right-3 top-3 w-4 h-4 text-slate-400" />
                     <input
                       type="tel"
                       required
                       placeholder="010xxxxxxxx"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full bg-neutral-950 border border-neutral-800 rounded-xl pr-10 pl-3 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 text-left dir-ltr"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-10 pl-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white text-left dir-ltr"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-neutral-200 mb-1.5">
+                  <label className="block text-xs font-bold text-slate-800 mb-1">
                     رقم هاتف إضافي (اختياري)
                   </label>
-                  <input
-                    type="tel"
-                    placeholder="011/012/015..."
-                    value={secondaryPhone}
-                    onChange={(e) => setSecondaryPhone(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 text-left dir-ltr"
-                  />
+                  <div className="relative">
+                    <Phone className="absolute right-3 top-3 w-4 h-4 text-slate-400" />
+                    <input
+                      type="tel"
+                      placeholder="01xxxxxxxxx"
+                      value={secondaryPhone}
+                      onChange={(e) => setSecondaryPhone(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-10 pl-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white text-left dir-ltr"
+                    />
+                  </div>
                 </div>
               </div>
 
               {/* Governorate & City */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold text-neutral-200 mb-1.5">
-                    المحافظة <span className="text-amber-400">*</span>
+                  <label className="block text-xs font-bold text-slate-800 mb-1">
+                    المحافظة <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={governorate}
                     onChange={(e) => setGovernorate(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-500"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white"
                   >
                     {EGYPT_GOVERNORATES.map((gov) => (
                       <option key={gov} value={gov}>
@@ -455,265 +455,177 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-neutral-200 mb-1.5">
-                    المدينة / المركز / المنطقة <span className="text-amber-400">*</span>
+                  <label className="block text-xs font-bold text-slate-800 mb-1">
+                    المدينة / المركز / المنطقة <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="مثال: مدينة نصر، المعادي، سموحة..."
+                    placeholder="مثال: مدينة نصر / المنصورة"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
                   />
                 </div>
               </div>
 
-              {/* Detailed Address */}
+              {/* Address */}
               <div>
-                <label className="block text-xs font-bold text-neutral-200 mb-1.5">
-                  العنوان بالتفصيل (اسم الشارع، رقم العمارة، الشقة، علامة مميزة) <span className="text-amber-400">*</span>
+                <label className="block text-xs font-bold text-slate-800 mb-1">
+                  العنوان بالتفصيل (اسم الشارع، رقم العمارة والشقة) <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
-                  <MapPin className="absolute right-3 top-3 w-4 h-4 text-neutral-500" />
-                  <textarea
+                  <MapPin className="absolute right-3 top-3 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
                     required
-                    rows={2}
-                    placeholder="مثال: ش التحرير، عمارة 12، بجوار صيدلية..."
+                    placeholder="مثال: شارع الجمهورية، عمارة 15، الدور الثالث"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl pr-10 pl-3 py-2.5 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500 resize-none"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pr-10 pl-3 py-2.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
                   />
                 </div>
               </div>
 
               {/* Notes */}
               <div>
-                <label className="block text-xs font-bold text-neutral-200 mb-1.5">
-                  ملاحظات للطلب أو موعد الاستلام (اختياري)
+                <label className="block text-xs font-bold text-slate-800 mb-1">
+                  ملاحظات إضافية للتوصيل (اختياري)
                 </label>
-                <input
-                  type="text"
-                  placeholder="مثال: الاتصال قبل الوصول بنصف ساعة..."
+                <textarea
+                  rows={2}
+                  placeholder="أي تفاصيل خاصة بوقت التسليم أو مقاسات خاصة..."
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 focus:bg-white"
                 />
               </div>
 
-              {/* Payment Methods Selection */}
-              <div className="space-y-2.5 pt-2">
-                <label className="block text-xs font-bold text-neutral-200">
-                  طريقة الدفع المفضلة:
+              {/* Payment Methods */}
+              <div className="space-y-2 pt-2 border-t border-slate-100">
+                <label className="block text-xs font-bold text-slate-800">
+                  اختر طريقة الدفع المناسبة:
                 </label>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <button
-                    type="button"
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {/* COD */}
+                  <label
                     onClick={() => setPaymentMethod('cod')}
-                    className={`p-3 rounded-xl border text-right transition flex flex-col justify-between gap-2 ${
+                    className={`p-3 rounded-2xl border cursor-pointer transition flex flex-col justify-between ${
                       paymentMethod === 'cod'
-                        ? 'border-amber-500 bg-amber-500/10 text-white ring-1 ring-amber-500/50'
-                        : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:text-white'
+                        ? 'bg-amber-50 border-amber-500 ring-2 ring-amber-400/40 text-slate-950'
+                        : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <Truck className="w-4 h-4 text-amber-400" />
-                      <span className="text-[10px] font-bold text-emerald-400">الأكثر طلباً</span>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold">الدفع عند الاستلام</span>
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
                     </div>
-                    <div>
-                      <div className="text-xs font-bold">الدفع عند الاستلام</div>
-                      <div className="text-[10px] text-neutral-400">معاينة وفحص قبل الدفع</div>
-                    </div>
-                  </button>
+                    <span className="text-[10px] text-slate-500">
+                      معاينة وفحص الشحنة قبل الدفع
+                    </span>
+                  </label>
 
-                  <button
-                    type="button"
+                  {/* Vodafone Cash */}
+                  <label
                     onClick={() => setPaymentMethod('vodafone_cash')}
-                    className={`p-3 rounded-xl border text-right transition flex flex-col justify-between gap-2 ${
+                    className={`p-3 rounded-2xl border cursor-pointer transition flex flex-col justify-between ${
                       paymentMethod === 'vodafone_cash'
-                        ? 'border-red-500 bg-red-500/10 text-white ring-1 ring-red-500/50'
-                        : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:text-white'
+                        ? 'bg-red-50 border-red-500 ring-2 ring-red-400/40 text-slate-950'
+                        : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <Smartphone className="w-4 h-4 text-red-400" />
-                      <span className="text-[10px] font-bold text-red-400">محفظة كاش</span>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold">فودافون كاش</span>
+                      <Smartphone className="w-4 h-4 text-red-600" />
                     </div>
-                    <div>
-                      <div className="text-xs font-bold">فودافون كاش</div>
-                      <div className="text-[10px] text-neutral-400">تحويل مباشر للرقم</div>
-                    </div>
-                  </button>
+                    <span className="text-[10px] text-slate-500">
+                      تحويل عبر المحفظة الإلكترونية
+                    </span>
+                  </label>
 
-                  <button
-                    type="button"
+                  {/* InstaPay */}
+                  <label
                     onClick={() => setPaymentMethod('instapay')}
-                    className={`p-3 rounded-xl border text-right transition flex flex-col justify-between gap-2 ${
+                    className={`p-3 rounded-2xl border cursor-pointer transition flex flex-col justify-between ${
                       paymentMethod === 'instapay'
-                        ? 'border-purple-500 bg-purple-500/10 text-white ring-1 ring-purple-500/50'
-                        : 'border-neutral-800 bg-neutral-950 text-neutral-400 hover:text-white'
+                        ? 'bg-purple-50 border-purple-500 ring-2 ring-purple-400/40 text-slate-950'
+                        : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700'
                     }`}
                   >
-                    <div className="flex items-center justify-between">
-                      <CreditCard className="w-4 h-4 text-purple-400" />
-                      <span className="text-[10px] font-bold text-purple-400">InstaPay</span>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold">إنستاباي InstaPay</span>
+                      <CreditCard className="w-4 h-4 text-purple-600" />
                     </div>
-                    <div>
-                      <div className="text-xs font-bold">تحويل InstaPay</div>
-                      <div className="text-[10px] text-neutral-400">تحويل فوري لحظي</div>
-                    </div>
-                  </button>
+                    <span className="text-[10px] text-slate-500">
+                      تحويل لحظي مباشر بالمعرف
+                    </span>
+                  </label>
                 </div>
 
-                {/* Interactive Payment Details Box during form filling */}
+                {/* Instant preview of chosen payment credentials */}
                 {paymentMethod === 'vodafone_cash' && (
-                  <div className="bg-red-950/30 border border-red-500/40 rounded-2xl p-3.5 space-y-2 text-right animate-fadeIn">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-red-300 flex items-center gap-1.5">
-                        <Smartphone className="w-3.5 h-3.5 text-red-400" />
-                        <span>رقم محفظة فودافون كاش للتحويل:</span>
-                      </span>
-                      <span className="text-[10px] text-red-400 bg-red-500/10 px-2 py-0.5 rounded font-mono">
-                        01033545500
-                      </span>
-                    </div>
-
-                    <div className="flex items-center justify-between bg-neutral-950 px-3 py-2 rounded-xl border border-red-900/50">
-                      <span className="font-mono text-sm font-bold text-white dir-ltr">
-                        {VODAFONE_CASH_NUMBER}
-                      </span>
+                  <div className="bg-red-50 p-3 rounded-xl border border-red-200 text-xs space-y-1 mt-2">
+                    <span className="font-bold text-red-800 block">رقم تحويل فودافون كاش:</span>
+                    <div className="flex items-center justify-between bg-white p-2 rounded-lg border border-red-200">
+                      <span className="font-mono font-bold text-slate-900 dir-ltr">{VODAFONE_CASH_NUMBER}</span>
                       <button
                         type="button"
                         onClick={() => handleCopy(VODAFONE_CASH_NUMBER, 'form-voda')}
-                        className="px-2.5 py-1 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-bold transition flex items-center gap-1"
+                        className="text-[11px] text-red-700 hover:underline font-bold"
                       >
-                        {copiedKey === 'form-voda' ? (
-                          <>
-                            <Check className="w-3 h-3" />
-                            <span>تم النسخ</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3" />
-                            <span>نسخ الرقم</span>
-                          </>
-                        )}
+                        {copiedKey === 'form-voda' ? 'تم النسخ ✓' : 'نسخ الرقم'}
                       </button>
                     </div>
-
-                    <p className="text-[11px] text-neutral-300 leading-relaxed">
-                      💡 فور الضغط على تأكيد الطلب، سيتم نقلك إلى الواتساب مع كامل بيانات الطلب لإرسال صورة إيصال التحويل وتأكيد الشحن مباشرة.
-                    </p>
                   </div>
                 )}
 
                 {paymentMethod === 'instapay' && (
-                  <div className="bg-purple-950/30 border border-purple-500/40 rounded-2xl p-3.5 space-y-2 text-right animate-fadeIn">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-purple-300 flex items-center gap-1.5">
-                        <CreditCard className="w-3.5 h-3.5 text-purple-400" />
-                        <span>عنوان التحويل عبر تطبيق إنستاباي InstaPay:</span>
-                      </span>
-                      <span className="text-[10px] text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded font-bold">
-                        تحويل لحظي
-                      </span>
+                  <div className="bg-purple-50 p-3 rounded-xl border border-purple-200 text-xs space-y-1 mt-2">
+                    <span className="font-bold text-purple-900 block">معرف إنستاباي (IPA):</span>
+                    <div className="flex items-center justify-between bg-white p-2 rounded-lg border border-purple-200">
+                      <span className="font-mono font-bold text-slate-900 dir-ltr">{INSTAPAY_ADDRESS}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleCopy(INSTAPAY_ADDRESS, 'form-insta')}
+                        className="text-[11px] text-purple-800 hover:underline font-bold"
+                      >
+                        {copiedKey === 'form-insta' ? 'تم النسخ ✓' : 'نسخ المعرف'}
+                      </button>
                     </div>
-
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between bg-neutral-950 px-3 py-2 rounded-xl border border-purple-900/50">
-                        <div>
-                          <span className="text-[10px] text-neutral-400 block">عنوان الدفع (IPA):</span>
-                          <span className="font-mono text-xs font-bold text-white dir-ltr">
-                            {INSTAPAY_ADDRESS}
-                          </span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(INSTAPAY_ADDRESS, 'form-insta-addr')}
-                          className="px-2.5 py-1 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition flex items-center gap-1"
-                        >
-                          {copiedKey === 'form-insta-addr' ? (
-                            <>
-                              <Check className="w-3 h-3" />
-                              <span>تم</span>
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="w-3 h-3" />
-                              <span>نسخ</span>
-                            </>
-                          )}
-                        </button>
-                      </div>
-
-                      <div className="flex items-center justify-between bg-neutral-950 px-3 py-1.5 rounded-xl border border-neutral-800">
-                        <span className="text-[11px] text-neutral-300">أو برقم الهاتف المسجل: <strong className="font-mono text-white dir-ltr">{INSTAPAY_PHONE}</strong></span>
-                        <button
-                          type="button"
-                          onClick={() => handleCopy(INSTAPAY_PHONE, 'form-insta-phone')}
-                          className="text-[11px] text-purple-400 hover:underline font-bold"
-                        >
-                          {copiedKey === 'form-insta-phone' ? 'تم النسخ ✓' : 'نسخ الرقم'}
-                        </button>
-                      </div>
-                    </div>
-
-                    <p className="text-[11px] text-neutral-300 leading-relaxed">
-                      💡 بعد إتمام التحويل من تطبيق إنستاباي، سيتم إرسال إشعار الدفع مباشرة لمحادثة الواتساب.
-                    </p>
                   </div>
                 )}
 
-              </div>
-
-              {/* Order Total Summary */}
-              <div className="bg-neutral-950 p-4 rounded-2xl border border-neutral-800 space-y-2 text-xs">
-                <div className="flex justify-between text-neutral-400">
-                  <span>عدد القطع:</span>
-                  <span className="font-bold text-white">{items.reduce((s, i) => s + i.quantity, 0)} قطعة</span>
-                </div>
-                <div className="flex justify-between text-neutral-400">
-                  <span>المجموع الفرعي:</span>
-                  <span>{subtotal} ج.م</span>
-                </div>
-                {discount > 0 && (
-                  <div className="flex justify-between text-emerald-400">
-                    <span>الخصم المطبق:</span>
-                    <span>-{(subtotal * discount) / 100} ج.م</span>
-                  </div>
-                )}
-                <div className="flex justify-between text-neutral-400">
-                  <span>الشحن إلى {governorate}:</span>
-                  <span>{shipping === 0 ? 'مجاني 🎉' : `${shipping} ج.م`}</span>
-                </div>
-                <div className="flex justify-between text-sm font-black text-amber-400 pt-2 border-t border-neutral-800">
-                  <span>الإجمالي للدفع:</span>
-                  <span className="text-lg font-['Tajawal',sans-serif]">{total} ج.م</span>
-                </div>
               </div>
 
             </div>
 
-            {/* Submit CTA */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              id="submit-order-btn"
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-black text-sm hover:brightness-110 transition shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
-            >
-              <MessageCircle className="w-5 h-5" />
-              <span>
-                {isSubmitting
-                  ? 'جاري تجهيز الطلب...'
-                  : paymentMethod === 'cod'
-                  ? `تأكيد الطلب والدفع عند الاستلام (${total} ج.م)`
-                  : `تأكيد الطلب والتحويل للواتساب لاستكمال الدفع (${total} ج.م)`}
-              </span>
-            </button>
+            {/* Total Price & Submit Button */}
+            <div className="pt-3 border-t border-slate-200 space-y-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-slate-600">المبلغ الإجمالي المطلوب دفعه:</span>
+                <span className="text-xl font-black text-slate-950 font-['Tajawal',sans-serif]">
+                  {total} <span className="text-xs font-bold text-slate-600">ج.م</span>
+                </span>
+              </div>
 
-            <div className="flex items-center justify-center gap-2 text-[11px] text-neutral-500">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>معاينة وفحص المنتج قبل الاستلام | ضمان استبدال واسترجاع 14 يوم</span>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                id="submit-order-btn"
+                className="w-full py-4 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-2xl text-sm transition shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                <MessageCircle className="w-5 h-5 text-slate-950" />
+                <span>
+                  {isSubmitting ? 'جاري تسجيل الطلب...' : 'تأكيد الطلب والإرسال للواتساب تلقائياً'}
+                </span>
+              </button>
+
+              <div className="flex items-center justify-center gap-4 text-[11px] text-slate-500 pt-1">
+                <span>🔒 بياناتك محمية ومشفرة</span>
+                <span>•</span>
+                <span>👑 ضمان جودة ملوك السعادة</span>
+              </div>
             </div>
 
           </form>

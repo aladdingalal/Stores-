@@ -14,6 +14,7 @@ import {
   Check 
 } from 'lucide-react';
 import { CartItem, PricingMode } from '../types';
+import { WHATSAPP_NUMBER } from '../data/contact';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -70,63 +71,65 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     let itemsListText = items
       .map(
         (it, idx) =>
-          `${idx + 1}- ${it.product.name}\n   - المقاس: ${it.selectedSize} | اللون: ${it.selectedColor}\n   - الكمية: ${it.quantity} (${it.pricingMode === 'wholesale' ? 'جملة' : 'قطاعي'})\n   - السعر: ${it.appliedPrice * it.quantity} ج.م`
+          `🔹 *الموديل ${idx + 1}:* ${it.product.name}\n   - المقاس: ${it.selectedSize} | اللون: ${it.selectedColor}\n   - الكمية: ${it.quantity} قطعة (${it.pricingMode === 'wholesale' ? 'جملة' : 'قطاعي'})\n   - السعر: ${it.appliedPrice * it.quantity} ج.م`
       )
       .join('\n\n');
 
     const msg = encodeURIComponent(
-      `👑 طلبية جديدة من موقع ملوك السعادة 👑\n\n` +
-      `📦 المنتجات:\n${itemsListText}\n\n` +
-      `💵 المجموع الفرعي: ${subtotal} ج.م\n` +
-      (discountAmount > 0 ? `🎁 الخصم: -${discountAmount} ج.م\n` : '') +
-      `🚚 مصاريف الشحن: ${shippingFee === 0 ? 'مجاني' : shippingFee + ' ج.م'}\n` +
-      `⭐ الإجمالي المطلوب: ${finalTotal} ج.م\n\n` +
-      `الرجاء تأكيد استلام الطلب وتحديد موعد الشحن.`
+      `👑 *طلب جديد من سلة ملوك السعادة* 👑\n\n` +
+      `📦 *تفاصيل المنتجات:*\n${itemsListText}\n\n` +
+      `───────────────\n` +
+      `💵 *المجموع الفرعي:* ${subtotal} ج.م\n` +
+      (discountAmount > 0 ? `🎁 *الخصم المطبق:* -${discountAmount} ج.م\n` : '') +
+      `🚚 *مصاريف الشحن:* ${shippingFee === 0 ? 'شحن مجاني' : shippingFee + ' ج.م'}\n` +
+      `⭐ *الإجمالي النهائي المطلوب:* ${finalTotal} ج.م\n\n` +
+      `يرجى تأكيد تجهيز الشحنة وإرسال بيانات التوصيل.`
     );
 
-    window.open(`https://wa.me/201033545500?text=${msg}`, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/70 backdrop-blur-sm animate-fadeIn text-right">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-slate-950/60 backdrop-blur-sm animate-fadeIn text-right">
       <div className="absolute inset-0" onClick={onClose} />
 
       <div className="absolute inset-y-0 left-0 max-w-full flex pl-0">
-        <div className="w-screen max-w-md bg-neutral-900 border-r border-neutral-800 text-white flex flex-col shadow-2xl">
+        <div className="w-screen max-w-md bg-white border-r border-slate-200 text-slate-900 flex flex-col shadow-2xl">
           
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-neutral-800 flex items-center justify-between bg-neutral-950/80">
+          <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-amber-400" />
-              <h2 className="font-bold text-lg text-white">سلة المشتريات</h2>
-              <span className="text-xs bg-amber-500/20 text-amber-400 font-bold px-2 py-0.5 rounded-full">
+              <ShoppingBag className="w-5 h-5 text-amber-600" />
+              <h2 className="font-black text-lg text-slate-950 font-['Tajawal',sans-serif]">سلة المشتريات</h2>
+              <span className="text-xs bg-amber-500 text-slate-950 font-bold px-2 py-0.5 rounded-full">
                 {items.reduce((s, i) => s + i.quantity, 0)} قطعة
               </span>
             </div>
 
             <button
               onClick={onClose}
-              className="p-2 rounded-xl bg-neutral-800 text-neutral-400 hover:text-white transition"
+              className="p-2 rounded-xl bg-white hover:bg-slate-200 text-slate-700 hover:text-slate-950 transition border border-slate-200"
               id="close-cart-btn"
+              aria-label="إغلاق السلة"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Free Shipping Progress Bar */}
-          <div className="bg-neutral-950 p-3 border-b border-neutral-800">
+          {/* Free Shipping Bar */}
+          <div className="bg-amber-50/80 p-3 border-b border-amber-100">
             <div className="flex items-center justify-between text-xs mb-1.5">
-              <span className="text-neutral-400 flex items-center gap-1">
-                <Truck className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-slate-700 flex items-center gap-1">
+                <Truck className="w-3.5 h-3.5 text-amber-600" />
                 <span>
                   {subtotal >= freeShippingThreshold
                     ? '🎉 مبروك! حصلت على شحن مجاني لكافة المحافظات'
                     : `أضف بقيمة ${freeShippingThreshold - subtotal} ج.م إضافية للشحن المجاني`}
                 </span>
               </span>
-              <span className="font-bold text-amber-400">{progressPercent}%</span>
+              <span className="font-bold text-amber-900">{progressPercent}%</span>
             </div>
-            <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-amber-200/60 h-2 rounded-full overflow-hidden">
               <div
                 className="bg-gradient-to-r from-amber-500 to-emerald-500 h-full rounded-full transition-all duration-500"
                 style={{ width: `${progressPercent}%` }}
@@ -134,22 +137,20 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </div>
           </div>
 
-          {/* Cart Items List */}
+          {/* Items List */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {items.length === 0 ? (
               <div className="text-center py-16 space-y-4">
-                <div className="w-20 h-20 mx-auto rounded-full bg-neutral-800 flex items-center justify-center text-neutral-500">
-                  <ShoppingBag className="w-10 h-10" />
+                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+                  <ShoppingBag className="w-8 h-8" />
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-white">السلة فارغة حالياً</h3>
-                  <p className="text-xs text-neutral-400">
-                    تصفح أحدث موديلات ملابس الرجال والأطفال وأضف ما يعجبك
-                  </p>
+                <div>
+                  <h3 className="font-bold text-slate-800 text-base">سلة المشتريات فارغة</h3>
+                  <p className="text-xs text-slate-500 mt-1">تصفح التشكيلة وأضف الموديلات التي تعجبك</p>
                 </div>
                 <button
                   onClick={onClose}
-                  className="px-6 py-2.5 rounded-xl bg-amber-500 text-neutral-950 font-bold text-xs hover:brightness-110 transition"
+                  className="px-5 py-2.5 bg-amber-500 text-slate-950 font-black rounded-xl text-xs hover:bg-amber-400 transition"
                 >
                   تصفح المنتجات الآن
                 </button>
@@ -158,65 +159,67 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-neutral-950 p-3 rounded-2xl border border-neutral-800 flex gap-3 items-center relative group"
+                  className="p-3 bg-slate-50 border border-slate-200 rounded-2xl flex gap-3 relative group"
                 >
-                  {/* Thumbnail */}
+                  {/* Image */}
                   <img
                     src={item.product.customImage || item.product.images[0]}
                     alt={item.product.name}
-                    className="w-16 h-20 rounded-xl object-cover bg-neutral-900 shrink-0"
-                    referrerPolicy="no-referrer"
+                    className="w-20 h-24 object-cover rounded-xl bg-slate-200 shrink-0"
                   />
 
                   {/* Info */}
-                  <div className="flex-1 min-w-0 space-y-1">
-                    <div className="flex items-start justify-between gap-1">
-                      <h4 className="text-xs font-bold text-white truncate">
-                        {item.product.name}
-                      </h4>
-                      <button
-                        onClick={() => onRemoveItem(item.id)}
-                        className="text-neutral-500 hover:text-red-400 transition p-1"
-                        title="حذف من السلة"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
+                  <div className="flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between gap-1">
+                        <h4 className="font-bold text-xs text-slate-900 line-clamp-1">
+                          {item.product.name}
+                        </h4>
+                        <button
+                          onClick={() => onRemoveItem(item.id)}
+                          className="text-slate-400 hover:text-red-600 p-1 transition"
+                          title="حذف من السلة"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
 
-                    <div className="flex items-center gap-2 text-[11px] text-neutral-400">
-                      <span>المقاس: <strong className="text-amber-400">{item.selectedSize}</strong></span>
-                      <span>•</span>
-                      <span>اللون: <strong className="text-neutral-200">{item.selectedColor}</strong></span>
-                      {item.pricingMode === 'wholesale' && (
-                        <span className="bg-amber-500/20 text-amber-300 text-[10px] px-1.5 py-0.2 rounded">
-                          جملة
+                      <div className="flex items-center gap-2 mt-1 text-[11px] text-slate-500">
+                        <span>المقاس: <strong className="text-slate-900 font-bold">{item.selectedSize}</strong></span>
+                        <span>•</span>
+                        <span>اللون: <strong className="text-slate-900 font-bold">{item.selectedColor}</strong></span>
+                      </div>
+
+                      <div className="mt-1">
+                        <span className="text-[10px] font-bold text-amber-800 bg-amber-100 px-1.5 py-0.2 rounded">
+                          {item.pricingMode === 'wholesale' ? 'جملة' : 'قطاعي'} ({item.appliedPrice} ج.م للقطعة)
                         </span>
-                      )}
+                      </div>
                     </div>
 
-                    {/* Price and Quantity Stepper */}
-                    <div className="flex items-center justify-between pt-1">
-                      <span className="text-xs font-black text-amber-400 font-['Tajawal',sans-serif]">
-                        {item.appliedPrice * item.quantity} ج.م
-                      </span>
-
-                      <div className="flex items-center gap-2 bg-neutral-900 border border-neutral-800 rounded-lg p-0.5">
+                    {/* Quantity + Subtotal */}
+                    <div className="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/60">
+                      <div className="flex items-center gap-2">
                         <button
                           onClick={() => onUpdateQuantity(item.id, -1)}
-                          className="p-1 rounded text-neutral-400 hover:text-white"
+                          className="w-6 h-6 rounded-md bg-white border border-slate-200 text-slate-700 flex items-center justify-center hover:bg-slate-100"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="text-xs font-bold text-white px-1.5 min-w-[1.2rem] text-center">
+                        <span className="text-xs font-mono font-bold text-slate-900 w-6 text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => onUpdateQuantity(item.id, 1)}
-                          className="p-1 rounded text-neutral-400 hover:text-white"
+                          className="w-6 h-6 rounded-md bg-white border border-slate-200 text-slate-700 flex items-center justify-center hover:bg-slate-100"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
+
+                      <span className="font-black text-xs sm:text-sm text-slate-950 font-['Tajawal',sans-serif]">
+                        {item.appliedPrice * item.quantity} ج.م
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -224,93 +227,90 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             )}
           </div>
 
-          {/* Footer Area: Coupon & Totals */}
+          {/* Footer with Summary & Checkout */}
           {items.length > 0 && (
-            <div className="p-4 bg-neutral-950 border-t border-neutral-800 space-y-4">
+            <div className="p-4 sm:p-5 border-t border-slate-100 bg-slate-50 space-y-3">
               
-              {/* Coupon Form */}
-              <form onSubmit={handleCouponSubmit} className="space-y-1.5">
-                <div className="flex gap-2">
+              {/* Discount Coupon Form */}
+              <form onSubmit={handleCouponSubmit} className="flex gap-2">
+                <div className="relative flex-1">
                   <input
                     type="text"
-                    placeholder="كود الخصم (مثال: MOLOK10)"
+                    placeholder="كود الخصم (MOLOK10)"
                     value={couponInput}
                     onChange={(e) => setCouponInput(e.target.value)}
-                    className="flex-1 bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-2 text-xs text-white placeholder-neutral-500 focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-amber-500 uppercase font-mono"
                   />
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-amber-400 font-bold text-xs rounded-xl border border-neutral-700 transition"
-                  >
-                    تطبيق
-                  </button>
+                  <Tag className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-3" />
                 </div>
-                {couponMessage && (
-                  <p
-                    className={`text-[11px] ${
-                      couponMessage.isError ? 'text-red-400' : 'text-emerald-400'
-                    }`}
-                  >
-                    {couponMessage.text}
-                  </p>
-                )}
+                <button
+                  type="submit"
+                  className="px-3.5 py-2 bg-slate-950 text-amber-400 hover:bg-slate-800 text-xs font-bold rounded-xl transition"
+                >
+                  تطبيق
+                </button>
               </form>
 
-              {/* Price Breakdown */}
-              <div className="space-y-1.5 text-xs">
-                <div className="flex justify-between text-neutral-400">
-                  <span>المجموع الفرعي:</span>
-                  <span>{subtotal} ج.م</span>
+              {couponMessage && (
+                <div
+                  className={`text-[11px] font-bold p-2 rounded-lg ${
+                    couponMessage.isError
+                      ? 'bg-red-50 text-red-700 border border-red-200'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                  }`}
+                >
+                  {couponMessage.text}
                 </div>
+              )}
 
-                {discountAmount > 0 && (
-                  <div className="flex justify-between text-emerald-400 font-semibold">
-                    <span>خصم الكوبون ({appliedDiscount}%):</span>
+              {/* Price Calculations */}
+              <div className="space-y-1.5 text-xs text-slate-600 pt-1">
+                <div className="flex justify-between">
+                  <span>المجموع الفرعي:</span>
+                  <span className="font-bold text-slate-900">{subtotal} ج.م</span>
+                </div>
+                {appliedDiscount > 0 && (
+                  <div className="flex justify-between text-emerald-700 font-bold">
+                    <span>الخصم ({appliedDiscount}%):</span>
                     <span>-{discountAmount} ج.م</span>
                   </div>
                 )}
-
-                <div className="flex justify-between text-neutral-400">
+                <div className="flex justify-between">
                   <span>مصاريف الشحن:</span>
-                  <span>{shippingFee === 0 ? 'مجاني 🚚' : `${shippingFee} ج.م`}</span>
+                  <span className="font-bold text-slate-900">
+                    {shippingFee === 0 ? 'مجاناً 🎁' : `${shippingFee} ج.م`}
+                  </span>
                 </div>
-
-                <div className="flex justify-between text-sm font-black text-white pt-2 border-t border-neutral-800">
-                  <span>الإجمالي النهائي:</span>
-                  <span className="text-lg text-amber-400 font-['Tajawal',sans-serif]">
+                <div className="flex justify-between text-sm font-black text-slate-950 pt-2 border-t border-slate-200">
+                  <span>الإجمالي الكلي:</span>
+                  <span className="text-base font-black text-amber-800 font-['Tajawal',sans-serif]">
                     {finalTotal} ج.م
                   </span>
                 </div>
               </div>
 
-              {/* Primary Action Buttons */}
-              <div className="space-y-2">
+              {/* Action Buttons */}
+              <div className="space-y-2 pt-2">
                 <button
-                  onClick={onProceedToCheckout}
-                  id="checkout-btn"
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-neutral-950 font-black text-xs hover:brightness-110 transition shadow-lg flex items-center justify-center gap-2"
+                  onClick={() => {
+                    onClose();
+                    onProceedToCheckout();
+                  }}
+                  id="checkout-proceed-btn"
+                  className="w-full py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-xl text-sm transition shadow-sm flex items-center justify-center gap-2"
                 >
-                  <span>إتمام الطلب وتأكيد العنوان</span>
+                  <span>متابعة الشراء وتأكيد البيانات</span>
                   <ArrowLeft className="w-4 h-4" />
                 </button>
 
                 <button
                   onClick={handleSendWhatsAppOrder}
-                  id="whatsapp-cart-order-btn"
-                  className="w-full py-3 rounded-xl bg-emerald-700/80 hover:bg-emerald-600 text-white font-bold text-xs transition flex items-center justify-center gap-2 border border-emerald-600/40"
+                  id="cart-whatsapp-order-btn"
+                  className="w-full py-2.5 bg-slate-950 hover:bg-slate-900 text-amber-400 font-bold rounded-xl text-xs transition flex items-center justify-center gap-2"
                 >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>إرسال الفاتورة مباشرة عبر واتساب</span>
+                  <MessageCircle className="w-4 h-4 text-emerald-400" />
+                  <span>إرسال السلة كاملة مباشرة للواتساب</span>
                 </button>
-              </div>
-
-              <div className="flex items-center justify-center gap-3 text-[10px] text-neutral-400">
-                <span className="flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3 text-amber-400" />
-                  دفع عند الاستلام
-                </span>
-                <span>•</span>
-                <span>معاينة المنتجات قبل الدفع</span>
               </div>
 
             </div>

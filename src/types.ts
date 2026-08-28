@@ -1,4 +1,12 @@
-export type CategoryType = 'all' | 'men' | 'kids';
+export type CategoryType = 
+  | 'all'
+  | 'kids'        // ملابس أطفال
+  | 'shirts'      // قميص رجالي
+  | 'tshirts'     // تيشرتات
+  | 'underwear'   // ملابس داخلية
+  | 'sets'        // أطقم كامل
+  | 'tracksuits'  // ترنج
+  | 'pajamas';    // بيجامات
 
 export type SubCategoryType = 
   | 'all'
@@ -6,18 +14,30 @@ export type SubCategoryType =
   | 'men-shirts'
   | 'men-pants'
   | 'men-sets'
-  | 'men-jackets'
+  | 'men-tracksuits'
+  | 'men-underwear'
+  | 'men-pajamas'
   | 'kids-tshirts'
   | 'kids-sets'
   | 'kids-pants'
-  | 'kids-hoodies';
+  | 'kids-pajamas'
+  | 'kids-underwear';
 
 export type PricingMode = 'retail' | 'wholesale';
+
+export interface CategoryMeta {
+  id: CategoryType;
+  title: string;
+  subtitle: string;
+  iconName: string;
+  badge?: string;
+  description: string;
+}
 
 export interface Product {
   id: string;
   name: string;
-  category: 'men' | 'kids';
+  category: CategoryType;
   subCategory: SubCategoryType;
   subCategoryName: string;
   priceRetail: number;

@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { 
   ShoppingBag, 
   Search, 
-  PhoneCall, 
   MessageCircle, 
   SlidersHorizontal, 
-  Sparkles,
   Camera,
+  Crown, 
+  Menu, 
+  X, 
+  Truck,
+  Sparkles,
+  ChevronDown,
   Layers,
-  Heart,
-  Crown,
-  Menu,
-  X,
-  Truck
+  PhoneCall
 } from 'lucide-react';
 import { Logo } from './Logo';
 import { CategoryType, PricingMode } from '../types';
+import { CATEGORIES_CONFIG } from '../data/products';
+import { WHATSAPP_NUMBER, PHONE_NUMBER_DISPLAY } from '../data/contact';
 
 interface NavbarProps {
   activeCategory: CategoryType;
@@ -27,6 +29,7 @@ interface NavbarProps {
   onOpenCart: () => void;
   onOpenImageManager: () => void;
   onOpenSizeGuide: () => void;
+  onOpenCategoriesModal: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   customLogoUrl?: string;
@@ -38,10 +41,10 @@ export const Navbar: React.FC<NavbarProps> = ({
   pricingMode,
   onTogglePricingMode,
   cartCount,
-  wishlistCount,
   onOpenCart,
   onOpenImageManager,
   onOpenSizeGuide,
+  onOpenCategoriesModal,
   searchQuery,
   onSearchChange,
   customLogoUrl,
@@ -50,101 +53,99 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showSearchInput, setShowSearchInput] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-neutral-950/95 backdrop-blur-md border-b border-neutral-800 transition-all">
-      {/* Top Banner with announcements & fast WhatsApp */}
-      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 text-neutral-950 font-bold text-xs py-1.5 px-4">
+    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-xs transition-all">
+      {/* Top Banner: Fast Announcement & WhatsApp Order Hotline */}
+      <div className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-white font-bold text-xs py-2 px-3 sm:px-4">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+          
           <div className="flex items-center gap-2">
-            <Truck className="w-4 h-4 shrink-0" />
-            <span>شحن سريع لجميع محافظات مصر | معاينة قبل الاستلام والدفع عند الاستلام</span>
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-amber-500 text-slate-950 text-[11px] font-black">
+              🚚
+            </span>
+            <span className="text-[11px] sm:text-xs text-slate-200">
+              شحن سريع لجميع محافظات مصر • <strong className="text-amber-400 font-bold">معاينة وفحص قبل الدفع</strong>
+            </span>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-semibold">
-            <div className="flex items-center gap-1.5 bg-black/15 px-2.5 py-0.5 rounded-full">
+          <div className="flex items-center gap-3 text-xs">
+            <div className="hidden sm:flex items-center gap-1.5 bg-white/10 px-2.5 py-0.5 rounded-full text-[11px] text-amber-300">
               <Crown className="w-3.5 h-3.5" />
-              <span>جملة للمحلات والمكاتب & قطاعي</span>
+              <span>متاح بيع قطاعي وجملة مكاتب ومحلات</span>
             </div>
+
             <a
-              href="https://wa.me/201033545500?text=مرحباً%20ملوك%20السعادة،%20أود%20الاستفسار%20عن%20المنتجات%20والأسعار"
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                'مرحباً ملوك السعادة، أود الاستفسار عن الموديلات والأسعار'
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline flex items-center gap-1 bg-neutral-950 text-amber-400 px-2.5 py-0.5 rounded-full text-[11px]"
+              className="flex items-center gap-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 px-3 py-0.5 rounded-full text-[11px] font-black transition shadow-xs"
             >
-              <MessageCircle className="w-3 h-3 text-emerald-400" />
-              <span>واتساب المبيعات: 01033545500</span>
+              <MessageCircle className="w-3.5 h-3.5" />
+              <span>واتساب: {PHONE_NUMBER_DISPLAY}</span>
             </a>
           </div>
+
         </div>
       </div>
 
       {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-18 sm:h-20 gap-2 sm:gap-4">
           
-          {/* Logo & Brand Identity */}
+          {/* Brand Logo with Majestic Black & White Lion */}
           <button 
             onClick={() => onSelectCategory('all')} 
-            className="flex items-center gap-3 text-right hover:opacity-90 transition group cursor-pointer"
+            className="flex items-center gap-2 text-right hover:opacity-90 transition group cursor-pointer shrink-0"
             id="brand-logo-btn"
+            title="ملوك السعادة - الرئيسية"
           >
-            <Logo size="sm" customLogoUrl={customLogoUrl} variant="gold" />
+            <Logo size="sm" customLogoUrl={customLogoUrl} variant="dark" />
           </button>
 
-          {/* Center Navigation Categories */}
-          <nav className="hidden md:flex items-center gap-1.5 bg-neutral-900/80 p-1.5 rounded-2xl border border-neutral-800">
-            <button
-              onClick={() => onSelectCategory('all')}
-              id="nav-cat-all"
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
-                activeCategory === 'all'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800'
-              }`}
-            >
-              كل التشكيلة
-            </button>
-            <button
-              onClick={() => onSelectCategory('men')}
-              id="nav-cat-men"
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                activeCategory === 'men'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800'
-              }`}
-            >
-              <span>ملابس رجالي مودرن</span>
-              <span className="text-[10px] bg-neutral-800 text-amber-400 px-1.5 py-0.5 rounded-md border border-neutral-700">
-                2025
-              </span>
-            </button>
-            <button
-              onClick={() => onSelectCategory('kids')}
-              id="nav-cat-kids"
-              className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-1.5 ${
-                activeCategory === 'kids'
-                  ? 'bg-amber-500 text-neutral-950 shadow-md font-bold'
-                  : 'text-neutral-300 hover:text-white hover:bg-neutral-800'
-              }`}
-            >
-              <span>أطفال كاجوال</span>
-              <span className="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded-md">
-                سن 5+
-              </span>
-            </button>
+          {/* Desktop Categories Quick Navigation (7 Dedicated Pages) */}
+          <nav className="hidden xl:flex items-center gap-1 bg-slate-100/90 p-1.5 rounded-2xl border border-slate-200/80">
+            {CATEGORIES_CONFIG.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => onSelectCategory(cat.id)}
+                  id={`top-nav-${cat.id}`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                    isActive
+                      ? 'bg-slate-950 text-amber-400 shadow-xs'
+                      : 'text-slate-700 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  {cat.title}
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Right Actions: Wholesale Toggle, Search, Image Manager & Cart */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Categories Button for Medium screens */}
+          <button
+            onClick={onOpenCategoriesModal}
+            className="hidden md:flex xl:hidden items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold border border-slate-200"
+          >
+            <Layers className="w-4 h-4 text-amber-600" />
+            <span>الأقسام ({activeCategory === 'all' ? 'الكل' : CATEGORIES_CONFIG.find(c => c.id === activeCategory)?.title})</span>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+          </button>
+
+          {/* Right Action Controls */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             
-            {/* Wholesale / Retail Toggle Pill */}
-            <div className="bg-neutral-900 p-1 rounded-xl border border-neutral-800 flex items-center">
+            {/* Wholesale / Retail Switcher */}
+            <div className="bg-slate-100 p-1 rounded-xl border border-slate-200 flex items-center shrink-0">
               <button
                 onClick={() => onTogglePricingMode('retail')}
                 id="pricing-retail-btn"
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                className={`px-2 sm:px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
                   pricingMode === 'retail'
-                    ? 'bg-neutral-800 text-white shadow-sm'
-                    : 'text-neutral-400 hover:text-neutral-200'
+                    ? 'bg-white text-slate-950 shadow-xs'
+                    : 'text-slate-500 hover:text-slate-800'
                 }`}
                 title="سعر القطاعي للقطع الفردية"
               >
@@ -153,10 +154,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={() => onTogglePricingMode('wholesale')}
                 id="pricing-wholesale-btn"
-                className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${
+                className={`px-2 sm:px-2.5 py-1 text-xs font-bold rounded-lg transition-all flex items-center gap-1 ${
                   pricingMode === 'wholesale'
-                    ? 'bg-amber-500 text-neutral-950 shadow-sm'
-                    : 'text-amber-400/80 hover:text-amber-300'
+                    ? 'bg-amber-500 text-slate-950 shadow-xs font-black'
+                    : 'text-amber-800 hover:text-amber-950'
                 }`}
                 title="أسعار الجملة للتجار والمحلات"
               >
@@ -165,21 +166,21 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             </div>
 
-            {/* Search Toggle / Input */}
-            <div className="relative hidden sm:block">
-              <div className="flex items-center bg-neutral-900 border border-neutral-800 rounded-xl px-3 py-1.5 text-sm focus-within:border-amber-500/80 transition-colors w-44 lg:w-60">
-                <Search className="w-4 h-4 text-neutral-400 ml-2" />
+            {/* Desktop Search Input */}
+            <div className="relative hidden lg:block">
+              <div className="flex items-center bg-slate-100 border border-slate-200 rounded-xl px-3 py-1.5 text-sm focus-within:border-amber-500 focus-within:bg-white transition-colors w-40 xl:w-52">
+                <Search className="w-4 h-4 text-slate-400 ml-2 shrink-0" />
                 <input
                   type="text"
-                  placeholder="ابحث عن موديل، قميص، تيشرت..."
+                  placeholder="ابحث عن موديل، قميص..."
                   value={searchQuery}
                   onChange={(e) => onSearchChange(e.target.value)}
-                  className="bg-transparent text-xs text-white placeholder-neutral-500 focus:outline-none w-full"
+                  className="bg-transparent text-xs text-slate-900 placeholder-slate-400 focus:outline-none w-full"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => onSearchChange('')}
-                    className="text-neutral-400 hover:text-white text-xs"
+                    className="text-slate-400 hover:text-slate-700 text-xs"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -187,47 +188,49 @@ export const Navbar: React.FC<NavbarProps> = ({
               </div>
             </div>
 
-            {/* Change/Upload Photos Manager Trigger */}
+            {/* Photo Uploader Modal Button */}
             <button
               onClick={onOpenImageManager}
               id="open-image-manager-btn"
-              className="p-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-amber-400 hover:text-amber-300 transition flex items-center gap-1 text-xs font-semibold"
-              title="تغيير وإضافة صور الملابس الخاصة بك"
+              className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 hover:text-slate-950 transition flex items-center gap-1 text-xs font-bold"
+              title="تحديث وتغيير صور المنتجات واللوجو"
             >
-              <Camera className="w-4 h-4" />
-              <span className="hidden xl:inline">تحديث الصور</span>
+              <Camera className="w-4 h-4 text-amber-600" />
+              <span className="hidden sm:inline">الصور</span>
             </button>
 
-            {/* Size Guide Trigger */}
+            {/* Size Guide Modal Button */}
             <button
               onClick={onOpenSizeGuide}
-              className="hidden lg:flex items-center gap-1 p-2 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-800 text-neutral-300 hover:text-white text-xs font-medium"
+              className="hidden sm:flex items-center gap-1 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 hover:text-slate-950 text-xs font-semibold"
               title="جدول مقاسات رجالي وأطفال"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>المقاسات</span>
+              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
+              <span className="hidden xl:inline">المقاسات</span>
             </button>
 
-            {/* Cart Drawer Trigger */}
+            {/* Cart Drawer Trigger Button */}
             <button
               onClick={onOpenCart}
               id="open-cart-drawer-btn"
-              className="relative p-2.5 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 text-neutral-950 font-bold hover:brightness-110 transition shadow-lg flex items-center gap-2"
+              className="relative p-2 sm:p-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-black hover:brightness-105 transition shadow-sm flex items-center gap-1.5"
+              title="سلة المشتريات"
             >
               <ShoppingBag className="w-5 h-5" />
-              <span className="hidden sm:inline text-xs font-black">السلة</span>
+              <span className="hidden sm:inline text-xs">السلة</span>
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-neutral-950 text-amber-400 text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-amber-500 animate-pulse">
+                <span className="absolute -top-1.5 -right-1.5 bg-slate-950 text-amber-300 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
                   {cartCount}
                 </span>
               )}
             </button>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl bg-neutral-900 text-neutral-300 hover:text-white border border-neutral-800"
+              className="md:hidden p-2 rounded-xl bg-slate-100 text-slate-700 hover:text-slate-950 border border-slate-200"
               id="mobile-menu-toggle"
+              aria-label="القائمة"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -237,67 +240,64 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile Dropdown Search & Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-neutral-900/98 border-b border-neutral-800 px-4 py-4 space-y-3">
+        <div className="md:hidden bg-white border-b border-slate-200 px-4 py-4 space-y-3 animate-fadeIn">
           {/* Mobile Search */}
-          <div className="flex items-center bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-2 text-sm">
-            <Search className="w-4 h-4 text-neutral-400 ml-2" />
+          <div className="flex items-center bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 text-sm">
+            <Search className="w-4 h-4 text-slate-400 ml-2" />
             <input
               type="text"
-              placeholder="ابحث عن موديل، قميص، تيشرت أطفال..."
+              placeholder="ابحث عن موديل، قميص، تيشرت، طقم..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="bg-transparent text-xs text-white placeholder-neutral-500 focus:outline-none w-full"
+              className="bg-transparent text-xs text-slate-900 placeholder-slate-400 focus:outline-none w-full"
             />
+            {searchQuery && (
+              <button onClick={() => onSearchChange('')}>
+                <X className="w-4 h-4 text-slate-400" />
+              </button>
+            )}
           </div>
 
-          <div className="grid grid-cols-3 gap-2">
-            <button
-              onClick={() => {
-                onSelectCategory('all');
-                setMobileMenuOpen(false);
-              }}
-              className={`py-2 text-xs font-bold rounded-lg ${
-                activeCategory === 'all' ? 'bg-amber-500 text-neutral-950' : 'bg-neutral-800 text-neutral-300'
-              }`}
-            >
-              الكل
-            </button>
-            <button
-              onClick={() => {
-                onSelectCategory('men');
-                setMobileMenuOpen(false);
-              }}
-              className={`py-2 text-xs font-bold rounded-lg ${
-                activeCategory === 'men' ? 'bg-amber-500 text-neutral-950' : 'bg-neutral-800 text-neutral-300'
-              }`}
-            >
-              رجالي مودرن
-            </button>
-            <button
-              onClick={() => {
-                onSelectCategory('kids');
-                setMobileMenuOpen(false);
-              }}
-              className={`py-2 text-xs font-bold rounded-lg ${
-                activeCategory === 'kids' ? 'bg-amber-500 text-neutral-950' : 'bg-neutral-800 text-neutral-300'
-              }`}
-            >
-              أطفال 5+ سنوات
-            </button>
+          {/* 7 Categories Grid on Mobile */}
+          <div className="space-y-1.5">
+            <span className="text-xs font-bold text-slate-500 block">اختر القسم:</span>
+            <div className="grid grid-cols-2 gap-2">
+              {CATEGORIES_CONFIG.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    onSelectCategory(cat.id);
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`p-2.5 text-xs font-bold rounded-xl text-right transition flex items-center justify-between ${
+                    activeCategory === cat.id
+                      ? 'bg-amber-500 text-slate-950 shadow-xs'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                  }`}
+                >
+                  <span>{cat.title}</span>
+                  {cat.badge && (
+                    <span className="text-[9px] bg-slate-900/10 px-1.5 py-0.5 rounded font-mono">
+                      {cat.badge}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="flex items-center justify-between pt-2 border-t border-neutral-800 text-xs">
+          <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs">
             <button
               onClick={() => {
                 onOpenSizeGuide();
                 setMobileMenuOpen(false);
               }}
-              className="text-amber-400 font-semibold flex items-center gap-1"
+              className="text-amber-700 font-bold flex items-center gap-1"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>دليل المقاسات</span>
+              <span>جدول المقاسات</span>
             </button>
 
             <button
@@ -305,9 +305,9 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onOpenImageManager();
                 setMobileMenuOpen(false);
               }}
-              className="text-neutral-300 hover:text-white flex items-center gap-1"
+              className="text-slate-700 font-semibold flex items-center gap-1"
             >
-              <Camera className="w-3.5 h-3.5 text-amber-400" />
+              <Camera className="w-3.5 h-3.5 text-amber-600" />
               <span>تحديث وتغيير الصور</span>
             </button>
           </div>

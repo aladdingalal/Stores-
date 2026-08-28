@@ -3,157 +3,193 @@ import React from 'react';
 interface LogoProps {
   className?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'light' | 'dark' | 'gold';
+  variant?: 'light' | 'dark' | 'gold' | 'monochrome';
   customLogoUrl?: string;
   showSubtitle?: boolean;
+  inline?: boolean;
 }
 
 export const Logo: React.FC<LogoProps> = ({
   className = '',
   size = 'md',
-  variant = 'light',
+  variant = 'dark', // Default to crisp modern dark text on light backgrounds
   customLogoUrl,
   showSubtitle = true,
+  inline = false,
 }) => {
   if (customLogoUrl) {
     return (
-      <div className={`flex items-center gap-2 ${className}`}>
+      <div className={`flex items-center gap-2.5 ${className}`}>
         <img
           src={customLogoUrl}
-          alt="ملوك السعاده"
+          alt="ملوك السعادة"
           className={`object-contain ${
             size === 'sm'
-              ? 'h-10'
+              ? 'h-9'
               : size === 'md'
-              ? 'h-14'
+              ? 'h-13'
               : size === 'lg'
-              ? 'h-20'
-              : 'h-28'
+              ? 'h-18'
+              : 'h-24'
           }`}
           referrerPolicy="no-referrer"
         />
+        {showSubtitle && (
+          <div className="text-right">
+            <span className="font-black text-slate-900 block text-base font-['Tajawal',sans-serif]">
+              ملوك السعادة
+            </span>
+            <span className="text-[10px] text-amber-700 font-bold block">
+              براند ملابس للجملة والقطاعي
+            </span>
+          </div>
+        )}
       </div>
     );
   }
 
   const sizeClasses = {
-    sm: { icon: 'w-7 h-7', title: 'text-lg', subtitle: 'text-[9px]' },
-    md: { icon: 'w-10 h-10', title: 'text-2xl', subtitle: 'text-[11px]' },
-    lg: { icon: 'w-16 h-16', title: 'text-3xl', subtitle: 'text-xs' },
-    xl: { icon: 'w-24 h-24', title: 'text-4xl', subtitle: 'text-sm' },
+    sm: { icon: 'w-8 h-8', title: 'text-base sm:text-lg', subtitle: 'text-[9px]' },
+    md: { icon: 'w-11 h-11', title: 'text-xl sm:text-2xl', subtitle: 'text-[10px]' },
+    lg: { icon: 'w-16 h-16', title: 'text-2xl sm:text-3xl', subtitle: 'text-xs' },
+    xl: { icon: 'w-24 h-24', title: 'text-3xl sm:text-4xl', subtitle: 'text-sm' },
   }[size];
 
   const colorStyles = {
-    light: {
-      crown: '#FFFFFF',
-      gold: '#F59E0B',
-      title: 'text-white',
-      subtitle: 'text-neutral-300',
-      line: 'bg-neutral-600',
-    },
+    // For light mode pages (slate/dark text with black & white lion and gold accents)
     dark: {
-      crown: '#111827',
-      gold: '#D97706',
-      title: 'text-neutral-900',
-      subtitle: 'text-neutral-600',
-      line: 'bg-neutral-300',
+      lionFill: '#0F172A',
+      lionAccent: '#FFFFFF',
+      crownGold: '#D97706',
+      title: 'text-slate-950',
+      subtitle: 'text-amber-800',
+      line: 'bg-amber-400',
+      badgeBg: 'bg-slate-950 text-white',
+    },
+    // For dark headers or dark accents
+    light: {
+      lionFill: '#FFFFFF',
+      lionAccent: '#0F172A',
+      crownGold: '#F59E0B',
+      title: 'text-white',
+      subtitle: 'text-amber-300',
+      line: 'bg-amber-500/60',
+      badgeBg: 'bg-white text-slate-950',
     },
     gold: {
-      crown: '#FBBF24',
-      gold: '#F59E0B',
-      title: 'text-amber-400',
-      subtitle: 'text-amber-200/90',
-      line: 'bg-amber-500/50',
+      lionFill: '#F59E0B',
+      lionAccent: '#000000',
+      crownGold: '#FBBF24',
+      title: 'text-amber-600',
+      subtitle: 'text-slate-600',
+      line: 'bg-amber-500',
+      badgeBg: 'bg-amber-500 text-slate-950',
+    },
+    monochrome: {
+      lionFill: '#000000',
+      lionAccent: '#FFFFFF',
+      crownGold: '#000000',
+      title: 'text-black',
+      subtitle: 'text-neutral-600',
+      line: 'bg-black',
+      badgeBg: 'bg-black text-white',
     },
   }[variant];
 
   return (
-    <div className={`flex flex-col items-center select-none text-center ${className}`}>
-      {/* Crown SVG based faithfully on the user's logo */}
-      <div className={`relative ${sizeClasses.icon} mb-1 flex items-center justify-center`}>
+    <div
+      className={`flex select-none items-center gap-2.5 ${
+        inline ? 'flex-row' : 'flex-row sm:flex-row'
+      } ${className}`}
+    >
+      {/* Majestic Black & White Lion Head Vector Emblem with Crown */}
+      <div
+        className={`relative ${sizeClasses.icon} shrink-0 flex items-center justify-center rounded-2xl bg-slate-950 p-1.5 shadow-sm border border-slate-800 transition-transform duration-300 group-hover:scale-105`}
+      >
         <svg
-          viewBox="0 0 200 130"
+          viewBox="0 0 100 100"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-full drop-shadow-[0_2px_10px_rgba(245,158,11,0.25)]"
+          className="w-full h-full"
         >
-          {/* Main Crown base sweeping arches */}
+          {/* Royal Crown atop Lion */}
           <path
-            d="M20 70 C 50 110, 150 110, 180 70 C 150 95, 50 95, 20 70 Z"
-            fill="currentColor"
-            className="text-white"
+            d="M26 28 L35 15 L50 24 L65 15 L74 28 L62 26 L50 28 L38 26 Z"
+            fill="#F59E0B"
+            stroke="#FFFFFF"
+            strokeWidth="1.2"
           />
+          <circle cx="35" cy="14" r="2" fill="#FFFFFF" />
+          <circle cx="50" cy="11" r="2.5" fill="#FBBF24" stroke="#FFFFFF" strokeWidth="0.8" />
+          <circle cx="65" cy="14" r="2" fill="#FFFFFF" />
+
+          {/* Lion Mane Outline / Fur Flames */}
           <path
-            d="M30 85 C 60 115, 140 115, 170 85 C 145 102, 55 102, 30 85 Z"
-            fill="currentColor"
-            className="text-amber-400"
+            d="M50 24 C36 24 24 34 20 46 C16 58 20 72 30 82 C38 90 50 94 50 94 C50 94 62 90 70 82 C80 72 84 58 80 46 C76 34 64 24 50 24 Z"
+            fill="#FFFFFF"
           />
-          
-          {/* Center Royal Spire with droplet */}
+
+          {/* Outer Mane Silhouette (Black) */}
           <path
-            d="M100 20 C 100 20, 88 55, 88 70 C 88 80, 112 80, 112 70 C 112 55, 100 20, 100 20 Z"
-            fill="currentColor"
-            className="text-white"
+            d="M50 26 C38 26 27 35 24 46 C21 56 24 67 32 76 L36 70 C30 63 28 54 31 46 C34 38 42 32 50 32 C58 32 66 38 69 46 C72 54 70 63 64 70 L68 76 C76 67 79 56 76 46 C73 35 62 26 50 26 Z"
+            fill="#0F172A"
           />
-          <circle cx="100" cy="18" r="8" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2.5" />
-          
-          {/* Inner Left Peak */}
+
+          {/* Lion Ears */}
+          <path d="M22 34 C19 28 26 24 30 29 C28 34 25 36 22 34 Z" fill="#0F172A" />
+          <path d="M78 34 C81 28 74 24 70 29 C72 34 75 36 78 34 Z" fill="#0F172A" />
+
+          {/* Lion Face Mask & Brow */}
           <path
-            d="M70 28 C 70 28, 60 55, 60 70 C 60 78, 80 78, 80 70 C 80 55, 70 28, 70 28 Z"
-            fill="currentColor"
-            className="text-white"
+            d="M36 44 C42 42 47 46 50 48 C53 46 58 42 64 44 C67 48 64 54 62 58 C58 54 54 52 50 52 C46 52 42 54 38 58 C36 54 33 48 36 44 Z"
+            fill="#0F172A"
           />
-          <circle cx="70" cy="25" r="6.5" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2" />
-          
-          {/* Inner Right Peak */}
+
+          {/* Piercing Noble Eyes */}
+          <path d="M38 48 Q43 45 46 49 Q43 51 38 48 Z" fill="#F59E0B" />
+          <circle cx="42" cy="48" r="1.2" fill="#0F172A" />
+          <path d="M62 48 Q57 45 54 49 Q57 51 62 48 Z" fill="#F59E0B" />
+          <circle cx="58" cy="48" r="1.2" fill="#0F172A" />
+
+          {/* Lion Nose & Snout */}
+          <polygon points="50,56 45,63 55,63" fill="#0F172A" />
           <path
-            d="M130 28 C 130 28, 120 55, 120 70 C 120 78, 140 78, 140 70 C 140 55, 130 28, 130 28 Z"
-            fill="currentColor"
-            className="text-white"
+            d="M50 63 L50 71 M50 71 C46 71 42 69 40 66 M50 71 C54 71 58 69 60 66"
+            stroke="#0F172A"
+            strokeWidth="2"
+            strokeLinecap="round"
           />
-          <circle cx="130" cy="25" r="6.5" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2" />
-          
-          {/* Outer Left Sweeping Horn */}
-          <path
-            d="M35 38 C 45 55, 50 68, 50 78 C 38 78, 30 65, 20 50 C 25 45, 30 40, 35 38 Z"
-            fill="currentColor"
-            className="text-white"
-          />
-          <circle cx="28" cy="38" r="6" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2" />
-          
-          {/* Outer Right Sweeping Horn */}
-          <path
-            d="M165 38 C 155 55, 150 68, 150 78 C 162 78, 170 65, 180 50 C 175 45, 170 40, 165 38 Z"
-            fill="currentColor"
-            className="text-white"
-          />
-          <circle cx="172" cy="38" r="6" fill="#F59E0B" stroke="#FFFFFF" strokeWidth="2" />
-          
-          {/* Decorative jewels inside base */}
-          <circle cx="75" cy="85" r="3" fill="#F59E0B" />
-          <circle cx="100" cy="88" r="3.5" fill="#FBBF24" />
-          <circle cx="125" cy="85" r="3" fill="#F59E0B" />
+
+          {/* Lion Chin & Whiskers Dots */}
+          <circle cx="44" cy="67" r="0.9" fill="#0F172A" />
+          <circle cx="42" cy="69" r="0.9" fill="#0F172A" />
+          <circle cx="56" cy="67" r="0.9" fill="#0F172A" />
+          <circle cx="58" cy="69" r="0.9" fill="#0F172A" />
+          <path d="M47 75 Q50 78 53 75" stroke="#0F172A" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </div>
 
-      {/* Brand Title: ملوك السعاده */}
-      <div className="flex flex-col items-center">
-        <span
-          className={`font-black tracking-tight font-['Tajawal',sans-serif] ${sizeClasses.title} ${colorStyles.title}`}
-          style={{ letterSpacing: '-0.02em' }}
-        >
-          ملوك السعاده
-        </span>
+      {/* Ornate Arabic Calligraphy Brand Name: ملوك السعادة */}
+      <div className="flex flex-col text-right">
+        <div className="flex items-center gap-1.5">
+          <span
+            className={`font-black tracking-tight font-['Tajawal',sans-serif] ${sizeClasses.title} ${colorStyles.title} flex items-center gap-1 leading-none`}
+            style={{ letterSpacing: '-0.03em' }}
+          >
+            <span>ملوك السعادة</span>
+            <span className="text-amber-500 font-serif text-sm">👑</span>
+          </span>
+        </div>
 
         {showSubtitle && (
           <div className="flex items-center gap-1.5 mt-0.5">
-            <span className={`h-[1px] w-3 ${colorStyles.line}`} />
+            <span className={`h-[2px] w-2.5 ${colorStyles.line} rounded-full`} />
             <span
-              className={`font-semibold ${sizeClasses.subtitle} ${colorStyles.subtitle} whitespace-nowrap`}
+              className={`font-bold ${sizeClasses.subtitle} ${colorStyles.subtitle} whitespace-nowrap tracking-wide`}
             >
-              براند ملابس للجمله والقطاعي
+              براند ملابس • جملة وقطاعي
             </span>
-            <span className={`h-[1px] w-3 ${colorStyles.line}`} />
+            <span className={`h-[2px] w-2.5 ${colorStyles.line} rounded-full`} />
           </div>
         )}
       </div>
