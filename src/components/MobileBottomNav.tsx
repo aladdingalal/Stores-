@@ -30,16 +30,16 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
   )}`;
 
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t-2 border-slate-900 shadow-[0_-4px_25px_rgba(0,0,0,0.12)] pb-safe">
+    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-neutral-200 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] pb-safe">
       <div className="max-w-md mx-auto grid grid-cols-4 items-center h-16 px-2 text-center">
         
         {/* 1. Home / All Products */}
         <button
           onClick={() => onSelectCategory('all')}
-          className={`flex flex-col items-center justify-center py-1 transition-colors ${
+          className={`flex flex-col items-center justify-center py-1 transition-all ${
             activeCategory === 'all'
-              ? 'text-pink-600 font-black'
-              : 'text-slate-600 hover:text-slate-900 active:scale-95'
+              ? 'text-blue-600 font-black'
+              : 'text-neutral-500 hover:text-neutral-900 active:scale-95'
           }`}
           id="mobile-nav-home"
         >
@@ -50,10 +50,10 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
         {/* 2. All Categories / Sections */}
         <button
           onClick={onOpenCategoriesModal}
-          className={`flex flex-col items-center justify-center py-1 transition-colors ${
+          className={`flex flex-col items-center justify-center py-1 transition-all ${
             activeCategory !== 'all'
-              ? 'text-pink-600 font-black'
-              : 'text-slate-600 hover:text-slate-900 active:scale-95'
+              ? 'text-blue-600 font-black'
+              : 'text-neutral-500 hover:text-neutral-900 active:scale-95'
           }`}
           id="mobile-nav-categories"
         >
@@ -66,12 +66,12 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
           <button
             onClick={onOpenCart}
             id="mobile-nav-cart"
-            className="relative -top-3.5 w-13 h-13 rounded-full bg-slate-950 text-white flex flex-col items-center justify-center shadow-xl border-2 border-pink-500 hover:scale-105 active:scale-95 transition-transform"
+            className="relative -top-3.5 w-12 h-12 rounded-full bg-neutral-950 text-white flex flex-col items-center justify-center shadow-lg border-2 border-white ring-2 ring-neutral-950 hover:scale-105 active:scale-95 transition-transform"
           >
-            <ShoppingBag className="w-5 h-5 shrink-0 text-pink-400" />
-            <span className="text-[8px] font-black leading-none mt-0.5">السلة</span>
+            <ShoppingBag className="w-4 h-4 shrink-0 text-pink-400" />
+            <span className="text-[8px] font-bold leading-none mt-0.5">السلة</span>
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-pink-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-xs">
+              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-blue-500 to-pink-500 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-2xs">
                 {cartCount}
               </span>
             )}

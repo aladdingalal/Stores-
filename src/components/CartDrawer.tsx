@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   X, 
   Trash2, 
@@ -69,25 +69,25 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-black/70 backdrop-blur-sm animate-fadeIn text-right">
+    <div className="fixed inset-0 z-50 overflow-hidden bg-black/75 backdrop-blur-sm animate-fadeIn text-right">
       <div className="absolute inset-0" onClick={onClose} />
 
       <div className="absolute inset-y-0 left-0 max-w-full flex pl-0">
-        <div className="w-screen max-w-md bg-white border-r-2 border-slate-900 text-slate-900 flex flex-col shadow-2xl">
+        <div className="w-screen max-w-md bg-white text-neutral-900 flex flex-col shadow-2xl">
           
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-950 text-white">
+          <div className="p-4 sm:p-5 border-b border-neutral-200 flex items-center justify-between bg-neutral-950 text-white">
             <div className="flex items-center gap-2">
               <ShoppingBag className="w-5 h-5 text-pink-400" />
-              <h2 className="font-black text-lg text-white font-['Tajawal',sans-serif]">سلة المشتريات</h2>
-              <span className="text-xs bg-pink-600 text-white font-black px-2.5 py-0.5 rounded-full">
+              <h2 className="font-black text-lg text-white font-['Tajawal',sans-serif]">حقيبة التسوق</h2>
+              <span className="text-xs bg-gradient-to-r from-blue-600 to-pink-600 text-white font-bold px-2 py-0.5 rounded-full">
                 {items.reduce((s, i) => s + i.quantity, 0)} قطعة
               </span>
             </div>
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-xl bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition"
+              className="p-1.5 rounded-full bg-neutral-800 text-neutral-300 hover:text-white hover:bg-neutral-700 transition cursor-pointer"
               id="close-cart-btn"
               aria-label="إغلاق السلة"
             >
@@ -95,22 +95,22 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             </button>
           </div>
 
-          {/* Free Shipping Bar */}
-          <div className="bg-pink-50 p-3 border-b border-pink-200">
-            <div className="flex items-center justify-between text-xs mb-1.5 font-bold">
-              <span className="text-slate-800 flex items-center gap-1">
-                <Truck className="w-4 h-4 text-pink-600" />
+          {/* Free Shipping Progress Indicator */}
+          <div className="bg-neutral-50 p-3 border-b border-neutral-200">
+            <div className="flex items-center justify-between text-xs mb-1.5 font-medium">
+              <span className="text-neutral-800 flex items-center gap-1">
+                <Truck className="w-3.5 h-3.5 text-blue-600" />
                 <span>
                   {subtotal >= freeShippingThreshold
-                    ? '🎉 حصلت على شحن مجاني لكافة المحافظات!'
+                    ? '🎉 تهانينا! حصلت على شحن مجاني لطلبك'
                     : `أضف بـ ${freeShippingThreshold - subtotal} ج.م إضافية للشحن المجاني`}
                 </span>
               </span>
-              <span className="text-pink-700 font-mono">{progressPercent}%</span>
+              <span className="text-blue-600 font-bold font-sans">{progressPercent}%</span>
             </div>
-            <div className="w-full bg-pink-200 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-neutral-200 h-1.5 rounded-full overflow-hidden">
               <div
-                className="bg-pink-600 h-full rounded-full transition-all duration-500"
+                className="bg-gradient-to-r from-blue-600 to-pink-600 h-full rounded-full transition-all duration-500"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -120,16 +120,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {items.length === 0 ? (
               <div className="text-center py-16 space-y-4">
-                <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+                <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mx-auto text-neutral-400">
                   <ShoppingBag className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-800 text-base">سلة المشتريات فارغة</h3>
-                  <p className="text-xs text-slate-500 mt-1">تصفح التشكيلة وأضف الموديلات التي تناسبك</p>
+                  <h3 className="font-bold text-neutral-800 text-base">سلة المشتريات فارغة</h3>
+                  <p className="text-xs text-neutral-500 mt-1">تصفح تشكيلة J&amp;S وأضف الموديلات التي تناسبك</p>
                 </div>
                 <button
                   onClick={onClose}
-                  className="px-5 py-2.5 bg-slate-950 text-white font-black rounded-xl text-xs hover:bg-black transition border-2 border-pink-500"
+                  className="px-5 py-2.5 bg-neutral-950 text-white font-bold rounded-full text-xs hover:bg-black transition cursor-pointer"
                 >
                   تصفح المنتجات الآن
                 </button>
@@ -138,99 +138,107 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white p-3 rounded-2xl border-2 border-slate-200 flex gap-3 items-center hover:border-pink-500 transition shadow-2xs"
+                  className="flex items-center gap-3 p-3 bg-neutral-50 rounded-2xl border border-neutral-200/80 relative"
                 >
                   <img
                     src={item.product.customImage || item.product.images[0]}
                     alt={item.product.name}
-                    className="w-16 h-20 rounded-xl object-cover border border-slate-200 shrink-0 bg-slate-100"
+                    className="w-16 h-20 rounded-xl object-cover border border-neutral-200 shrink-0 bg-white"
                   />
 
-                  <div className="flex-1 min-w-0 space-y-1">
-                    <h4 className="text-xs font-black text-slate-950 truncate font-['Tajawal',sans-serif]">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-bold text-xs sm:text-sm text-neutral-900 truncate font-['Tajawal',sans-serif]">
                       {item.product.name}
                     </h4>
 
-                    <div className="flex items-center gap-2 text-[11px] text-slate-600 font-bold">
-                      <span>مقاس: {item.selectedSize}</span>
+                    <div className="flex items-center gap-2 text-[11px] text-neutral-500 mt-0.5">
+                      <span>{item.selectedSize}</span>
                       <span>•</span>
-                      <span>لون: {item.selectedColor}</span>
+                      <span>{item.selectedColor}</span>
                     </div>
 
-                    <div className="flex items-center justify-between pt-1">
-                      <div className="flex items-center bg-slate-100 rounded-lg p-0.5 border border-slate-200">
+                    <div className="flex items-center justify-between mt-2">
+                      <span className="font-black text-xs sm:text-sm text-neutral-950 font-sans">
+                        {item.appliedPrice * item.quantity} ج.م
+                      </span>
+
+                      {/* Quantity Controls */}
+                      <div className="flex items-center gap-2 bg-white px-2 py-0.5 rounded-lg border border-neutral-200">
                         <button
                           onClick={() => onUpdateQuantity(item.id, -1)}
-                          className="w-6 h-6 flex items-center justify-center font-bold text-slate-700 hover:bg-white rounded"
+                          className="text-neutral-500 hover:text-neutral-900 p-0.5"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="w-7 text-center font-bold text-xs text-slate-950">
+                        <span className="text-xs font-black font-sans w-4 text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => onUpdateQuantity(item.id, 1)}
-                          className="w-6 h-6 flex items-center justify-center font-bold text-slate-700 hover:bg-white rounded"
+                          className="text-neutral-500 hover:text-neutral-900 p-0.5"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
                       </div>
-
-                      <span className="text-sm font-black text-slate-950">
-                        {item.appliedPrice * item.quantity} ج.م
-                      </span>
                     </div>
                   </div>
 
                   <button
                     onClick={() => onRemoveItem(item.id)}
-                    className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
-                    title="حذف من السلة"
+                    className="absolute top-2.5 left-2.5 text-neutral-400 hover:text-rose-600 transition p-1"
+                    title="حذف"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ))
             )}
           </div>
 
-          {/* Footer Actions */}
+          {/* Footer & Checkout Action */}
           {items.length > 0 && (
-            <div className="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
-              <div className="space-y-1.5 text-xs">
-                <div className="flex justify-between text-slate-600">
+            <div className="p-4 border-t border-neutral-200 bg-white space-y-3">
+              
+              {/* Pricing breakdown */}
+              <div className="space-y-1 text-xs">
+                <div className="flex justify-between text-neutral-600">
                   <span>المجموع الفرعي:</span>
-                  <span className="font-bold text-slate-900">{subtotal} ج.م</span>
+                  <span className="font-bold text-neutral-950 font-sans">{subtotal} ج.م</span>
                 </div>
-                <div className="flex justify-between text-slate-600">
-                  <span>مصاريف الشحن:</span>
-                  <span className="font-bold text-slate-900">
+                <div className="flex justify-between text-neutral-600">
+                  <span>الشحن:</span>
+                  <span className="font-bold text-emerald-600">
                     {shippingFee === 0 ? 'مجاني' : `${shippingFee} ج.م`}
                   </span>
                 </div>
-                <div className="flex justify-between text-base font-black text-slate-950 pt-2 border-t border-slate-200">
-                  <span>المبلغ الإجمالي:</span>
-                  <span className="text-pink-600">{finalTotal} ج.م</span>
+                <div className="flex justify-between text-sm font-black text-neutral-950 pt-1 border-t border-neutral-100">
+                  <span>الإجمالي النهائي:</span>
+                  <span className="font-sans text-blue-600 font-black">{finalTotal} ج.م</span>
                 </div>
               </div>
 
-              <div className="space-y-2">
+              {/* Action Buttons */}
+              <div className="grid grid-cols-1 gap-2 pt-1">
                 <button
                   onClick={onProceedToCheckout}
-                  className="w-full py-3.5 rounded-2xl bg-pink-600 hover:bg-pink-500 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg transition border-2 border-pink-700 cursor-pointer"
+                  className="w-full py-3 rounded-full bg-neutral-950 hover:bg-black text-white font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-sm cursor-pointer"
                 >
-                  <span>متابعة إتمام الطلب (بيانات الشحن)</span>
-                  <ArrowLeft className="w-4 h-4" />
+                  <ShieldCheck className="w-4 h-4 text-blue-400" />
+                  <span>إتمام الطلب والدفع عند الاستلام</span>
                 </button>
 
                 <button
                   onClick={handleSendWhatsAppOrder}
-                  className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-2 transition"
+                  className="w-full py-2.5 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-xs transition flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
                 >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>طلب مباشر وسريع عبر واتساب</span>
+                  <MessageCircle className="w-4 h-4 text-blue-200" />
+                  <span>إرسال الطلب عبر واتساب</span>
                 </button>
               </div>
+
+              <p className="text-[10px] text-center text-neutral-400 font-medium">
+                معاينة كاملة وقياس قبل استلام ودفع الطلب
+              </p>
             </div>
           )}
 

@@ -5,7 +5,8 @@ import {
   MessageCircle, 
   Star, 
   Check, 
-  Sparkles 
+  Sparkles,
+  ShieldCheck
 } from 'lucide-react';
 import { Product } from '../types';
 import { WHATSAPP_NUMBER } from '../data/contact';
@@ -30,7 +31,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const [isAddedAnimation, setIsAddedAnimation] = useState(false);
 
   const displayImage = product.customImage || product.images[0];
-  // Stable direct price (300 EGP as set)
   const currentPrice = product.priceRetail;
 
   const handleAdd = (e: React.MouseEvent) => {
@@ -50,14 +50,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <div 
-      className="group relative bg-white rounded-3xl border-2 border-slate-900 hover:border-pink-500 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-2xl hover:-translate-y-1"
+      onClick={() => onQuickView(product)}
+      className="group relative bg-white rounded-2xl sm:rounded-3xl border border-neutral-200/90 hover:border-neutral-400 transition-all duration-300 flex flex-col justify-between overflow-hidden shadow-2xs hover:shadow-lg hover:-translate-y-0.5 cursor-pointer text-right"
       id={`product-card-${product.id}`}
     >
-      {/* Product Image Box */}
-      <div 
-        onClick={() => onQuickView(product)}
-        className="relative aspect-[3/4] w-full overflow-hidden bg-slate-100 cursor-pointer"
-      >
+      {/* Product Image Container (4:5 Fashion Aspect Ratio) */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-neutral-100">
         <img
           src={displayImage}
           alt={product.name}
@@ -66,73 +64,70 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           loading="lazy"
         />
 
-        {/* Top Badges */}
-        <div className="absolute top-3 right-3 flex flex-col gap-1.5 z-10">
+        {/* Top Floating Badges */}
+        <div className="absolute top-2 sm:top-3 right-2 sm:right-3 flex flex-col gap-1 z-10">
           {product.isNew && (
-            <span className="bg-slate-950 text-white text-[11px] font-black px-3 py-1 rounded-xl shadow-md border border-pink-500 flex items-center gap-1">
-              <Sparkles className="w-3 h-3 text-pink-400" />
+            <span className="bg-neutral-950/90 backdrop-blur-md text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-sm border border-white/10 flex items-center gap-1">
+              <Sparkles className="w-2.5 h-2.5 text-blue-400" />
               <span>جديد</span>
             </span>
           )}
           {product.isFeatured && (
-            <span className="bg-pink-600 text-white text-[11px] font-black px-3 py-1 rounded-xl shadow-md">
+            <span className="bg-gradient-to-r from-blue-600 to-pink-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-sm">
               كود 21kids
             </span>
           )}
         </div>
 
-        {/* Quick View Floating Overlay */}
-        <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onQuickView(product);
-            }}
-            className="p-3 bg-white text-slate-950 rounded-2xl font-black text-xs shadow-xl hover:bg-pink-500 hover:text-white transition flex items-center gap-1.5"
-          >
-            <Eye className="w-4 h-4" />
-            <span>عرض التفاصيل</span>
-          </button>
+        {/* Inspection Tag (معاينة قبل الاستلام) */}
+        <div className="absolute bottom-2 right-2 bg-neutral-950/80 backdrop-blur-md text-white text-[9px] sm:text-[10px] font-medium px-2 py-0.5 rounded-md border border-white/10 flex items-center gap-1">
+          <ShieldCheck className="w-3 h-3 text-blue-400" />
+          <span>معاينة قبل الدفع</span>
+        </div>
+
+        {/* Quick View Button on Desktop Hover */}
+        <div className="hidden sm:flex absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity duration-200 items-center justify-center p-4 pointer-events-none">
+          <span className="px-3.5 py-2 bg-white/95 text-neutral-950 rounded-full font-bold text-xs shadow-lg backdrop-blur-sm flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+            <Eye className="w-3.5 h-3.5 text-blue-600" />
+            <span>عرض سريع</span>
+          </span>
         </div>
       </div>
 
       {/* Product Content Body */}
-      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 space-y-3 text-right">
+      <div className="p-3 sm:p-4 flex flex-col justify-between flex-1 space-y-2 sm:space-y-2.5">
         
         <div>
           {/* Subcategory & Rating */}
-          <div className="flex items-center justify-between text-xs mb-1.5">
-            <span className="font-bold text-pink-600 bg-pink-50 px-2.5 py-0.5 rounded-lg border border-pink-200">
+          <div className="flex items-center justify-between text-[11px] mb-1">
+            <span className="font-bold text-blue-600 text-[10px] sm:text-xs">
               {product.subCategoryName}
             </span>
-            <div className="flex items-center gap-1 text-slate-900 font-bold">
-              <Star className="w-3.5 h-3.5 fill-pink-500 text-pink-500" />
+            <div className="flex items-center gap-0.5 text-neutral-800 font-bold text-[10px] sm:text-xs">
+              <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
               <span>{product.rating}</span>
             </div>
           </div>
 
           {/* Title */}
-          <h3 
-            onClick={() => onQuickView(product)}
-            className="font-black text-slate-950 text-sm sm:text-base leading-snug line-clamp-2 hover:text-pink-600 transition cursor-pointer font-['Tajawal',sans-serif]"
-          >
+          <h3 className="font-bold text-neutral-950 text-xs sm:text-sm leading-snug line-clamp-2 font-['Tajawal',sans-serif] group-hover:text-blue-600 transition-colors">
             {product.name}
           </h3>
 
-          {/* Description */}
-          <p className="text-[11px] sm:text-xs text-slate-600 mt-1 line-clamp-2 font-medium">
+          {/* Description line */}
+          <p className="text-[10px] sm:text-xs text-neutral-500 mt-0.5 line-clamp-1">
             {product.description}
           </p>
         </div>
 
-        {/* Sizes Selector */}
-        <div className="space-y-1.5 pt-2 border-t border-slate-100">
-          <div className="flex items-center justify-between text-[11px] text-slate-500">
+        {/* Sizes Quick Selector Pills */}
+        <div className="space-y-1 pt-1.5 border-t border-neutral-100">
+          <div className="flex items-center justify-between text-[10px] text-neutral-500">
             <span>المقاس:</span>
-            <span className="text-slate-950 font-bold">{selectedSize}</span>
+            <span className="text-neutral-900 font-bold truncate max-w-[120px]">{selectedSize}</span>
           </div>
-          <div className="flex flex-wrap gap-1">
-            {product.sizes.map((size) => (
+          <div className="flex flex-wrap gap-1" onClick={(e) => e.stopPropagation()}>
+            {product.sizes.slice(0, 3).map((size) => (
               <button
                 key={size}
                 type="button"
@@ -140,98 +135,80 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   e.stopPropagation();
                   setSelectedSize(size);
                 }}
-                className={`px-2 py-1 text-[11px] font-bold rounded-lg transition-all ${
+                className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold transition-all border ${
                   selectedSize === size
-                    ? 'bg-slate-950 text-white ring-2 ring-pink-500'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                    ? 'bg-neutral-950 text-white border-neutral-900 shadow-2xs'
+                    : 'bg-neutral-50 text-neutral-700 border-neutral-200 hover:bg-neutral-100'
                 }`}
               >
-                {size}
+                {size.replace('جميع المقاسات ', '')}
               </button>
             ))}
+            {product.sizes.length > 3 && (
+              <span className="text-[9px] text-neutral-400 self-center font-bold px-1">
+                +{product.sizes.length - 3}
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Colors Selector */}
-        {product.colors.length > 0 && (
-          <div className="flex items-center gap-2 pt-1">
-            <span className="text-[11px] text-slate-500 shrink-0">اللون:</span>
-            <div className="flex items-center gap-1.5">
-              {product.colors.map((c) => (
-                <button
-                  key={c.name}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedColor(c.name);
-                  }}
-                  className={`w-4 h-4 rounded-full border transition-all shrink-0 ${
-                    selectedColor === c.name
-                      ? 'border-pink-600 ring-2 ring-pink-400 scale-110'
-                      : 'border-slate-300'
-                  }`}
-                  style={{ backgroundColor: c.hex }}
-                  title={c.name}
-                />
-              ))}
-            </div>
-            <span className="text-[11px] text-slate-700 font-bold truncate mr-auto">
-              {selectedColor}
-            </span>
-          </div>
-        )}
-
-        {/* Price & Action Area */}
-        <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+        {/* Price & Action Buttons */}
+        <div className="pt-2 border-t border-neutral-100 flex flex-col gap-2">
           
+          {/* Price Tag */}
           <div className="flex items-baseline justify-between">
-            <div className="flex items-baseline gap-2">
-              <span className="text-lg sm:text-2xl font-black text-slate-950 font-['Tajawal',sans-serif]">
-                {currentPrice} <span className="text-xs font-bold text-slate-700">ج.م</span>
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-sm sm:text-base font-black text-neutral-950 font-sans">
+                {currentPrice} ج.م
               </span>
-              {product.originalPrice && product.originalPrice > currentPrice && (
-                <span className="text-xs text-slate-400 line-through">
+              {product.originalPrice && (
+                <span className="text-[10px] sm:text-xs text-neutral-400 line-through font-sans">
                   {product.originalPrice} ج.م
                 </span>
               )}
             </div>
-
-            <span className="text-[10px] sm:text-xs font-black text-pink-600 bg-pink-50 px-2 py-0.5 rounded-md border border-pink-200">
-              شامل المعاينة
+            <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+              متاح للشحن
             </span>
           </div>
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-5 gap-1.5">
+          {/* Action Buttons Grid */}
+          <div className="grid grid-cols-2 gap-1.5 pt-0.5" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Add to Cart Button */}
             <button
               onClick={handleAdd}
-              className={`col-span-3 py-2.5 px-2 rounded-xl font-black text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm ${
+              id={`add-to-cart-btn-${product.id}`}
+              className={`py-2 px-2 rounded-xl font-bold text-[11px] transition-all flex items-center justify-center gap-1 cursor-pointer active:scale-95 border ${
                 isAddedAnimation
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-950 hover:bg-black text-white active:scale-95'
+                  ? 'bg-emerald-600 text-white border-emerald-600'
+                  : 'bg-neutral-950 hover:bg-black text-white border-neutral-950 shadow-2xs'
               }`}
             >
               {isAddedAnimation ? (
                 <>
-                  <Check className="w-4 h-4" />
-                  <span>تمت الإضافة!</span>
+                  <Check className="w-3 h-3 text-white" />
+                  <span>تمت الإضافة</span>
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="w-4 h-4 text-pink-400" />
+                  <ShoppingBag className="w-3 h-3 text-pink-400" />
                   <span>أضف للسلة</span>
                 </>
               )}
             </button>
 
+            {/* WhatsApp Quick Order Button */}
             <button
               onClick={handleWhatsAppBuy}
-              className="col-span-2 py-2.5 px-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs flex items-center justify-center gap-1 transition shadow-sm"
-              title="طلب فوري عبر واتساب"
+              id={`whatsapp-buy-btn-${product.id}`}
+              className="py-2 px-2 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold text-[11px] transition-all flex items-center justify-center gap-1 shadow-2xs active:scale-95 cursor-pointer border border-blue-500/30"
+              title="طلب سريع ومباشر عبر واتساب"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-3 h-3 text-blue-200" />
               <span>طلب واتساب</span>
             </button>
+
           </div>
 
         </div>

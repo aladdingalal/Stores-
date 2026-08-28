@@ -11,7 +11,7 @@ import {
   Sparkles,
   Trash2
 } from 'lucide-react';
-import { Product, CategoryType, SubCategoryType } from '../types';
+import { Product, CategoryType } from '../types';
 import { CATEGORIES_CONFIG } from '../data/products';
 
 interface AddProductModalProps {
@@ -124,22 +124,22 @@ export function AddProductModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/75 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
       <div 
-        className="relative bg-white border border-slate-200 rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl text-right p-5 sm:p-7"
+        className="relative bg-white border border-neutral-200 rounded-3xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl text-right p-5 sm:p-7"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div className="flex items-center justify-between pb-4 border-b border-neutral-100">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-pink-600 text-white flex items-center justify-center font-bold">
               <Plus className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-black text-slate-950 font-['Tajawal',sans-serif]">
-                إضافة منتج حقيقي جديد للكتالوج
+              <h2 className="text-base sm:text-lg font-bold text-neutral-950 font-['Tajawal',sans-serif]">
+                إضافة منتج جديد للكتالوج
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-neutral-500">
                 أدخل بيانات الموديل وارفع صورته ليظهر فوراً في المتجر
               </p>
             </div>
@@ -147,9 +147,9 @@ export function AddProductModal({
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-950 transition"
+            className="p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 hover:text-neutral-950 transition cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -158,13 +158,13 @@ export function AddProductModal({
           
           {/* 1. Category Selection */}
           <div className="space-y-1.5">
-            <label className="font-bold text-slate-900 block">
+            <label className="font-bold text-neutral-900 block">
               القسم الرئيسي في المتجر *
             </label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value as CategoryType)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+              className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2.5 font-bold text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
             >
               {CATEGORIES_CONFIG.filter((c) => c.id !== 'all').map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -177,7 +177,7 @@ export function AddProductModal({
           {/* 2. Product Name & Subcategory */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="font-bold text-slate-900 block">
+              <label className="font-bold text-neutral-900 block">
                 اسم الموديل / المنتج *
               </label>
               <input
@@ -185,13 +185,13 @@ export function AddProductModal({
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="مثال: قميص جاكيت كوردروي أطفال كود 21kids"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-bold focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="font-bold text-slate-900 block">
+              <label className="font-bold text-neutral-900 block">
                 التصنيف الفرعي (النوع)
               </label>
               <input
@@ -199,14 +199,14 @@ export function AddProductModal({
                 value={subCategoryName}
                 onChange={(e) => setSubCategoryName(e.target.value)}
                 placeholder="مثال: جاكيت / قميص أطفال شيك"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
           {/* 3. Image Upload / Picker */}
-          <div className="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
-            <label className="font-bold text-slate-900 flex items-center justify-between">
+          <div className="space-y-2 bg-neutral-50 p-3.5 rounded-2xl border border-neutral-200">
+            <label className="font-bold text-neutral-900 flex items-center justify-between">
               <span>صورة المنتج (رفع من الهاتف أو رابط)</span>
               {imagePreview && (
                 <span className="text-[11px] text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full font-bold">
@@ -217,8 +217,8 @@ export function AddProductModal({
 
             {/* Direct File Picker */}
             <div className="flex flex-col sm:flex-row items-center gap-3">
-              <label className="w-full sm:w-auto shrink-0 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black cursor-pointer shadow-xs transition">
-                <Upload className="w-4 h-4" />
+              <label className="w-full sm:w-auto shrink-0 flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-bold cursor-pointer shadow-xs transition text-xs">
+                <Upload className="w-4 h-4 text-pink-400" />
                 <span>اختر صورة من جهازك / الكاميرا</span>
                 <input
                   type="file"
@@ -228,7 +228,7 @@ export function AddProductModal({
                 />
               </label>
 
-              <span className="text-xs text-slate-400 font-bold">أو أدخل رابط صورة مباشر:</span>
+              <span className="text-xs text-neutral-400 font-bold">أو أدخل رابط صورة مباشر:</span>
 
               <input
                 type="url"
@@ -238,145 +238,135 @@ export function AddProductModal({
                   setImagePreview(e.target.value);
                 }}
                 placeholder="https://..."
-                className="flex-1 w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800"
+                className="flex-1 w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-xs text-neutral-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             {/* Preview Box */}
             {(imagePreview || imageUrl) && (
-              <div className="mt-2 flex items-center gap-3 bg-white p-2 rounded-xl border border-slate-200">
+              <div className="mt-2 flex items-center gap-3 bg-white p-2 rounded-xl border border-neutral-200">
                 <img
                   src={imagePreview || imageUrl}
                   alt="معاينة المنتج"
-                  className="w-16 h-20 object-cover rounded-lg border border-slate-200"
-                  referrerPolicy="no-referrer"
+                  className="w-12 h-14 object-cover rounded-lg border border-neutral-200"
                 />
-                <div className="text-xs space-y-1">
-                  <p className="font-bold text-slate-900">معاينة الصورة المرفوعة</p>
-                  <p className="text-[11px] text-slate-500">ستظهر هذه الصورة في الكتالوج وكارت المنتج والسلة</p>
+                <div className="text-xs">
+                  <span className="text-emerald-600 font-bold block">معاينة الصورة المحددة</span>
+                  <span className="text-neutral-500 text-[10px]">جاهزة للنشر مع المنتج</span>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setImagePreview('');
-                    setImageUrl('');
-                  }}
-                  className="mr-auto text-xs text-red-600 hover:text-red-700 font-bold p-1"
-                >
-                  إزالة
-                </button>
               </div>
             )}
           </div>
 
-          {/* 4. Pricing (Retail, Wholesale, Original) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-amber-50/50 p-3.5 rounded-2xl border border-amber-200">
-            <div className="space-y-1">
-              <label className="font-bold text-slate-900 block text-xs">
-                سعر القطاعي (ج.م) *
+          {/* 4. Pricing */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="space-y-1.5">
+              <label className="font-bold text-neutral-900 block">
+                السعر (ج.م) *
               </label>
               <input
                 type="number"
                 value={priceRetail}
-                onChange={(e) => setPriceRetail(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="280"
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-black text-slate-950 focus:ring-2 focus:ring-amber-500"
+                onChange={(e) => setPriceRetail(e.target.value ? Number(e.target.value) : '')}
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="font-bold text-amber-900 block text-xs flex items-center gap-1">
-                <Crown className="w-3.5 h-3.5 text-amber-600" />
-                <span>سعر الجملة (ج.م) *</span>
+            <div className="space-y-1.5">
+              <label className="font-bold text-neutral-900 block">
+                سعر الجملة الاسترشادي (ج.م)
               </label>
               <input
                 type="number"
                 value={priceWholesale}
-                onChange={(e) => setPriceWholesale(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="185"
-                className="w-full bg-white border border-amber-300 rounded-xl px-3 py-2 font-black text-amber-950 focus:ring-2 focus:ring-amber-500"
-                required
+                onChange={(e) => setPriceWholesale(e.target.value ? Number(e.target.value) : '')}
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            <div className="space-y-1">
-              <label className="font-bold text-slate-500 block text-xs">
-                السعر قبل الخصم (اختياري)
+            <div className="space-y-1.5">
+              <label className="font-bold text-neutral-900 block">
+                السعر الأصلي قبل الخصم (اختياري)
               </label>
               <input
                 type="number"
                 value={originalPrice}
-                onChange={(e) => setOriginalPrice(e.target.value === '' ? '' : Number(e.target.value))}
-                placeholder="380"
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-700"
+                onChange={(e) => setOriginalPrice(e.target.value ? Number(e.target.value) : '')}
+                placeholder="مثال: 380"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          {/* 5. Sizes & Colors */}
+          {/* 5. Fabric & Details */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="space-y-1">
-              <label className="font-bold text-slate-900 block text-xs">
+            <div className="space-y-1.5">
+              <label className="font-bold text-neutral-900 block">
+                الخامة ونوع القماش
+              </label>
+              <input
+                type="text"
+                value={fabric}
+                onChange={(e) => setFabric(e.target.value)}
+                placeholder="مثال: قطن مصري 100%"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="font-bold text-neutral-900 block">
                 المقاسات المتاحة (مفصولة بفواصل)
               </label>
               <input
                 type="text"
                 value={sizesInput}
                 onChange={(e) => setSizesInput(e.target.value)}
-                placeholder="6 سنوات, 8 سنوات, 10 سنوات, 12 سنة, 14 سنة"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 text-xs"
-              />
-            </div>
-
-            <div className="space-y-1">
-              <label className="font-bold text-slate-900 block text-xs">
-                الألوان المتاحة (مفصولة بفواصل)
-              </label>
-              <input
-                type="text"
-                value={colorsInput}
-                onChange={(e) => setColorsInput(e.target.value)}
-                placeholder="بني شوكولاتة, هافان جملي, كحلي, زيتي"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 text-xs"
+                placeholder="6 سنوات, 8 سنوات, 10 سنوات"
+                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
-          {/* 6. Fabric & Description */}
-          <div className="space-y-1">
-            <label className="font-bold text-slate-900 block text-xs">
-              الخامة والتفاصيل
+          {/* 6. Colors Input */}
+          <div className="space-y-1.5">
+            <label className="font-bold text-neutral-900 block">
+              الألوان المتاحة (مفصولة بفواصل)
             </label>
             <input
               type="text"
-              value={fabric}
-              onChange={(e) => setFabric(e.target.value)}
-              placeholder="كوردروي قطن مضلع فاخر + تيشيرت قطن 100%"
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 text-xs"
+              value={colorsInput}
+              onChange={(e) => setColorsInput(e.target.value)}
+              placeholder="بني, هافان جملي, كحلي, زيتي"
+              className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* Submit Action */}
-          <div className="pt-3 border-t border-slate-100 flex items-center justify-end gap-2.5">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition text-xs"
-            >
-              إلغاء
-            </button>
+          {/* 7. Description */}
+          <div className="space-y-1.5">
+            <label className="font-bold text-neutral-900 block">
+              وصف الموديل ومميزاته
+            </label>
+            <textarea
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-neutral-50 border border-neutral-200 rounded-xl p-2.5 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Submit */}
+          <div className="pt-2">
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black shadow-md transition text-xs sm:text-sm flex items-center gap-1.5"
+              className="w-full py-3 bg-neutral-950 hover:bg-neutral-800 text-white font-bold rounded-full transition flex items-center justify-center gap-2 shadow-md cursor-pointer text-xs sm:text-sm"
             >
-              <Check className="w-4 h-4" />
-              <span>إضافة الموديل فوراً للمتجر 👑</span>
+              <Plus className="w-4 h-4 text-pink-400" />
+              <span>إضافة المنتج ونشره في المتجر فوراً</span>
             </button>
           </div>
 
         </form>
-
       </div>
     </div>
   );

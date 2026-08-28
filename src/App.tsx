@@ -5,7 +5,6 @@ import {
   ArrowUpDown, 
   Sparkles, 
   Check, 
-  PhoneCall, 
   Shirt, 
   Baby, 
   Layers, 
@@ -46,7 +45,7 @@ export default function App() {
   // Products state (persisted in localStorage to keep custom uploaded photos)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
-      const saved = localStorage.getItem('molok_products_v5');
+      const saved = localStorage.getItem('js_products_v6');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -57,7 +56,7 @@ export default function App() {
   // Custom logo state
   const [customLogoUrl, setCustomLogoUrl] = useState<string>(() => {
     return (
-      localStorage.getItem('molok_custom_logo_v2') ||
+      localStorage.getItem('js_custom_logo_v3') ||
       'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0717.jpeg'
     );
   });
@@ -71,7 +70,7 @@ export default function App() {
   // Cart state
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     try {
-      const saved = localStorage.getItem('molok_cart_v2');
+      const saved = localStorage.getItem('js_cart_v3');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -96,7 +95,7 @@ export default function App() {
   // Sync to local storage
   useEffect(() => {
     try {
-      localStorage.setItem('molok_products_v5', JSON.stringify(products));
+      localStorage.setItem('js_products_v6', JSON.stringify(products));
     } catch (e) {
       console.error(e);
     }
@@ -104,7 +103,7 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('molok_cart_v2', JSON.stringify(cartItems));
+      localStorage.setItem('js_cart_v3', JSON.stringify(cartItems));
     } catch (e) {
       console.error(e);
     }
@@ -112,7 +111,7 @@ export default function App() {
 
   useEffect(() => {
     if (customLogoUrl) {
-      localStorage.setItem('molok_custom_logo_v2', customLogoUrl);
+      localStorage.setItem('js_custom_logo_v3', customLogoUrl);
     }
   }, [customLogoUrl]);
 
@@ -169,7 +168,7 @@ export default function App() {
 
   const handleApplyDiscount = (code: string) => {
     const clean = code.trim().toUpperCase();
-    if (clean === 'JS10' || clean === 'MOLOK10') {
+    if (clean === 'JS10' || clean === 'SENIOR10' || clean === 'JUNIOR10') {
       setAppliedDiscount(10);
       setDiscountCode(clean);
       return true;
@@ -287,9 +286,9 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans selection:bg-pink-500 selection:text-white" dir="rtl">
+    <div className="min-h-screen bg-neutral-100 text-neutral-900 font-sans selection:bg-pink-500 selection:text-white" dir="rtl">
       
-      {/* 1. Header & Navigation (Black, White, Pink theme) */}
+      {/* 1. Header & Navigation (Black, White, Blue, Pink theme) */}
       <Navbar
         activeCategory={activeCategory}
         onSelectCategory={handleCategorySelect}
@@ -333,28 +332,28 @@ export default function App() {
       )}
 
       {/* 4. Main Products Catalog Container */}
-      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-5">
         
         {/* Category Filter Pills & Sort Bar */}
-        <div className="bg-white rounded-3xl p-4 sm:p-5 border-2 border-slate-900 shadow-sm space-y-4">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-5 border border-neutral-200 shadow-2xs space-y-3.5">
           
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-neutral-100 pb-3">
             <div>
-              <h2 className="text-base sm:text-lg font-black text-slate-950 font-['Tajawal',sans-serif] flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-pink-500" />
-                <span>تصفح معروضات J&amp;S حسب القسم</span>
+              <h2 className="text-base sm:text-lg font-bold text-neutral-950 font-['Tajawal',sans-serif] flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-blue-600" />
+                <span>تصفح تشكيلة J&amp;S حسب القسم</span>
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-neutral-500 mt-0.5">
                 اضغط على أي قسم لعرض موديلاته الحصرية المتاحة للشحن الفوري
               </p>
             </div>
 
             <button
               onClick={() => setIsCategoriesModalOpen(true)}
-              className="inline-flex items-center gap-1.5 text-xs font-black text-white bg-slate-950 hover:bg-black px-3.5 py-2 rounded-2xl transition border-2 border-pink-500 shadow-xs shrink-0 cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-neutral-950 hover:bg-neutral-800 px-3.5 py-1.5 rounded-full transition shadow-xs shrink-0 cursor-pointer"
             >
-              <Layers className="w-4 h-4 text-pink-400" />
-              <span>قوائم المعروضات (7)</span>
+              <Layers className="w-3.5 h-3.5 text-blue-400" />
+              <span>الأقسام (7)</span>
             </button>
           </div>
 
@@ -366,34 +365,34 @@ export default function App() {
           />
 
           {/* Filter, Sort & Offers Controls */}
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2.5 border-t border-neutral-100">
             
             <div className="flex flex-wrap items-center gap-2">
               <button
                 onClick={() => setOnlyOffers(!onlyOffers)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1.5 border-2 cursor-pointer ${
+                className={`px-3 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 border cursor-pointer ${
                   onlyOffers
-                    ? 'bg-pink-50 text-pink-700 border-pink-500 ring-2 ring-pink-400/30'
-                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                    ? 'bg-pink-50 text-pink-700 border-pink-300'
+                    : 'bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50'
                 }`}
               >
-                <Flame className="w-3.5 h-3.5 text-pink-600" />
+                <Flame className="w-3.5 h-3.5 text-pink-500" />
                 <span>العروض والتخفيضات فقط</span>
               </button>
 
-              <div className="text-xs text-slate-600 px-1 font-bold">
-                عرض <strong className="text-slate-950 font-black">{filteredProducts.length}</strong> موديل
+              <div className="text-xs text-neutral-500 px-1">
+                عرض <strong className="text-neutral-950 font-bold">{filteredProducts.length}</strong> موديل
               </div>
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center gap-2 bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs text-slate-700 font-bold">
-              <ArrowUpDown className="w-3.5 h-3.5 text-pink-600" />
+            <div className="flex items-center gap-1.5 bg-neutral-50 border border-neutral-200 rounded-full px-3 py-1.5 text-xs text-neutral-700 font-medium">
+              <ArrowUpDown className="w-3.5 h-3.5 text-blue-600" />
               <span>ترتيب:</span>
               <select
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
-                className="bg-transparent text-slate-950 font-black focus:outline-none cursor-pointer"
+                className="bg-transparent text-neutral-950 font-bold focus:outline-none cursor-pointer"
               >
                 <option value="featured">المميز والأكثر طلباً</option>
                 <option value="newest">أحدث الموديلات</option>
@@ -409,13 +408,13 @@ export default function App() {
 
         {/* Products Grid */}
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-14 bg-white rounded-3xl border-2 border-slate-900 space-y-3.5 shadow-sm">
-            <div className="w-14 h-14 mx-auto rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-600">
-              <Shirt className="w-7 h-7" />
+          <div className="text-center py-12 bg-white rounded-3xl border border-neutral-200 space-y-3 shadow-2xs">
+            <div className="w-12 h-12 mx-auto rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600">
+              <Shirt className="w-6 h-6" />
             </div>
             <div className="space-y-1">
-              <h3 className="text-base font-bold text-slate-950">لم نجد موديلات تطابق بحثك في هذا القسم</h3>
-              <p className="text-xs text-slate-500">
+              <h3 className="text-base font-bold text-neutral-950">لم نجد موديلات تطابق بحثك في هذا القسم</h3>
+              <p className="text-xs text-neutral-500">
                 اضغط على "عرض جميع المعروضات" للعودة لكافة المنتجات
               </p>
             </div>
@@ -425,13 +424,13 @@ export default function App() {
                 setSearchQuery('');
                 setOnlyOffers(false);
               }}
-              className="px-5 py-2.5 rounded-2xl bg-slate-950 hover:bg-black text-white font-black text-xs transition shadow-md border-2 border-pink-500 cursor-pointer"
+              className="px-4 py-2 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-xs transition shadow-md cursor-pointer"
             >
               عرض جميع المعروضات
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
             {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
@@ -489,11 +488,11 @@ export default function App() {
         )}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="hidden md:flex fixed bottom-6 right-6 z-40 p-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl hover:scale-105 transition-transform items-center gap-2 border-2 border-white group"
+        className="hidden md:flex fixed bottom-6 right-6 z-40 p-3 bg-neutral-950 hover:bg-black text-white rounded-full shadow-2xl hover:scale-105 transition-transform items-center gap-2 border border-neutral-700 group"
         title={`تواصل مباشر عبر واتساب أعمال: ${PHONE_NUMBER_DISPLAY}`}
         id="floating-whatsapp-btn"
       >
-        <MessageCircle className="w-6 h-6" />
+        <MessageCircle className="w-5 h-5 text-emerald-400" />
         <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-300 ease-in-out whitespace-nowrap text-xs font-bold pl-1">
           واتساب مبيعات J&amp;S ({PHONE_NUMBER_DISPLAY})
         </span>

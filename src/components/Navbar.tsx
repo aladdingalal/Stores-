@@ -5,9 +5,9 @@ import {
   MessageCircle, 
   Layers,
   Sparkles,
-  PhoneCall,
-  Menu,
-  X
+  Truck,
+  X,
+  ShieldCheck
 } from 'lucide-react';
 import { Logo } from './Logo';
 import { CategoryType, PricingMode } from '../types';
@@ -17,13 +17,13 @@ import { WHATSAPP_NUMBER, PHONE_NUMBER_DISPLAY } from '../data/contact';
 interface NavbarProps {
   activeCategory: CategoryType;
   onSelectCategory: (cat: CategoryType) => void;
-  pricingMode: PricingMode;
-  onTogglePricingMode: (mode: PricingMode) => void;
+  pricingMode?: PricingMode;
+  onTogglePricingMode?: (mode: PricingMode) => void;
   cartCount: number;
-  wishlistCount: number;
+  wishlistCount?: number;
   onOpenCart: () => void;
-  onOpenImageManager: () => void;
-  onOpenSizeGuide: () => void;
+  onOpenImageManager?: () => void;
+  onOpenSizeGuide?: () => void;
   onOpenCategoriesModal: () => void;
   searchQuery: string;
   onSearchChange: (q: string) => void;
@@ -43,30 +43,30 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showSearchInput, setShowSearchInput] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b-2 border-slate-900 shadow-sm transition-all">
-      {/* Top Banner: Fast Announcement & WhatsApp Hotline (Black, White, Pink) */}
-      <div className="bg-slate-950 text-white font-bold text-xs py-2 px-3 sm:px-6 border-b border-pink-500/40">
+    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-neutral-200/80 transition-all">
+      {/* Top Banner Ticker: Blue, Pink, Black & White accents */}
+      <div className="bg-neutral-950 text-white font-medium text-xs py-1.5 px-3 sm:px-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
           
           <div className="flex items-center gap-2 truncate">
-            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-pink-500 text-white text-[11px] font-black shrink-0">
-              🚚
+            <span className="flex items-center justify-center w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-pink-500 text-white text-[9px] font-black shrink-0">
+              ✓
             </span>
-            <span className="text-[11px] sm:text-xs text-slate-100 truncate">
-              شحن لجميع محافظات مصر • <strong className="text-pink-400 font-black">الدفع عند الاستلام مع المعاينة</strong>
+            <span className="text-[11px] sm:text-xs text-neutral-200 truncate">
+              براند <strong className="text-white font-bold">J&amp;S (Junior &amp; Senior)</strong> • <span className="text-blue-400 font-bold">معاينة كاملة</span> واستلام قبل الدفع
             </span>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3 text-xs shrink-0">
+          <div className="flex items-center gap-2 text-xs shrink-0">
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-                'مرحباً براند J&S (Junior & Senior)، أود الاستفسار والطلب'
+                'مرحباً براند J&S (Junior & Senior)، أود الاستفسار والطلب مباشرة'
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 bg-pink-600 hover:bg-pink-500 text-white px-3 py-1 rounded-full text-xs font-black transition shadow-sm border border-pink-400"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-pink-600 hover:from-blue-500 hover:to-pink-500 text-white px-2.5 py-0.5 rounded-full text-[11px] font-bold transition shadow-xs"
             >
-              <MessageCircle className="w-3.5 h-3.5 shrink-0" />
+              <MessageCircle className="w-3 h-3 shrink-0" />
               <span className="hidden xs:inline">واتساب:</span>
               <span>{PHONE_NUMBER_DISPLAY}</span>
             </a>
@@ -75,22 +75,22 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Main Navbar */}
+      {/* Main App Bar */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 sm:h-22 gap-2 sm:gap-4">
+        <div className="flex items-center justify-between h-16 sm:h-20 gap-3 sm:gap-6">
           
-          {/* Brand Logo with Floating Emblem */}
+          {/* Brand Logo */}
           <button 
             onClick={() => onSelectCategory('all')} 
-            className="flex items-center gap-2 text-right hover:opacity-95 transition group cursor-pointer shrink-0"
+            className="flex items-center gap-2 text-right hover:opacity-90 transition group cursor-pointer shrink-0"
             id="brand-logo-btn"
             title="J&S - Junior & Senior"
           >
             <Logo size="sm" customLogoUrl={customLogoUrl} variant="dark" />
           </button>
 
-          {/* Desktop Categories Quick Navigation */}
-          <nav className="hidden xl:flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-2xl border-2 border-slate-200">
+          {/* Desktop Categories Quick Tabs */}
+          <nav className="hidden lg:flex items-center gap-1 bg-neutral-100/80 p-1 rounded-full border border-neutral-200">
             {CATEGORIES_CONFIG.map((cat) => {
               const isActive = activeCategory === cat.id;
               return (
@@ -98,10 +98,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                   key={cat.id}
                   onClick={() => onSelectCategory(cat.id)}
                   id={`top-nav-${cat.id}`}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-black transition-all whitespace-nowrap cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
                     isActive
-                      ? 'bg-slate-950 text-white shadow-sm ring-2 ring-pink-500'
-                      : 'text-slate-700 hover:text-pink-600 hover:bg-white'
+                      ? 'bg-neutral-950 text-white shadow-xs'
+                      : 'text-neutral-600 hover:text-neutral-950 hover:bg-white'
                   }`}
                 >
                   {cat.title}
@@ -110,73 +110,94 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </nav>
 
-          {/* Categories Button for Medium/Small screens */}
-          <button
-            onClick={onOpenCategoriesModal}
-            className="hidden md:flex xl:hidden items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 text-xs font-black border-2 border-slate-900 shadow-xs"
-          >
-            <Layers className="w-4 h-4 text-pink-600 shrink-0" />
-            <span>قوائم المعروضات ({activeCategory === 'all' ? 'الكل' : CATEGORIES_CONFIG.find(c => c.id === activeCategory)?.title})</span>
-          </button>
-
-          {/* Right Action Controls */}
-          <div className="flex items-center gap-2">
+          {/* Search Box & Action Buttons */}
+          <div className="flex items-center gap-2 sm:gap-3">
             
-            {/* Search Input / Toggle */}
-            <div className="relative">
-              {showSearchInput ? (
-                <div className="flex items-center bg-white border-2 border-slate-900 rounded-2xl px-2.5 py-1.5 shadow-sm">
-                  <Search className="w-4 h-4 text-slate-500 ml-1.5 shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="ابحث عن موديل، كود، أو خامة..."
-                    value={searchQuery}
-                    onChange={(e) => onSearchChange(e.target.value)}
-                    autoFocus
-                    className="w-36 sm:w-56 text-xs text-slate-900 bg-transparent focus:outline-none placeholder-slate-400"
-                  />
-                  <button
-                    onClick={() => {
-                      onSearchChange('');
-                      setShowSearchInput(false);
-                    }}
-                    className="text-slate-400 hover:text-slate-700 p-0.5"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              ) : (
+            {/* Search Bar */}
+            <div className="relative hidden md:block w-48 lg:w-64">
+              <input
+                type="text"
+                placeholder="بحث في الموديلات والمقاسات..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="w-full bg-neutral-100 border border-neutral-200 focus:border-blue-500 focus:bg-white rounded-full py-2 pr-9 pl-3 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none transition shadow-2xs"
+              />
+              <Search className="w-4 h-4 text-neutral-400 absolute right-3 top-2.5 pointer-events-none" />
+              {searchQuery && (
                 <button
-                  onClick={() => setShowSearchInput(true)}
-                  className="p-2.5 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-800 border-2 border-slate-200 hover:border-slate-900 transition flex items-center justify-center cursor-pointer"
-                  title="البحث في المنتجات"
+                  onClick={() => onSearchChange('')}
+                  className="absolute left-2.5 top-2.5 text-neutral-400 hover:text-neutral-600"
                 >
-                  <Search className="w-4 h-4" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
 
-            {/* Shopping Cart Button */}
+            {/* Mobile Search Toggle */}
+            <button
+              onClick={() => setShowSearchInput(!showSearchInput)}
+              className="md:hidden p-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition"
+              aria-label="البحث"
+            >
+              <Search className="w-4 h-4" />
+            </button>
+
+            {/* Categories Modal Button (Desktop/Mobile Quick Trigger) */}
+            <button
+              onClick={onOpenCategoriesModal}
+              id="navbar-categories-btn"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-xs font-bold border border-neutral-200 transition cursor-pointer"
+            >
+              <Layers className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+              <span className="hidden sm:inline">الأقسام</span>
+              <span className="text-[10px] bg-neutral-950 text-white px-1.5 py-0.2 rounded-full font-sans">7</span>
+            </button>
+
+            {/* Shopping Bag Button */}
             <button
               onClick={onOpenCart}
-              id="header-cart-btn"
-              className="relative flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-slate-950 hover:bg-black text-white font-black text-xs transition border-2 border-slate-900 shadow-md cursor-pointer group"
-              title="عرض سلة المشتريات"
+              id="navbar-cart-btn"
+              className="relative p-2.5 sm:px-4 sm:py-2 rounded-full bg-neutral-950 hover:bg-black text-white text-xs font-bold flex items-center gap-2 shadow-sm transition hover:scale-105 cursor-pointer"
+              aria-label="سلة المشتريات"
             >
-              <div className="relative">
-                <ShoppingBag className="w-4 h-4 text-pink-400 group-hover:scale-110 transition-transform" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2.5 -right-2.5 bg-pink-600 text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-xs animate-scaleIn">
-                    {cartCount}
-                  </span>
-                )}
-              </div>
-              <span className="hidden sm:inline font-['Tajawal',sans-serif]">السلة</span>
+              <ShoppingBag className="w-4 h-4 text-pink-400" />
+              <span className="hidden sm:inline">السلة</span>
+              {cartCount > 0 && (
+                <span className="bg-gradient-to-r from-blue-500 to-pink-500 text-white text-[10px] font-black h-5 min-w-[20px] px-1 rounded-full flex items-center justify-center border-2 border-white">
+                  {cartCount}
+                </span>
+              )}
             </button>
 
           </div>
 
         </div>
+
+        {/* Mobile Search Input Drawer (When toggled on mobile) */}
+        {showSearchInput && (
+          <div className="md:hidden pb-3 pt-1 border-t border-neutral-100 animate-fadeIn">
+            <div className="relative">
+              <input
+                type="text"
+                autoFocus
+                placeholder="ابحث عن موديل، مقاس، أو لون..."
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="w-full bg-neutral-100 border border-blue-500 rounded-full py-2.5 pr-9 pl-8 text-xs text-neutral-900 placeholder-neutral-400 focus:outline-none focus:bg-white shadow-xs"
+              />
+              <Search className="w-4 h-4 text-blue-600 absolute right-3 top-3 pointer-events-none" />
+              {searchQuery && (
+                <button
+                  onClick={() => onSearchChange('')}
+                  className="absolute left-3 top-3 text-neutral-400"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
       </div>
     </header>
   );
