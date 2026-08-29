@@ -44,7 +44,7 @@ export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose 
             }`}
           >
             <Baby className="w-3.5 h-3.5 text-pink-400" />
-            <span>مقاسات الأطفال (كود 21kids)</span>
+            <span>مقاسات الأطفال (Junior)</span>
           </button>
 
           <button

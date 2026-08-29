@@ -35,7 +35,6 @@ import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { ImageManagerModal } from './components/ImageManagerModal';
 import { AddProductModal } from './components/AddProductModal';
-import { WholesaleSection } from './components/WholesaleSection';
 import { SizeGuideModal } from './components/SizeGuideModal';
 import { ReviewsSection } from './components/ReviewsSection';
 import { Footer } from './components/Footer';
@@ -45,7 +44,7 @@ export default function App() {
   // Products state (persisted in localStorage to keep custom uploaded photos)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
-      const saved = localStorage.getItem('js_products_v6');
+      const saved = localStorage.getItem('js_products_v8');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -95,7 +94,7 @@ export default function App() {
   // Sync to local storage
   useEffect(() => {
     try {
-      localStorage.setItem('js_products_v6', JSON.stringify(products));
+      localStorage.setItem('js_products_v8', JSON.stringify(products));
     } catch (e) {
       console.error(e);
     }
@@ -447,9 +446,6 @@ export default function App() {
         )}
 
       </main>
-
-      {/* Wholesale Section */}
-      <WholesaleSection />
 
       {/* Customer Reviews Section */}
       <ReviewsSection reviews={REVIEWS_DATA} />

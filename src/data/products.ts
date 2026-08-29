@@ -6,14 +6,14 @@ export const CATEGORIES_CONFIG: CategoryMeta[] = [
     title: 'كل التشكيلة',
     subtitle: 'جميع الموديلات والمنتجات',
     iconName: 'Sparkles',
-    description: 'تصفح تشكيلة ملوك السعادة الكاملة للملابس الرجالي والأطفال بجودة ملكية وخامات قطنية 100% بالجملة والقطاعي.',
+    description: 'تصفح تشكيلة براند J&S الحصرية للملابس الشبابية والأطفال بجودة فائقة وخامات قطنية 100% مع المعاينة قبل الاستلام.',
   },
   {
     id: 'kids',
     title: 'ملابس أطفال',
     subtitle: 'أطقم وتيشرتات وجواكت سن 5-16 سنة',
     iconName: 'Baby',
-    badge: 'كود 21kids',
+    badge: 'أطقم فاخرة',
     description: 'تشكيلة ملابس أطفال فاخرة، أطقم كاجوال وجواكت كوردروي قطنية راقية تدوم طويلاً وتناسب كافة المناسبات.',
   },
   {
@@ -67,22 +67,55 @@ export const CATEGORIES_CONFIG: CategoryMeta[] = [
 ];
 
 export const INITIAL_PRODUCTS: Product[] = [
-  // ================= 1. أول منتج حقيقي في قسم الأطفال =================
+  // ================= 1. منتج التيشيرت الأوفر سايز الجديد =================
   {
-    id: 'prod-kids-21kids-brown-corduroy',
-    name: 'طقم جاكيت قميص وتيشيرت أطفال كود 21kids',
+    id: 'prod-tshirt-js-oversized-graphic-0722',
+    name: 'تيشيرت أوفر سايز فاخر بطبعة جرافيك إمبريال كولكشن براند J&S',
+    category: 'tshirts',
+    subCategory: 'men-tshirts',
+    subCategoryName: 'تيشيرت أوفر سايز شبابي فاخر',
+    priceRetail: 400,
+    priceWholesale: 400,
+    originalPrice: 490,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-110 كجم)'],
+    colors: [
+      { name: 'أسود ملكي فاحم', hex: '#111827' },
+      { name: 'أبيض قطني ناصع', hex: '#FFFFFF' },
+      { name: 'رمادي ميلانج', hex: '#4B5563' },
+    ],
+    description: 'تيشيرت أوفر سايز كاجوال عصري بتصميم فخم وطبعة جرافيك حصرية من براند J&S (Junior & Senior). خامة قطن مصري 100% معالجة ضد الانكماش مع قصة مريحة وأناقة عالية.',
+    fabric: 'قطن مصري 100% سنجل جيرسي عالي الكثافة معالج',
+    fit: 'أوفر سايز مريح وعصري (Oversized Drop Shoulder)',
+    season: 'صيف 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0722.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 100,
+  },
+
+  // ================= 2. طقم جاكيت قميص وتيشيرت أطفال فاخر =================
+  {
+    id: 'prod-kids-brown-corduroy',
+    name: 'طقم جاكيت قميص وتيشيرت كوردروي أطفال فاخر',
     category: 'kids',
     subCategory: 'kids-sets',
     subCategoryName: 'جاكيت & قميص أطفال كاجوال',
     priceRetail: 300,
-    priceWholesale: 220,
+    priceWholesale: 300,
     originalPrice: 380,
-    minWholesaleQty: 6,
+    minWholesaleQty: 1,
     sizes: ['جميع المقاسات (4-6 سنين)', 'جميع المقاسات (6-8 سنين)', 'جميع المقاسات (8-10 سنين)', 'جميع المقاسات (10-12 سنة)', 'جميع المقاسات (12-14 سنة)'],
     colors: [
       { name: 'بني كوردروي + تيشيرت أبيض', hex: '#4A2C2A' },
     ],
-    description: 'قميص وتيشيرت فقط جميع المقاسات السعر غير شامل مصاريف الشحن',
+    description: 'قميص وتيشيرت قطني مضلع فاخر، جميع المقاسات متاحة، السعر غير شامل مصاريف الشحن',
     fabric: 'قميص كوردروي قطن + تيشيرت داخلي قطن',
     fit: 'مريح ومناسب لجميع المقاسات',
     season: 'خريف وشتاء 2025',
@@ -107,10 +140,10 @@ export const REVIEWS_DATA: CustomerReview[] = [
     city: 'القاهرة - مدينة نصر',
     rating: 5,
     comment:
-      'الطقم الكوردروي كود 21kids جودته ممتازة جداً وتقفيل المصنع عالي ومحترم. الخامات ثقيلة ومريحة للولد والألوان مطابقة تماماً للصورة.',
+      'الطقم الكوردروي جودته ممتازة جداً وتقفيل المصنع عالي ومحترم. الخامات ثقيلة ومريحة للولد والألوان مطابقة تماماً للصورة.',
     date: 'أمس',
     verified: true,
-    productName: 'طقم جاكيت كوردروي مضلع كود 21kids',
+    productName: 'طقم جاكيت كوردروي مضلع أطفال',
   },
   {
     id: 'rev-2',
@@ -121,7 +154,7 @@ export const REVIEWS_DATA: CustomerReview[] = [
       'المقاسات مضبوطة تماماً على جدول السن، والتعامل وسرعة الشحن ممتازة مع المعاينة قبل الدفع.',
     date: 'منذ 3 أيام',
     verified: true,
-    productName: 'طقم جاكيت كوردروي مضلع كود 21kids',
+    productName: 'طقم جاكيت كوردروي مضلع أطفال',
   },
   {
     id: 'rev-3',
@@ -129,10 +162,10 @@ export const REVIEWS_DATA: CustomerReview[] = [
     city: 'الجيزة - الدقي',
     rating: 5,
     comment:
-      'أخذت قطعتين لأولادي سن 8 سنين و 12 سنة، القميص الكوردروي والتيشيرت الأبيض تحفة في اللبس وشيك جداً. ملوك السعادة اسم على مسمى.',
+      'أخذت قطعتين لأولادي سن 8 سنين و 12 سنة، القميص الكوردروي والتيشيرت الأبيض تحفة في اللبس وشيك جداً. براند J&S اسم على مسمى.',
     date: 'منذ أسبوع',
     verified: true,
-    productName: 'طقم جاكيت كوردروي مضلع كود 21kids',
+    productName: 'طقم جاكيت كوردروي مضلع أطفال',
   },
 ];
 

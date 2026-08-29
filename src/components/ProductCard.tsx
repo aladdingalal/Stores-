@@ -74,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           )}
           {product.isFeatured && (
             <span className="bg-gradient-to-r from-blue-600 to-pink-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-lg shadow-sm">
-              كود 21kids
+              حصري
             </span>
           )}
         </div>

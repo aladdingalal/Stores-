@@ -90,7 +90,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                 className="px-4 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm transition border border-white/20 backdrop-blur-sm flex items-center gap-2 cursor-pointer active:scale-95"
               >
                 <Baby className="w-4 h-4 text-pink-400 shrink-0" />
-                <span>ملابس أطفال كود 21kids</span>
+                <span>ملابس أطفال (Junior)</span>
               </button>
             </div>
 
@@ -136,13 +136,13 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden bg-neutral-950">
                 <img
                   src="https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0705.jpeg"
-                  alt="طقم جاكيت قميص وتيشيرت أطفال كود 21kids"
+                  alt="طقم جاكيت قميص وتيشيرت أطفال"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 
                 {/* Floating overlay badge */}
                 <div className="absolute top-3 right-3 bg-neutral-950/80 backdrop-blur-md text-white border border-white/20 text-[11px] font-bold px-2.5 py-1 rounded-xl shadow-lg">
-                  كود 21kids
+                  براند J&amp;S
                 </div>
 
                 <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-neutral-950/80 backdrop-blur-md text-white border border-white/10 flex items-center justify-between">

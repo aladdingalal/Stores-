@@ -83,7 +83,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({
                 referrerPolicy="no-referrer"
               />
               <span className="absolute top-3 right-3 bg-gradient-to-r from-blue-600 to-pink-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-sm">
-                كود 21kids
+                براند J&amp;S
               </span>
             </div>
 

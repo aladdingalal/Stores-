@@ -32,13 +32,11 @@ export function AddProductModal({
     defaultCategory === 'all' ? 'kids' : defaultCategory
   );
   const [subCategoryName, setSubCategoryName] = useState('جاكيت / قميص أطفال');
-  const [priceRetail, setPriceRetail] = useState<number | ''>(280);
-  const [priceWholesale, setPriceWholesale] = useState<number | ''>(185);
-  const [originalPrice, setOriginalPrice] = useState<number | ''>(380);
-  const [minWholesaleQty, setMinWholesaleQty] = useState<number>(6);
-  const [fabric, setFabric] = useState('كوردروي قطن مضلع فاخر + تيشيرت قطن 100%');
+  const [priceRetail, setPriceRetail] = useState<number | ''>(400);
+  const [originalPrice, setOriginalPrice] = useState<number | ''>(490);
+  const [fabric, setFabric] = useState('قطن مصري 100% عالي الجودة');
   const [description, setDescription] = useState(
-    'قميص جاكيت كوردروي قطني مضلع عالي الجودة للأطفال، يأتي مع تيشيرت داخلي أبيض بطبعة جرافيك حصرية كود 21kids. مناسب للخروجات والمناسبات.'
+    'قميص جاكيت كوردروي قطني مضلع عالي الجودة للأطفال، يأتي مع تيشيرت داخلي أبيض بطبعة جرافيك حصرية من براند J&S. مناسب للخروجات والمناسبات.'
   );
   const [sizesInput, setSizesInput] = useState('6 سنوات, 8 سنوات, 10 سنوات, 12 سنة, 14 سنة');
   const [colorsInput, setColorsInput] = useState('بني شوكولاتة, هافان جملي, كحلي, زيتي');
@@ -100,15 +98,15 @@ export function AddProductModal({
       subCategory: category === 'kids' ? 'kids-sets' : 'all',
       subCategoryName: subCategoryName.trim() || 'موديل جديد',
       priceRetail: Number(priceRetail) || 250,
-      priceWholesale: Number(priceWholesale) || 160,
+      priceWholesale: Number(priceRetail) || 250,
       originalPrice: originalPrice ? Number(originalPrice) : undefined,
-      minWholesaleQty: Number(minWholesaleQty) || 6,
+      minWholesaleQty: 1,
       sizes: sizes.length > 0 ? sizes : ['S', 'M', 'L', 'XL'],
       colors: colors.length > 0 ? colors : [{ name: 'افتراضي', hex: '#111827' }],
       description: description.trim(),
       fabric: fabric.trim() || 'قطن مصري 100%',
       fit: 'مريح وعصري',
-      season: 'خريف وشتاء 2025',
+      season: 'صيف 2025',
       images: [finalImage],
       customImage: finalImage,
       rating: 5.0,
@@ -184,7 +182,7 @@ export function AddProductModal({
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="مثال: قميص جاكيت كوردروي أطفال كود 21kids"
+                placeholder="مثال: قميص جاكيت كوردروي أطفال فاخر"
                 className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -259,7 +257,7 @@ export function AddProductModal({
           </div>
 
           {/* 4. Pricing */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <label className="font-bold text-neutral-900 block">
                 السعر (ج.م) *
@@ -275,25 +273,13 @@ export function AddProductModal({
 
             <div className="space-y-1.5">
               <label className="font-bold text-neutral-900 block">
-                سعر الجملة الاسترشادي (ج.م)
-              </label>
-              <input
-                type="number"
-                value={priceWholesale}
-                onChange={(e) => setPriceWholesale(e.target.value ? Number(e.target.value) : '')}
-                className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="font-bold text-neutral-900 block">
                 السعر الأصلي قبل الخصم (اختياري)
               </label>
               <input
                 type="number"
                 value={originalPrice}
                 onChange={(e) => setOriginalPrice(e.target.value ? Number(e.target.value) : '')}
-                placeholder="مثال: 380"
+                placeholder="مثال: 490"
                 className="w-full bg-neutral-50 border border-neutral-200 rounded-xl px-3 py-2 text-neutral-900 font-bold focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>

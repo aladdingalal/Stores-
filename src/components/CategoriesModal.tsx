@@ -66,7 +66,7 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({
               </span>
             </h3>
             <p className="text-xs text-neutral-300 mt-0.5">
-              اختر القسم للتسوق المباشر والطلب قطاعي وجملة
+              اختر القسم لتصفح الموديلات الحصرية المتاحة للشحن الفوري
             </p>
           </div>
 

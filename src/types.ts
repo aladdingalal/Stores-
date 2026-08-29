@@ -23,7 +23,7 @@ export type SubCategoryType =
   | 'kids-pajamas'
   | 'kids-underwear';
 
-export type PricingMode = 'retail' | 'wholesale';
+export type PricingMode = 'retail';
 
 export interface CategoryMeta {
   id: CategoryType;
@@ -41,9 +41,9 @@ export interface Product {
   subCategory: SubCategoryType;
   subCategoryName: string;
   priceRetail: number;
-  priceWholesale: number;
+  priceWholesale?: number;
   originalPrice?: number;
-  minWholesaleQty: number;
+  minWholesaleQty?: number;
   sizes: string[];
   colors: { name: string; hex: string }[];
   description: string;
