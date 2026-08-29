@@ -74,9 +74,9 @@ export const INITIAL_PRODUCTS: Product[] = [
     category: 'tracksuits',
     subCategory: 'men-tracksuits',
     subCategoryName: 'ترنج رياضي قطعتين فاخر',
-    priceRetail: 550,
-    priceWholesale: 550,
-    originalPrice: 680,
+    priceRetail: 1150,
+    priceWholesale: 1150,
+    originalPrice: 1390,
     minWholesaleQty: 1,
     sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-105 كجم)'],
     colors: [

@@ -44,7 +44,7 @@ export default function App() {
   // Products state (persisted in localStorage to keep custom uploaded photos)
   const [products, setProducts] = useState<Product[]>(() => {
     try {
-      const saved = localStorage.getItem('js_products_v9');
+      const saved = localStorage.getItem('js_products_v10');
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.error(e);
@@ -94,7 +94,7 @@ export default function App() {
   // Sync to local storage
   useEffect(() => {
     try {
-      localStorage.setItem('js_products_v9', JSON.stringify(products));
+      localStorage.setItem('js_products_v10', JSON.stringify(products));
     } catch (e) {
       console.error(e);
     }
