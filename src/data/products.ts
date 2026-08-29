@@ -67,7 +67,41 @@ export const CATEGORIES_CONFIG: CategoryMeta[] = [
 ];
 
 export const INITIAL_PRODUCTS: Product[] = [
-  // ================= 1. منتج التيشيرت الأوفر سايز الجديد =================
+  // ================= 1. ترنج كاجوال رياضي فاخر جديد =================
+  {
+    id: 'prod-tracksuit-js-sport-0724',
+    name: 'ترنج خروج كاجوال ورياضي قطعتين فاخر براند J&S - كولكشن سينيور',
+    category: 'tracksuits',
+    subCategory: 'men-tracksuits',
+    subCategoryName: 'ترنج رياضي قطعتين فاخر',
+    priceRetail: 550,
+    priceWholesale: 550,
+    originalPrice: 680,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-105 كجم)'],
+    colors: [
+      { name: 'أسود مع تفاصيل بيضاء', hex: '#111827' },
+      { name: 'رمادي ميلانج شبابي', hex: '#4B5563' },
+      { name: 'كحلي ديب بلو', hex: '#1E293B' },
+    ],
+    description: 'ترنج كاجوال رياضي فاخر قطعتين (جاكيت رياضي عصري + بنطلون سليم مريح) من براند J&S (Junior & Senior). خامة قطن ميلتون معالجة عالية النعومة والمتانة، مناسب للتمارين والخروجات اليومية مع المعاينة قبل الدفع.',
+    fabric: 'قطن ميلتون مصري فاخر مبطن بنعومة فائقة',
+    fit: 'رياضي كاجوال مريح (Regular Athletic Fit)',
+    season: 'كولكشن 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0724.jpeg',
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0725.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 85,
+  },
+
+  // ================= 2. منتج التيشيرت الأوفر سايز الجديد =================
   {
     id: 'prod-tshirt-js-oversized-graphic-0722',
     name: 'تيشيرت أوفر سايز فاخر بطبعة جرافيك إمبريال كولكشن براند J&S',
