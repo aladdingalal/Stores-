@@ -67,7 +67,42 @@ export const CATEGORIES_CONFIG: CategoryMeta[] = [
 ];
 
 export const INITIAL_PRODUCTS: Product[] = [
-  // ================= 1. ترنج كاجوال رياضي فاخر جديد =================
+  // ================= 1. طقم كامل 3 قطع صيفي كاجوال (قميص كتان + تيشيرت قطن 100% + بنطلون سوفت) =================
+  {
+    id: 'prod-set-3pcs-casual-summer-b600',
+    name: 'طقم كاجوال صيفي فاخر 3 قطع (قميص كتان + تيشيرت قطن 100% + بنطلون سوفت) براند J&S',
+    category: 'sets',
+    subCategory: 'men-sets',
+    subCategoryName: 'طقم كامل 3 قطع شبابي فاخر',
+    priceRetail: 850,
+    priceWholesale: 850,
+    originalPrice: 1050,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-110 كجم)'],
+    colors: [
+      { name: 'اللون المعروض بالصورة (متوفر ألوان متعددة)', hex: '#5B7065' },
+      { name: 'بيج رملي كلاسيك', hex: '#C2B280' },
+      { name: 'أسود ملكي', hex: '#111827' },
+      { name: 'كحلي ديب بلو', hex: '#1E293B' },
+    ],
+    description: 'طقم متكامل وعصري 3 قطع متناسقة: قميص كتان طبيعي بارد وراقي + تيشيرت داخلي قطن 100% ناعم عالي الجودة + بنطلون سوفت مريح جداً في اللبس والحركة من براند J&S (Junior & Senior). متوفر بعدة ألوان شبابية راقية تناسب كل الخروجات والمصايف مع المعاينة والفحص الكامل قبل الاستلام.',
+    fabric: 'قميص كتان طبيعي فاخر + تيشيرت قطن 100% + بنطلون سوفت ناعم ومريح',
+    fit: 'قصة عصرية مريحة وشياكة متكاملة (Relaxed Casual Fit)',
+    season: 'صيف 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/b6005690-8f87-4616-8a16-f03c53563136.jpeg',
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/580e226e-83cf-454e-9467-ff81cb7ab6e0.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 90,
+  },
+
+  // ================= 2. ترنج كاجوال رياضي فاخر جديد =================
   {
     id: 'prod-tracksuit-js-sport-0724',
     name: 'ترنج خروج كاجوال ورياضي قطعتين فاخر براند J&S - كولكشن سينيور',
