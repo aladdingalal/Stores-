@@ -67,7 +67,38 @@ export const CATEGORIES_CONFIG: CategoryMeta[] = [
 ];
 
 export const INITIAL_PRODUCTS: Product[] = [
-  // ================= 1. طقم كامل 3 قطع صيفي كاجوال (قميص كتان + تيشيرت قطن 100% + بنطلون سوفت) =================
+  // ================= 1. طقم كامل فاخر براند J&S موديل 0795 (عرض خاص) =================
+  {
+    id: 'prod-set-js-luxury-0795',
+    name: 'طقم كاجوال كامل فاخر براند J&S - موديل 0795 (عرض خاص)',
+    category: 'sets',
+    subCategory: 'men-sets',
+    subCategoryName: 'طقم كامل شبابي ورجالي فاخر',
+    priceRetail: 1300,
+    priceWholesale: 1300,
+    originalPrice: 1600,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-110 كجم)'],
+    colors: [
+      { name: 'حسب الصورة المعروضة فقط', hex: '#1E293B' },
+    ],
+    description: 'طقم كاجوال كامل متناسق وفخم براند J&S (Junior & Senior). عرض خاص لفترة محدودة حتى نفاذ الكمية بسعر 1300 ج.م بدلاً من 1600 ج.م، متاح باللون المعروض فقط مع المعاينة والفحص الكامل قبل الاستلام.',
+    fabric: 'خامات فاخرة عالية الجودة مريحة وباردة',
+    fit: 'قصة عصرية متناسقة ومريحة (Relaxed Fit)',
+    season: 'صيف 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0795.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 45,
+  },
+
+  // ================= 2. طقم كامل 3 قطع صيفي كاجوال (قميص كتان + تيشيرت قطن 100% + بنطلون سوفت) =================
   {
     id: 'prod-set-3pcs-casual-summer-b600',
     name: 'طقم كاجوال صيفي فاخر 3 قطع (قميص كتان + تيشيرت قطن 100% + بنطلون سوفت) براند J&S',
