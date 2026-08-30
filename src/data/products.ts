@@ -136,7 +136,100 @@ export const INITIAL_PRODUCTS: Product[] = [
     stockCount: 85,
   },
 
-  // ================= 3. تيشيرت كاجوال براند J&S موديل d31a =================
+  // ================= 3. تيشيرت كاجوال براند J&S موديل 0791 =================
+  {
+    id: 'prod-tshirt-js-graphic-0791',
+    name: 'تيشيرت كاجوال صيفي فاخر قطن 100% براند J&S - موديل 0791',
+    category: 'tshirts',
+    subCategory: 'men-tshirts',
+    subCategoryName: 'تيشيرت صيفي قطن فاخر',
+    priceRetail: 360,
+    priceWholesale: 360,
+    originalPrice: 420,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-110 كجم)'],
+    colors: [
+      { name: 'حسب الصورة المعروضة', hex: '#1E293B' },
+    ],
+    description: 'تيشيرت صيفي كاجوال قطن مصري 100% ناعم عالي الجودة من براند J&S (Junior & Senior). قصة كاجوال مريحة وشياكة عصرية، متوفر بسعر العرض 360 ج.م بدلاً من 420 ج.م مع المعاينة والفحص الكامل قبل الاستلام.',
+    fabric: 'قطن مصري 100% ناعم ومعالج ضد الانكماش',
+    fit: 'قصة كاجوال مريحة وعصرية (Regular Fit)',
+    season: 'صيف 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0791.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 95,
+  },
+
+  // ================= 4. تيشيرت كاجوال براند J&S موديل 0789 =================
+  {
+    id: 'prod-tshirt-js-graphic-0789',
+    name: 'تيشيرت كاجوال قطن 100% بتصميم مميز براند J&S - موديل 0789',
+    category: 'tshirts',
+    subCategory: 'men-tshirts',
+    subCategoryName: 'تيشيرت صيفي قطن فاخر',
+    priceRetail: 375,
+    priceWholesale: 375,
+    originalPrice: 440,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-110 كجم)'],
+    colors: [
+      { name: 'حسب الصورة المعروضة', hex: '#111827' },
+    ],
+    description: 'تيشيرت شبابي كاجوال قطن 100% فاخر ومريح للصيف من براند J&S (Junior & Senior). متوفر بسعر العرض 375 ج.م بدلاً من 440 ج.م مع المعاينة قبل الدفع.',
+    fabric: 'قطن 100% سنجل جيرسي عالي التهوية',
+    fit: 'قصة كاجوال مريحة وعصرية (Regular Fit)',
+    season: 'صيف 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0789.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 90,
+  },
+
+  // ================= 5. تيشيرت كاجوال براند J&S موديل 0787 =================
+  {
+    id: 'prod-tshirt-js-graphic-0787',
+    name: 'تيشيرت صيفي قطن 100% أنيق براند J&S - موديل 0787',
+    category: 'tshirts',
+    subCategory: 'men-tshirts',
+    subCategoryName: 'تيشيرت صيفي قطن فاخر',
+    priceRetail: 390,
+    priceWholesale: 390,
+    originalPrice: 450,
+    minWholesaleQty: 1,
+    sizes: ['M (60-72 كجم)', 'L (72-82 كجم)', 'XL (82-94 كجم)', '2XL (94-110 كجم)'],
+    colors: [
+      { name: 'حسب الصورة المعروضة', hex: '#334155' },
+    ],
+    description: 'تيشيرت كاجوال صيفي فاخر قطن 100% ناعم عالي الجودة من براند J&S (Junior & Senior). متوفر بسعر العرض 390 ج.م بدلاً من 450 ج.م مع الفحص والمعاينة قبل الاستلام.',
+    fabric: 'قطن 100% مريح عالي الجودة',
+    fit: 'قصة كاجوال مريحة وعصرية (Regular Fit)',
+    season: 'صيف 2025',
+    images: [
+      'https://raw.githubusercontent.com/aladdingalal/Stores-/refs/heads/main/%E2%81%A0images/IMG_0787.jpeg',
+    ],
+    isFeatured: true,
+    isNew: true,
+    isBestSeller: true,
+    rating: 5.0,
+    reviewsCount: 1,
+    inStock: true,
+    stockCount: 85,
+  },
+
+  // ================= 6. تيشيرت كاجوال براند J&S موديل d31a =================
   {
     id: 'prod-tshirt-js-graphic-d31a',
     name: 'تيشيرت صيفي كاجوال قطن 100% فاخر براند J&S - كولكشن سينيور',
