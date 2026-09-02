@@ -23,6 +23,7 @@ import {
 } from './types';
 import { INITIAL_PRODUCTS, REVIEWS_DATA, CATEGORIES_CONFIG } from './data/products';
 import { Navbar } from './components/Navbar';
+import { OffersSlider } from './components/OffersSlider';
 import { HeroBanner } from './components/HeroBanner';
 import { CategoryNavPills } from './components/CategoryNavPills';
 import { CategoryHeader } from './components/CategoryHeader';
@@ -308,7 +309,14 @@ export default function App() {
         customLogoUrl={customLogoUrl}
       />
 
-      {/* 2. Hero Banner (Only on 'all' category) */}
+      {/* 2. Special Limited-Time Offers Slider (All Offers Strip) */}
+      <OffersSlider
+        products={products}
+        onSelectProduct={(p) => setSelectedProduct(p)}
+        onSelectCategory={handleCategorySelect}
+      />
+
+      {/* 3. Hero Banner (Only on 'all' category) */}
       {activeCategory === 'all' && (
         <HeroBanner
           onSelectCategory={handleCategorySelect}
@@ -322,7 +330,7 @@ export default function App() {
         />
       )}
 
-      {/* 3. Category Page Header (When a specific category is active) */}
+      {/* 4. Category Page Header (When a specific category is active) */}
       {activeCategory !== 'all' && (
         <CategoryHeader
           activeCategory={activeCategory}
