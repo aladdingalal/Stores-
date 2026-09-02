@@ -3,6 +3,7 @@ export type CategoryType =
   | 'kids'        // ملابس أطفال
   | 'shirts'      // قميص رجالي
   | 'tshirts'     // تيشرتات
+  | 'pants'       // بنطلون جينز وكاجوال
   | 'underwear'   // ملابس داخلية
   | 'sets'        // أطقم كامل
   | 'tracksuits'  // ترنج

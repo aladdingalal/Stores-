@@ -9,7 +9,8 @@ import {
   Layers, 
   Activity, 
   Moon,
-  ArrowLeft
+  ArrowLeft,
+  Tag
 } from 'lucide-react';
 import { CategoryType } from '../types';
 import { CATEGORIES_CONFIG } from '../data/products';
@@ -39,6 +40,8 @@ export const CategoriesModal: React.FC<CategoriesModalProps> = ({
         return <Shirt className="w-5 h-5 text-blue-500" />;
       case 'tshirts':
         return <Flame className="w-5 h-5 text-pink-500" />;
+      case 'pants':
+        return <Tag className="w-5 h-5 text-blue-500" />;
       case 'underwear':
         return <ShieldCheck className="w-5 h-5 text-blue-500" />;
       case 'sets':

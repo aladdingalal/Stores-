@@ -7,7 +7,8 @@ import {
   ShieldCheck, 
   Layers, 
   Activity, 
-  Moon
+  Moon,
+  Tag
 } from 'lucide-react';
 import { CategoryType } from '../types';
 import { CATEGORIES_CONFIG } from '../data/products';
@@ -37,6 +38,8 @@ export const CategoryNavPills: React.FC<CategoryNavPillsProps> = ({
         return <Shirt className={classNameStr} />;
       case 'tshirts':
         return <Flame className={classNameStr} />;
+      case 'pants':
+        return <Tag className={classNameStr} />;
       case 'underwear':
         return <ShieldCheck className={classNameStr} />;
       case 'sets':

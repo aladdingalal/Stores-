@@ -9,7 +9,8 @@ import {
   ShieldCheck, 
   Activity, 
   Moon, 
-  ChevronLeft 
+  ChevronLeft,
+  Tag 
 } from 'lucide-react';
 import { CategoryType } from '../types';
 import { CATEGORIES_CONFIG } from '../data/products';
@@ -37,6 +38,8 @@ export const FloatingCategoriesMenu: React.FC<FloatingCategoriesMenuProps> = ({
         return <Shirt className="w-4 h-4 text-blue-500" />;
       case 'tshirts':
         return <Flame className="w-4 h-4 text-pink-500" />;
+      case 'pants':
+        return <Tag className="w-4 h-4 text-blue-500" />;
       case 'underwear':
         return <ShieldCheck className="w-4 h-4 text-blue-500" />;
       case 'sets':
